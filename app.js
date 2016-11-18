@@ -11,8 +11,7 @@ var groups = require('./routes/groups');
 var locations = require('./routes/locations');
 var users = require('./routes/users');
 
-// Require Users model for authentication.
-var User = require('./models/User');
+// TODO Require User model for authentication
 
 var mongoose = require('mongoose');
 mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/mapmit');
@@ -35,29 +34,9 @@ if (process.env.NODE_ENV !== 'production'){
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(session({ secret : '6170', resave : true, saveUninitialized : true }));
+app.use(session({ secret : 'mapmit', resave : true, saveUninitialized : true }));
 
-// Authentication middleware. This function
-// is called on _every_ request and populates
-// the req.currentUser field with the logged-in
-// user object based off the username provided
-// in the session variable (accessed by the
-// encrypted cookied).
-// Same as example notes app. Many thanks and appreciates.
-app.use(function(req, res, next) {
-  if (req.session.username) {
-    Users.findUser(req.session.username, function(err, user) {
-      if (user) {
-        req.currentUser = user;
-      } else {
-        req.session.destroy();
-      }
-      next();
-    });
-  } else {
-    next();
-  }
-});
+// TODO Authentication middleware
 
 // Set up our routes.
 app.use('/events', events);
