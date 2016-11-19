@@ -69,5 +69,5 @@ userSchema.statics.authUser = function(username, password, callback) {
 	});
 };
 
-var Users = mongoose.model('User', userSchema)
-module.exports = Users;
+var User = mongoose.model('User', userSchema)
+module.exports = User;
