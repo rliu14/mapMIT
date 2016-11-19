@@ -1,4 +1,5 @@
 import App from './App.jsx';
+console.log(App);
 import SignUp from './Pages/Signup.jsx';
 import Login from './Pages/Login.jsx';
 import Homepage from './Pages/Homepage.jsx';
@@ -27,23 +28,18 @@ const authCheck = (nextState, replace, callback) => {
 export default (
     <Router history={browserHistory} >
         <Route path='/' component={App}  >
-            <IndexRoute component={Homepage}
-                        onEnter={authCheck} />
+            /*<IndexRoute component={Homepage}/>
             <Route path="signup"
-                   component={SignUp} />
-            <Route path="login"
-                   component={Login} />
-            <Route path="events"
-                   component={MyEvents}
-                   onEnter={authCheck} />
-            <Route path="events/edit"
-                   component={EditEvent}
-                   onEnter={authCheck} />
-            <Route path="events/create"
-                   component={CreateEvent}
-                   onEnter={authCheck} />
-            <Route path="*"
-                   component={NotFound} />
+                    component={SignUp} />
+             <Route path="login"
+                    component={Login} />
+             <Route path="events"
+                    component={MyEvents}/>
+             <Route path="events/edit"
+                    component={EditEvent}/>
+             <Route path="events/create"
+                    component={CreateEvent}/> */
         </Route>
     </Router>
-);
+
+); 
