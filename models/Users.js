@@ -4,7 +4,6 @@ var bcrypt = require('bcrypt');
 var userSchema = mongoose.Schema({
 	username: String,
 	password: String,
-	events: [String]
 });
 
 var userModel = mongoose.model('User', userSchema);
@@ -44,7 +43,6 @@ var Users = (function(userModel) {
 					var user = new userModel({
 						username: username,
 						password: hash,
-						events: []
 					});
 					user.save(function(err, result) {
 						if (err) callback(err);
