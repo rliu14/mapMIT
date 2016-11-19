@@ -27,18 +27,18 @@ export default {
 		});
 	},
 
-	getCurrentUser: () => {
-		return request({
-			uri : BASE_URL + '/current',
-			method : 'GET',
-			json : true
-		});
-	},
-
 	logout : () => {
 		return request({
 			uri : BASE_URL + '/logout',
 			method: 'PUT',
+			json : true
+		});
+	},
+
+	getCurrentUser: () => {
+		return request({
+			uri : BASE_URL + '/current',
+			method : 'GET',
 			json : true
 		});
 	}
