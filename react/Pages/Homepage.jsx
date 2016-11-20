@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import MapMIT from '../Elements/Map.jsx';
+import Filtering from '../Elements/Filtering.jsx';
+
 import { withRouter } from 'react-router';
 
 class Homepage extends Component {
@@ -10,9 +12,16 @@ class Homepage extends Component {
 	}
   
 	render() {
-  	return ( 
-      <MapMIT />
-  	)
+      	return ( 
+            <div id="homepage-container">
+                <div id="homepage-left">
+                    <Filtering />
+                </div>
+                <div id="homepage-right">
+                    <MapMIT />
+                </div>
+            </div>
+      	)
 	}
 }
 
