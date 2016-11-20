@@ -1,11 +1,12 @@
 import App from './App.jsx';
-console.log(App);
-import SignUp from './Pages/Signup.jsx';
-import Login from './Pages/Login.jsx';
-import Homepage from './Pages/Homepage.jsx';
 import CreateEvent from './Pages/CreateEvent.jsx';
 import EditEvent from './Pages/EditEvent.jsx';
+import Homepage from './Pages/Homepage.jsx';
+import Login from './Pages/Login.jsx';
 import MyEvents from './Pages/MyEvents.jsx';
+import NotFound from './Pages/NotFound.jsx';
+import SignUp from './Pages/Signup.jsx';
+
 import services from '../services';
 import React from 'react';
 import { Router, Route, IndexRoute, browserHistory } from 'react-router';
@@ -28,18 +29,19 @@ const authCheck = (nextState, replace, callback) => {
 export default (
     <Router history={browserHistory} >
         <Route path='/' component={App}  >
-            /*<IndexRoute component={Homepage}/>
+            <IndexRoute component={Homepage} />
             <Route path="signup"
-                    component={SignUp} />
-             <Route path="login"
-                    component={Login} />
-             <Route path="events"
-                    component={MyEvents}/>
-             <Route path="events/edit"
-                    component={EditEvent}/>
-             <Route path="events/create"
-                    component={CreateEvent}/> */
+                   component={SignUp} />
+            <Route path="login"
+                   component={Login} />
+            <Route path="events"
+                   component={MyEvents} />
+            <Route path="events/edit/:id"
+                   component={EditEvent} />
+            <Route path="events/create"
+                   component={CreateEvent} />
+            <Route path="*"
+                   component={NotFound} />
         </Route>
     </Router>
-
 ); 

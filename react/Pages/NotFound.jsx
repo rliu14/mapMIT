@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router';
 
-class Login extends Component {
+class NotFound extends Component {
 	constructor(props) {
 		super(props);
 		this.defaultProps = {
@@ -10,9 +10,9 @@ class Login extends Component {
 
 	render() {
 	  	return ( 
-	  		<div>Login!</div>
+	  		<div>Page not found</div>
 	  	)
 	}
 }
 
-export default withRouter(Login);
+export default withRouter(NotFound);
