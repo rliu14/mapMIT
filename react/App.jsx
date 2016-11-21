@@ -12,10 +12,20 @@ class App extends Component {
             user : undefined,
         };
         this.loginUser = this.loginUser.bind(this);
-        this.logoutUser = this.logoutUser.bind(this);
+        this.logout = this.logout.bind(this);
         this.registerUser = this.registerUser.bind(this);
     }
 
+    componentWillMount() {
+        Services.user.getCurrentUser().then((res) => {
+            if (res.content.loggedIn) {
+                this.setState((prevState) => {
+                    prevState.user = res.content.user;
+                    return prevState;
+                })
+            }
+        });
+    }
 
     loginUser(username, password){
         Services.user.login(username, password)
@@ -32,7 +42,7 @@ class App extends Component {
             });
     }
 
-    logoutUser(){
+    logout(){
         Services.user.logout().then((res) => {
             if (res.success){
                 this.setState((prevState) => {
@@ -57,6 +67,11 @@ class App extends Component {
     render(){
         return (
             <div id="reactRoot">
+                <NavBar
+                    currentUser = {this.state.user}
+                    logout = {this.logout}
+                    services = {Services}
+                />
                 <div id='page-content'>
                     {React.cloneElement(this.props.children, {
                         services : Services,
@@ -64,7 +79,6 @@ class App extends Component {
                         events : this.state.tweets,
                         loginUser : this.loginUser,
                         registerUser : this.registerUser,
-                        logoutUser : this.logoutUser,
                     })}
                 </div>
             </div>
