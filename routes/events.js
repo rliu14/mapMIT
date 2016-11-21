@@ -17,7 +17,13 @@ router.get('/location/:loc', function(req, res) {
 });
 
 router.get('/time/:time', function(req, res) {
-
+	User.findEventByTime(Date.now(), function(err, events) {
+		if (err) {
+			utils.sendErrorResponse(res, 400, err.msg); 
+		} else {
+			utils.sendSuccessResponse(res, {events: events});
+		}
+	});
 });
 
 router.delete('/:eventID', function(req, res) {
