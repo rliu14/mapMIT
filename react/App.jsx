@@ -1,5 +1,6 @@
 import Services from '../services';
 import React from 'react';
+import NavBar from './Elements/Navbar.jsx';
 import { Component } from 'react';
 import moment from 'moment';
 import { withRouter } from 'react-router';

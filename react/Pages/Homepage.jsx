@@ -9,14 +9,15 @@ import { withRouter } from 'react-router';
 class Homepage extends Component {
 	constructor(props) {
 		super(props);
-		this.defaultProps = {
+		this.state = {
             events : []
 		};
-        this.getEventsByTime = this.getEventsByTime.bind(this);
+        this.updateEvents = this.updateEvents.bind(this);
 	}
 
     updateEvents(request){
         request.then((response) => {
+            console.log("BLAH HERES THE RESPONSE: " + response);
             this.setState({
                 events : response.content.events
             })
@@ -25,36 +26,22 @@ class Homepage extends Component {
         })
     }
 
-    getEventsByTime(time){
-        this.props.services.mEvent.getEventsByTime(time).then((resp) => {
-            this.setState((prevState) => {
-                prevState.events = resp.content.events;
-                return prevState;
-            });
-        });
-    }
-
     componentWillMount(){
         // Call the "getEventsByTime" service to update
         // this.props.events with events happening now
-        var request = this.getEventsByTime(Date.now());
-        this.props.updateEvents(request);
+        var request = this.props.services.mEvent.getEventsByTime(Date.now());
+        this.updateEvents(request);
     }
 
 	render() {
-        const rows = [
-            ['a1', 'b1', 'c1'],
-            ['a2', 'b2', 'c2'],
-            ['a3', 'b3', 'c3'],
-        ];
       	return ( 
             <div id="homepage-container">
                 <div id="homepage-left">
                     <Filtering />
                 </div>
                 <div id="homepage-right">
-                    <MapMIT />
-                    <EventTable />
+                    <MapMIT events = {this.state.events}/>
+                    <EventTable events = {this.state.events}/>
                 </div>
             </div>
       	)

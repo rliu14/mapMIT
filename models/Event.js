@@ -53,8 +53,6 @@ eventSchema.statics.findEventsByLocation = function(loc, cb) {
 
 eventSchema.statics.findEventsByTime = function(time, cb) {
     this.find( { startTime: {$lt: time}, endTime: {$gt: time} }, function(err, events) {
-        console.log(err);
-        console.log(events);
         if (err) {
             cb({ msg: err });
         } else {
