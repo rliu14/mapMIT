@@ -16,14 +16,14 @@ export default {
 
     deleteEvent : (eventID) => {
         return request({
-            uri : BASE_URL + '/${eventID}',
+            uri : BASE_URL + `/${eventID}`,
             method : 'DELETE'
         });
     },
 
     getEvent : (eventID) => {
         return request({
-            uri : BASE_URL + '/${eventID}',
+            uri : BASE_URL + `/${eventID}`,
             method : 'GET',
             json : true
         });
@@ -31,7 +31,7 @@ export default {
 
     getEventsByLocation : (loc) => {
         return request({
-            uri : BASE_URL + '/location/${loc}',
+            uri : BASE_URL + `/location/${loc}`,
             method : 'GET',
             json : true
         });
@@ -39,7 +39,7 @@ export default {
 
     getEventsByTime : (time) => {
         return request({
-            uri : BASE_URL + '/time/${time}',
+            uri : BASE_URL + `/time/${time}`,
             method: 'GET',
             json : true
         });
