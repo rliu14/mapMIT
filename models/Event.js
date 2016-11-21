@@ -20,12 +20,12 @@ var eventSchema = mongoose.Schema({
 eventSchema.statics.deleteEvent = function(eventID, cb) {
     this.findByIdAndRemove(eventID, function(err, deletedEvent) {
         if (err) {
-            cb(err, null);
+            cb({ msg: err });
         } else if (deletedEvent != null) {
             // event is properly deleted
             cb(err, true);
         } else {
-            cb(err, false);
+            cb({ msg: 'Event not deleted.' });
         };
     });
 };
@@ -45,12 +45,12 @@ eventSchema.statics.findEventByID = function(eventID, cb) {
 eventSchema.statics.findEventsByLocation = function(loc, cb) {
     this.find( { location: loc}, function(err, events) {
         if (err) {
-            cb(err, null);
+            cb( { msg: err });
         } else if (events.length > 0) {
             // found events with specified location
             cb(err, events);
         } else {
-            cb(err, null);
+            cb(msg: 'No such events.' });
         };
     });
 };
@@ -58,12 +58,12 @@ eventSchema.statics.findEventsByLocation = function(loc, cb) {
 eventSchema.statics.findEventsByTime = function(time, cb) {
     this.find( { startTime: {$lt: time}, endTime: {$gt: time} }, function(err, events) {
         if (err) {
-            cb(err, null);
+            cb({ msg: err });
         } else if (events.length > 0) {
             // found events happening at this time
             cb(err, events);
         } else {
-            cb(err, null);
+            cb(msg: 'No such event.' });
         };
     });
 };
