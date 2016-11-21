@@ -6,6 +6,6 @@ import GroupServices from './groupServices.js';
 export default {
     user : UserServices,
     location : LocationServices,
-    eventt : EventServices,
+    mEvent : EventServices,
     group : GroupServices
 }

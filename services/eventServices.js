@@ -1,8 +1,8 @@
 const BASE_URL = 'http://localhost:3000/events';
 
-  var request = require('request-promise-native');
+var request = require('request-promise-native');
 
-  export default {
+export default {
     createEvent : (content) => {
         return request({
             uri : BASE_URL,
@@ -31,7 +31,7 @@ const BASE_URL = 'http://localhost:3000/events';
 
     getEventsByLocation : (loc) => {
         return request({
-            uri : BASE_URL + '/${loc}',
+            uri : BASE_URL + '/location/${loc}',
             method : 'GET',
             json : true
         });
@@ -39,10 +39,10 @@ const BASE_URL = 'http://localhost:3000/events';
 
     getEventsByTime : (time) => {
         return request({
-            uri : BASE_URL + '/${loc}',
+            uri : BASE_URL + '/time/${time}',
             method: 'GET',
             json : true
         });
     },
-  };
+};
 

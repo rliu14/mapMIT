@@ -1,3 +1,13 @@
 #map {
-	height: 200px;
+    height: 400px;
+    width: 850px;
+}
+
+#filter {
+	height: 500px;
+	width: 300px;
+}	
+
+#homepage-left, #homepage-right {
+	display: inline-block;
 }
