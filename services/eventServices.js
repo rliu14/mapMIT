@@ -4,6 +4,9 @@ var request = require('request-promise-native');
 
 export default {
     createEvent : (content) => {
+        console.log('creating an event service');
+        console.log(BASE_URL);
+        console.log(content);
         return request({
             uri : BASE_URL,
             method : 'POST',
@@ -38,6 +41,7 @@ export default {
     },
 
     getEventsByTime : (time) => {
+        console.log('get events by time');
         return request({
             uri : BASE_URL + '/time/${time}',
             method: 'GET',

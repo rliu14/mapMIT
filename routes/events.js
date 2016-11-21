@@ -5,6 +5,7 @@ var Event = require('../models/Event');
 
 // create event
 router.post('/', function(req, res) {
+	console.log('post');
 	Event.create({
 		name: req.body.content.eventName,
 		description: req.body.content.eventDescription,
@@ -15,6 +16,8 @@ router.post('/', function(req, res) {
 	    locationDescription: req.body.content.locationDescription,
 	    host: req.body.content.host
 	}, function(err, createdEvent) {
+		console.log(err);
+		console.log(createdEvent);
 		if(err) {
 			if(err.msg) {
 				utils.sendErrorResponse(res, 400, err.msg);
@@ -42,6 +45,7 @@ router.get('/location/:loc', function(req, res) {
 });
 
 router.get('/time/:time', function(req, res) {
+	console.log("get by time");
 	Event.findEventsByTime(Date.now(), function(err, events) {
 		if (err) {
 			utils.sendErrorResponse(res, 400, err.msg); 
