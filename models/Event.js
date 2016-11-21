@@ -9,7 +9,7 @@ var eventSchema = mongoose.Schema({
     description: { type: String, default: null },
     startTime: { type: Date, required: true },
     endTime: { type: Date, required: true },
-    roomNumber: { type: Number, default: null },
+    roomNumber: { type: int, default: null },
     location: { type: ObjectId, ref: 'Location'},
     locationDescription: { type: String, default: null },
     host: { type: String, required: true }

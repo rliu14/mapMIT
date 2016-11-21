@@ -12,13 +12,10 @@ class Homepage extends Component {
 		this.defaultProps = {
             events : []
 		};
-        this.getEventsByTime = this.getEventsByTime.bind(this);
-        this.updateEvents = this.updateEvents.bind(this);
 	}
 
     updateEvents(request){
         request.then((response) => {
-            console.log(response);
             this.setState({
                 events : response.content.events
             })
@@ -39,10 +36,8 @@ class Homepage extends Component {
     componentWillMount(){
         // Call the "getEventsByTime" service to update
         // this.props.events with events happening now
-        console.log('componentWillMount');
-        var request = this.getEventsByTime(Date.now());
-        console.log(request);
-        this.updateEvents(request);
+        // var request = getEventsByTime(Date.now());
+        // this.props.updateEvents(request);
     }
 
 	render() {
