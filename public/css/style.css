@@ -19,3 +19,9 @@
 .react-bs-table {
 	margin-top: 20px;
 }
+
+.navbar .container ul li {
+	display: inline;
+	float: left;
+	padding-right: 20px;
+}
