@@ -7,11 +7,11 @@ class Signup extends Component {
 		// this.defaultProps = {
 		// }
 		this.state = {
-			signupUser : '',
-			signupPass : ''
+			registerUser : '',
+			registerPass : ''
 		};
 		this.updateFormVal = this.updateFormVal.bind(this);
-		this.signupUser = this.signupUser.bind(this);
+		this.registerUser = this.registerUser.bind(this);
 	}
 
 	updateFormVal(event) {
@@ -23,8 +23,8 @@ class Signup extends Component {
 		})
 	}
 
-	signupUser() {
-		this.props.signupUser(this.state.signupUser, this.state.signupPass);
+	registerUser() {
+		this.props.registerUser(this.state.registerUser, this.state.registerPass);
 	}
 
 	render() {
@@ -36,23 +36,23 @@ class Signup extends Component {
                 </div>
                 <div className = 'form-group'>
                     <input className = 'form-control'
-                        name = 'signupUser'
+                        name = 'registerUser'
                         placeholder = 'Username'
-                        value = {this.state.signupUser}
+                        value = {this.state.registerUser}
                         onChange = {this.updateFormVal}
                     />
                 </div>
                 <div className = 'form-group'>
                     <input className = 'form-control'
                         type = 'password'
-                        name = 'signupPass'
+                        name = 'registerPass'
                         placeholder = 'Password'
-                        value = {this.state.signupPass}
+                        value = {this.state.registerPass}
                         onChange = {this.updateFormVal}
                     />
                 </div>
 
-                <button className = 'btn' onClick = {this.signupUser}> Sign Up </button>
+                <button className = 'btn' onClick = {this.registerUser}> Sign Up </button>
             </div>
 	  	)
 	}

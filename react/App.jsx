@@ -60,7 +60,7 @@ class App extends Component {
                     prevState.user = 'Not Logged In';
                     return prevState;
                 });
-                this.props.router.push('/signin');
+                this.props.router.push('/login'); // what about /logout??
             }
         });
     }
