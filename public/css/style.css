@@ -11,3 +11,7 @@
 #homepage-left, #homepage-right {
 	display: inline-block;
 }
+
+.table {
+	margin-bottom: 0;
+}

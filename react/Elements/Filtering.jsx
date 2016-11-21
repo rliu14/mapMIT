@@ -9,7 +9,6 @@ class Filtering extends Component {
   }
   
   render () {
-    const position = [this.state.lat, this.state.lng]
     return (
       <div id="filter"></div>
     )

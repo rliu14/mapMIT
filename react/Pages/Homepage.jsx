@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import MapMIT from '../Elements/Map.jsx';
 import Filtering from '../Elements/Filtering.jsx';
+import EventTable from '../Elements/EventTable.jsx';
 
 import { withRouter } from 'react-router';
 
@@ -20,6 +21,11 @@ class Homepage extends Component {
     }
 
 	render() {
+        const rows = [
+            ['a1', 'b1', 'c1'],
+            ['a2', 'b2', 'c2'],
+            ['a3', 'b3', 'c3'],
+        ];
       	return ( 
             <div id="homepage-container">
                 <div id="homepage-left">
@@ -27,6 +33,7 @@ class Homepage extends Component {
                 </div>
                 <div id="homepage-right">
                     <MapMIT />
+                    <EventTable />
                 </div>
             </div>
       	)
