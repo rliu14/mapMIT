@@ -43,7 +43,7 @@ eventSchema.statics.findEventByLocation = function(loc, cb) {
     });
 };
 
-eventSchema.statics.findEventByTime = function(time, cb) {
+eventSchema.statics.findEventsByTime = function(time, cb) {
     this.find( { startTime: {$lt: time}, endTime: {$gt: time} }, function(err, events) {
         if (err) {
             cb(err, null);

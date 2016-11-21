@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var utils = require('../utils/utils');
-var User = require('../models/Event');
+var Event = require('../models/Event');
 
 // create event
 router.post('/', function(req, res) {
@@ -17,7 +17,7 @@ router.get('/location/:loc', function(req, res) {
 });
 
 router.get('/time/:time', function(req, res) {
-	User.findEventByTime(Date.now(), function(err, events) {
+	Event.findEventsByTime(Date.now(), function(err, events) {
 		if (err) {
 			utils.sendErrorResponse(res, 400, err.msg); 
 		} else {

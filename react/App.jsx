@@ -1,6 +1,6 @@
 import Services from '../services';
-import { Component } from 'react';
 import React from 'react';
+import { Component } from 'react';
 import moment from 'moment';
 import { withRouter } from 'react-router';
 import { render } from 'react-dom';
@@ -10,33 +10,12 @@ class App extends Component {
         super(props);
         this.state = {
             user : undefined,
-            events : []
         };
         this.loginUser = this.loginUser.bind(this);
         this.logoutUser = this.logoutUser.bind(this);
         this.registerUser = this.registerUser.bind(this);
-        this.updateEvents = this.updateEvents.bind(this);
-        this.getEventsByTime = this.getEventsByTime.bind(this);
     }
 
-    updateEvents(request){
-        request.then((response) => {
-            this.setState({
-                events : response.content.events
-            })
-        }).catch((err) => {
-            alert("There was an error updating events: ", err);
-        })
-    }
-
-    getEventsByTime(time){
-        eventServices.getEventsByTime(time).then((resp) => {
-            this.setState((prevState) => {
-                prevState.events = resp.content.events;
-                return prevState;
-            });
-        });
-    }
 
     loginUser(username, password){
         Services.user.login(username, password)
@@ -86,8 +65,6 @@ class App extends Component {
                         loginUser : this.loginUser,
                         registerUser : this.registerUser,
                         logoutUser : this.logoutUser,
-                        updateEvents : this.updateEvents,
-                        getEventsByTime : this.getEventsByTime
                     })}
                 </div>
             </div>

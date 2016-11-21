@@ -3,6 +3,7 @@ import MapMIT from '../Elements/Map.jsx';
 import Filtering from '../Elements/Filtering.jsx';
 import EventTable from '../Elements/EventTable.jsx';
 
+
 import { withRouter } from 'react-router';
 
 class Homepage extends Component {
@@ -10,13 +11,32 @@ class Homepage extends Component {
 		super(props);
 		this.defaultProps = {
             events : []
-		}
+		};
 	}
+
+    updateEvents(request){
+        request.then((response) => {
+            this.setState({
+                events : response.content.events
+            })
+        }).catch((err) => {
+            alert("There was an error updating events: ", err);
+        })
+    }
+
+    getEventsByTime(time){
+        this.props.services.mEvent.getEventsByTime(time).then((resp) => {
+            this.setState((prevState) => {
+                prevState.events = resp.content.events;
+                return prevState;
+            });
+        });
+    }
 
     componentWillMount(){
         // Call the "getEventsByTime" service to update
         // this.props.events with events happening now
-        // var request = this.props.services.mEvent.getEventsByTime(Date.now());
+        // var request = getEventsByTime(Date.now());
         // this.props.updateEvents(request);
     }
 
