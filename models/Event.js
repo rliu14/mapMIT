@@ -9,7 +9,7 @@ var eventSchema = mongoose.Schema({
     description: { type: String, default: null },
     startTime: { type: Date, required: true },
     endTime: { type: Date, required: true },
-    roomNumber: { type: int, default: null },
+    roomNumber: { type: Number, default: null },
     location: { type: ObjectId, ref: 'Location'},
     locationDescription: { type: String, default: null },
     host: { type: String, required: true }
@@ -20,17 +20,17 @@ var eventSchema = mongoose.Schema({
 eventSchema.statics.deleteEvent = function(eventID, cb) {
     this.findByIdAndRemove(eventID, function(err, deletedEvent) {
         if (err) {
-            cb(err, null);
+            cb({ msg: err });
         } else if (deletedEvent != null) {
             // event is properly deleted
             cb(err, true);
         } else {
-            cb(err, false);
+            cb({ msg: 'Event not deleted.' });
         };
     });
 };
 
-eventSchema.statics.findEventbyID = function(eventID, cb) {
+eventSchema.statics.findEventByID = function(eventID, cb) {
     this.findById(eventID, function(err, foundEvent) {
         if (err) {
             cb({ msg: err });
@@ -42,15 +42,15 @@ eventSchema.statics.findEventbyID = function(eventID, cb) {
     });
 };
 
-eventSchema.statics.findEventByLocation = function(loc, cb) {
+eventSchema.statics.findEventsByLocation = function(loc, cb) {
     this.find( { location: loc}, function(err, events) {
         if (err) {
-            cb(err, null);
+            cb( { msg: err });
         } else if (events.length > 0) {
             // found events with specified location
             cb(err, events);
         } else {
-            cb(err, null);
+            cb(msg: 'No such events.' });
         };
     });
 };
@@ -58,12 +58,12 @@ eventSchema.statics.findEventByLocation = function(loc, cb) {
 eventSchema.statics.findEventsByTime = function(time, cb) {
     this.find( { startTime: {$lt: time}, endTime: {$gt: time} }, function(err, events) {
         if (err) {
-            cb(err, null);
+            cb({ msg: err });
         } else if (events.length > 0) {
             // found events happening at this time
             cb(err, events);
         } else {
-            cb(err, null);
+            cb(msg: 'No such event.' });
         };
     });
 };

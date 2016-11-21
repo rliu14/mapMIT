@@ -34,11 +34,11 @@ export default (
                    component={SignUp} />
             <Route path="login"
                    component={Login} />
-            <Route path="events"
+            <Route path="myEvents"
                    component={MyEvents} />
-            <Route path="events/edit/:id"
+            <Route path="myEvents/edit/:id"
                    component={EditEvent} />
-            <Route path="events/create"
+            <Route path="myEvents/create"
                    component={CreateEvent} />
             <Route path="*"
                    component={NotFound} />

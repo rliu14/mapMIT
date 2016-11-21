@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router';
+import eventServices from '../../services/eventServices';
 
 class CreateEvent extends Component {
 	constructor(props) {
@@ -7,10 +8,15 @@ class CreateEvent extends Component {
 		this.defaultProps = {
 		}
 		this.updateEventName = this.updateEventName.bind(this);
+		this.updateEventDate = this.updateEventDate.bind(this);
+		this.updateStartTime = this.updateStartTime.bind(this);
+		this.updateEndTime = this.updateEndTime.bind(this);
 		this.updateRoomNumber = this.updateRoomNumber.bind(this);
 		this.updateEventDescription = this.updateEventDescription.bind(this);
+		this.updateLocation = this.updateLocation.bind(this);
 		this.updateLocationDescription = this.updateLocationDescription.bind(this);
 		this.updateHost = this.updateHost.bind(this);
+		this.submitEvent = this.submitEvent.bind(this);
 		this.state = {
 			eventName: '',
 			eventDate: '',
@@ -30,8 +36,26 @@ class CreateEvent extends Component {
 		});
 	}
 
-	// NEED UPDATE EVENTDATE
-	// NEED UPDATE START TIME , END TIME
+	// DATE PICKER?
+	updateEventDate(event) {
+		this.setState({
+			eventDate: event.target.value
+		});
+	}
+
+	// TIME PICKER?
+	updateStartTime(event) {
+		this.setState({
+			startTime: event.target.value
+		});
+	}
+
+	// END TIME
+	updateEndTime(event) {
+		this.setState({
+			endTime: event.target.value
+		});
+	}
 
 	updateRoomNumber(event) {
 		this.setState({
@@ -45,7 +69,12 @@ class CreateEvent extends Component {
 		});
 	}
 
-	// NEED UPDATE EVENT LOCATION
+	// NEED LOCATION DROPDOWN 
+	updateLocation(event) {
+		this.setState({
+			location: event.target.value
+		});
+	}
 
 	updateLocationDescription(event) {
 		this.setState({
@@ -59,6 +88,36 @@ class CreateEvent extends Component {
 		});
 	}
 
+	submitEvent() {
+		// call the createEvent service
+		var content = {
+			eventName: this.state.eventName,
+			eventDate: this.state.eventDate,
+			startTime: this.state.startTime,
+			endTime: this.state.endTime,
+			roomNumber: this.state.roomNumber,
+			eventDescription: this.state.eventDescription,
+			location: this.state.location,
+			locationDescription: this.state.locationDescription,
+			host: this.state.host
+		}
+		eventServices.createEvent(content)
+			.then((resp) => {
+				this.setState = {
+					eventName: '',
+					eventDate: '',
+					startTime: '',
+					endTime: '',
+					roomNumber: '',
+					eventDescription: '',
+					location: '',
+					locationDescription: '',
+					host: ''
+				}
+			})
+	}
+
+
 	render() {
 	  	return ( 
 	  		<div>
@@ -71,12 +130,12 @@ class CreateEvent extends Component {
 		  			<input type="text" className="form-control" value={this.state.eventName} onChange={this.updateEventName}></input> <br/>
 
 		  			<span>Date* </span> 
-		  			<br/>
+		  			<input type="text" className="form-control" value={this.state.eventDate} onChange={this.updateEventDate} placeholder="TEMP"></input> <br/>
 
 		  			<span>Time* </span> 
-		  			<input type="text" className="form-control" placeholder="Start"></input>
+		  			<input type="text" className="form-control" value={this.startTime} onChange={this.updateStartTime} placeholder="Start"></input>
 		  			<span> - </span>
-		  			<input type="text" className="form-control" placeholder="End"></input> <br/>
+		  			<input type="text" className="form-control" value={this.endTime} onChange={this.updateEndTime} placeholder="End"></input> <br/>
 
 		  			<span>Room Number</span> 
 		  			<input type="text" className="form-control" value={this.state.roomNumber} onChange={this.updateRoomNumber}></input> <br/>
@@ -85,7 +144,8 @@ class CreateEvent extends Component {
 		  			<input type="text" className="form-control" value={this.eventDescription} onChange={this.updateEventDescription}></input> <br/>
 
 		  			<span>Select Location* </span> 
-		  			<br/>
+		  			<input type="text" className="form-control" value={this.state.location} onChange={this.updateLocation} placeholder="TEMP"></input> <br/>
+
 
 		  			<span>Location Description </span> 
 		  			<input type="text" className="form-control" value={this.locationDescription} onChange={this.updateLocationDescription}></input> <br/>
@@ -93,6 +153,11 @@ class CreateEvent extends Component {
 		  			<span>Host* </span> 
 		  			<input type="text" className="form-control" value={this.host} onChange={this.updateHost}></input> <br/>
 		  		</div>
+		  		<span className='input-group-btn'>
+                    <button type='button' className='btn btn-default' onClick={this.submitEvent}>
+                        Create
+                    </button>
+                </span>
 	  		</div>
 	  	)
 	}
