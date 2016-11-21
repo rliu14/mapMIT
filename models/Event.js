@@ -30,7 +30,7 @@ eventSchema.statics.deleteEvent = function(eventID, cb) {
     });
 };
 
-eventSchema.statics.findEventbyID = function(eventID, cb) {
+eventSchema.statics.findEventByID = function(eventID, cb) {
     this.findById(eventID, function(err, foundEvent) {
         if (err) {
             cb({ msg: err });
