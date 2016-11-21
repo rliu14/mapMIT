@@ -16,7 +16,7 @@ class MapMIT extends Component {
     }
     
     componentDidMount() {
-        this.setState({popupText: "HELLO"}) ;
+
     }
 
     componentDidUpdate() {
