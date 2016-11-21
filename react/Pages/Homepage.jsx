@@ -8,9 +8,17 @@ class Homepage extends Component {
 	constructor(props) {
 		super(props);
 		this.defaultProps = {
+            events : []
 		}
 	}
-  
+
+    componentWillMount(){
+        // Call the "getEventsByTime" service to update
+        // this.props.events with events happening now
+        // var request = this.props.services.mEvent.getEventsByTime(Date.now());
+        // this.props.updateEvents(request);
+    }
+
 	render() {
       	return ( 
             <div id="homepage-container">

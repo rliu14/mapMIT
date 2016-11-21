@@ -1,11 +1,9 @@
 import Services from '../services';
-// TODO import navbar???
 import { Component } from 'react';
 import React from 'react';
 import moment from 'moment';
 import { withRouter } from 'react-router';
 import { render } from 'react-dom';
-import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
 
 class App extends Component {
     constructor(props){ 
@@ -15,8 +13,29 @@ class App extends Component {
             events : []
         };
         this.loginUser = this.loginUser.bind(this);
-        this.logout = this.logout.bind(this);
+        this.logoutUser = this.logoutUser.bind(this);
         this.registerUser = this.registerUser.bind(this);
+        this.updateEvents = this.updateEvents.bind(this);
+        this.getEventsByTime = this.getEventsByTime.bind(this);
+    }
+
+    updateEvents(request){
+        request.then((response) => {
+            this.setState({
+                events : response.content.events
+            })
+        }).catch((err) => {
+            alert("There was an error updating events: ", err);
+        })
+    }
+
+    getEventsByTime(time){
+        eventServices.getEventsByTime(time).then((resp) => {
+            this.setState((prevState) => {
+                prevState.events = resp.content.events;
+                return prevState;
+            });
+        });
     }
 
     loginUser(username, password){
@@ -34,7 +53,7 @@ class App extends Component {
             });
     }
 
-    logout(){
+    logoutUser(){
         Services.user.logout().then((res) => {
             if (res.success){
                 this.setState((prevState) => {
@@ -66,6 +85,9 @@ class App extends Component {
                         events : this.state.tweets,
                         loginUser : this.loginUser,
                         registerUser : this.registerUser,
+                        logoutUser : this.logoutUser,
+                        updateEvents : this.updateEvents,
+                        getEventsByTime : this.getEventsByTime
                     })}
                 </div>
             </div>

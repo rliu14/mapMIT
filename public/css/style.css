@@ -1,11 +1,11 @@
 #map {
-	height: 200px;
-	width: 500px;
+    height: 400px;
+    width: 850px;
 }
 
 #filter {
 	height: 500px;
-	width: 200px;
+	width: 300px;
 }	
 
 #homepage-left, #homepage-right {
