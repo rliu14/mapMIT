@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router';
+import eventServices from '../../services/eventServices';
 
 class CreateEvent extends Component {
 	constructor(props) {
@@ -11,6 +12,7 @@ class CreateEvent extends Component {
 		this.updateEventDescription = this.updateEventDescription.bind(this);
 		this.updateLocationDescription = this.updateLocationDescription.bind(this);
 		this.updateHost = this.updateHost.bind(this);
+		this.submitEvent = this.submitEvent.bind(this);
 		this.state = {
 			eventName: '',
 			eventDate: '',
@@ -59,6 +61,36 @@ class CreateEvent extends Component {
 		});
 	}
 
+	submitEvent() {
+		// call the createEvent service
+		content = {
+			eventName: this.state.eventName,
+			eventDate: this.state.eventDate,
+			startTime: this.state.startTime,
+			endTime: this.state.endTime,
+			roomNumber: this.state.roomNumber,
+			eventDescription: this.state.eventDescription,
+			location: this.state.location,
+			locationDescription: this.state.locationDescription,
+			host: this.state.host
+		}
+		eventServices.createEvent(content)
+			.then((resp) => {
+				this.setState = {
+					eventName: '',
+					eventDate: '',
+					startTime: '',
+					endTime: '',
+					roomNumber: '',
+					eventDescription: '',
+					location: '',
+					locationDescription: '',
+					host: ''
+				}
+			})
+	}
+
+
 	render() {
 	  	return ( 
 	  		<div>
@@ -93,6 +125,11 @@ class CreateEvent extends Component {
 		  			<span>Host* </span> 
 		  			<input type="text" className="form-control" value={this.host} onChange={this.updateHost}></input> <br/>
 		  		</div>
+		  		<span className='input-group-btn'>
+                    <button type='button' className='btn btn-default' onClick={this.submitEvent}>
+                        Create
+                    </button>
+                </span>
 	  		</div>
 	  	)
 	}
