@@ -38,7 +38,13 @@ router.get('/:eventID', function(req, res) {
 });
 
 router.get('/location/:loc', function(req, res) {
-
+	Event.findEventsByLocation(req.params.loc, function(err, foundEvents) {
+		if(err) {
+			utils.sendErrorResponse(res, 404, 'No such events.');
+		} else {
+			utils.sendSuccessResponse(res, { foundEvents: foundEvents });
+		}
+	});
 });
 
 router.get('/time/:time', function(req, res) {
@@ -52,7 +58,13 @@ router.get('/time/:time', function(req, res) {
 });
 
 router.delete('/:eventID', function(req, res) {
-
+	Event.deleteEvent(req.params.eventID, function(err, deletedEvent) {
+		if(err) {
+			utils.sendErrorResponse(res, 400, err.msg); 
+		} else {
+			utils.sendSuccessResponse(res, {deletedEvent: deletedEvent});
+		};
+	});
 });
 
 
