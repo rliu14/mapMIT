@@ -42,7 +42,7 @@ eventSchema.statics.findEventByID = function(eventID, cb) {
     });
 };
 
-eventSchema.statics.findEventByLocation = function(loc, cb) {
+eventSchema.statics.findEventsByLocation = function(loc, cb) {
     this.find( { location: loc}, function(err, events) {
         if (err) {
             cb(err, null);
