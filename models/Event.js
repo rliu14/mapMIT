@@ -6,12 +6,12 @@ var ObjectId = mongoose.Schema.Types.ObjectId;
 /* Schema to represent the Event model */
 var eventSchema = mongoose.Schema({
     name: { type: String, required: true },
-    description: { type: String }
+    description: { type: String, default: null },
     startTime: { type: Date, required: true },
     endTime: { type: Date, required: true },
     roomNumber: { type: int, default: null },
     location: { type: ObjectId, ref: 'Location'},
-    locationDescription: { type: String },
+    locationDescription: { type: String, default: null },
     host: { type: String, required: true }
 });
 
@@ -26,6 +26,18 @@ eventSchema.statics.deleteEvent = function(eventID, cb) {
             cb(err, true);
         } else {
             cb(err, false);
+        };
+    });
+};
+
+eventSchema.statics.findEventbyID = function(eventID, cb) {
+    this.findById(eventID, function(err, foundEvent) {
+        if (err) {
+            cb({ msg: err });
+        } else if (foundEvent != null) {
+            cb(err, foundEvent);
+        } else {
+            cb({ msg: 'No such event.' });
         };
     });
 };
