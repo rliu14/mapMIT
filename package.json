@@ -19,9 +19,11 @@
   "license": "MIT",
   "dependencies": {
     "babel-plugin-transform-object-rest-spread": "^6.19.0",
+    "amdefine": "^1.0.1",
     "bcrypt": "^0.8.7",
     "body-parser": "^1.14.1",
     "cookie-parser": "^1.4.0",
+    "crypto-browserify": "^3.11.0",
     "express": "^4.13.3",
     "express-session": "^1.11.3",
     "fixed-data-table": "^0.6.3",
