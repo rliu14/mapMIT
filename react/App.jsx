@@ -13,17 +13,63 @@ class App extends Component {
     constructor(props){ 
         super(props);
         this.state = {
+            user : undefined
         };
+        this.loginUser = this.loginUser.bind(this);
+        this.logout = this.logout.bind(this);
+        this.signupUser = this.signupUser.bind(this);
     }
 
-    render(){
+    loginUser(username, password) {
+        Services.user.login(username, password).then((res) => {
+            if (res.success) {
+                this.setState((prevState) => {
+                    prevState.user = res.content.user;
+                    return prevState;
+                });
+
+                this.props.router.push('/');
+            }
+        }).catch((err) => {
+            console.log('Login err: ', err.error.err);
+        });
+    }
+
+    logout() {
+        Services.user.logout().then((res) => {
+            if (res.success){
+                this.setState((prevState) => {
+                    prevState.user = 'Not Logged In';
+                    return prevState;
+                });
+                this.props.router.push('/login');
+            }
+        });
+    }
+
+    signupUser(username, password) {
+        Services.user.register(username, password).then((res) => {
+            if (res.success){
+                this.loginUser(username, password);
+            } else {
+                console.log("Error on signing up user: ", res.err)
+            }
+        });
+    }
+
+    render() {
         return (
             <div>
                 <div id='reactRoot'>
                     Test
                 </div>
                 <div id='page-content'>
-                    {this.props.children}
+                    {React.cloneElement(this.props.children, {
+                        services : Services,
+                        user : this.state.user,
+                        loginUser : this.loginUser,
+                        signupUser : this.signupUser
+                    })}
                 </div>
             </div>
         );
