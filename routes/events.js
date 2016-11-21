@@ -48,7 +48,8 @@ router.get('/location/:loc', function(req, res) {
 });
 
 router.get('/time/:time', function(req, res) {
-	Event.findEventsByTime(Date.now(), function(err, events) {
+	console.log("get by time");
+	Event.findEventsByTime(req.params.time, function(err, events) {
 		if (err) {
 			utils.sendErrorResponse(res, 400, err.msg); 
 		} else {

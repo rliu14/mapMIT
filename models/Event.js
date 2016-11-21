@@ -34,10 +34,8 @@ eventSchema.statics.findEventByID = function(eventID, cb) {
     this.findById(eventID, function(err, foundEvent) {
         if (err) {
             cb({ msg: err });
-        } else if (foundEvent != null) {
-            cb(err, foundEvent);
         } else {
-            cb({ msg: 'No such event.' });
+            cb(err, foundEvent);
         };
     });
 };
@@ -46,25 +44,22 @@ eventSchema.statics.findEventsByLocation = function(loc, cb) {
     this.find( { location: loc}, function(err, events) {
         if (err) {
             cb( { msg: err });
-        } else if (events.length > 0) {
+        } else {
             // found events with specified location
             cb(err, events);
-        } else {
-            cb(msg: 'No such events.' });
-        };
+        }
     });
 };
 
 eventSchema.statics.findEventsByTime = function(time, cb) {
     this.find( { startTime: {$lt: time}, endTime: {$gt: time} }, function(err, events) {
+        console.log(err);
+        console.log(events);
         if (err) {
             cb({ msg: err });
-        } else if (events.length > 0) {
-            // found events happening at this time
-            cb(err, events);
         } else {
-            cb(msg: 'No such event.' });
-        };
+            cb(err, events);
+        }
     });
 };
 

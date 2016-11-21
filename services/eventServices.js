@@ -38,6 +38,7 @@ export default {
     },
 
     getEventsByTime : (time) => {
+        console.log('get events by time service');
         return request({
             uri : BASE_URL + `/time/${time}`,
             method: 'GET',
