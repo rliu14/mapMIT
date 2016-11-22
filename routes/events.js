@@ -49,14 +49,14 @@ router.get('/location/:loc', function(req, res) {
 
 router.get('/time/:time', function(req, res) {
 	// console.log("get by time");
-	// utils.sendSuccessResponse(res, {events: [{name: 'Elysa', host: 'me', description: 'desc', date: '49', time: 'omg', location: 'hadsfk'}, {name: 'rena bena', host: 'me', description: 'desc', date: '49', time: 'omg', location: 'hadsfk'}]});
-	Event.findEventsByTime(req.params.time, function(err, events) {
-		if (err) {
-			utils.sendErrorResponse(res, 400, err.msg); 
-		} else {
-			utils.sendSuccessResponse(res, {events: events});
-		}
-	});
+	utils.sendSuccessResponse(res, {events: [{name: 'Elysa', host: 'me', description: 'desc', date: '49', time: 'omg', location: 'hadsfk'}, {name: 'rena bena', host: 'me', description: 'desc', date: '49', time: 'omg', location: 'hadsfk'}]});
+	// Event.findEventsByTime(req.params.time, function(err, events) {
+	// 	if (err) {
+	// 		utils.sendErrorResponse(res, 400, err.msg); 
+	// 	} else {
+	// 		utils.sendSuccessResponse(res, {events: events});
+	// 	}
+	// });
 });
 
 router.delete('/:eventID', function(req, res) {
