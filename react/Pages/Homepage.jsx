@@ -17,7 +17,6 @@ class Homepage extends Component {
 
     updateEvents(request){
         request.then((response) => {
-            console.log("BLAH HERES THE RESPONSE: " + response);
             this.setState({
                 events : response.content.events
             })

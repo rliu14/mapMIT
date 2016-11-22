@@ -13,35 +13,74 @@ class MapMIT extends Component {
 
                     {location: "Baker", text: "blahblah", lat: 42.356791, lng: -71.095381}]
         };
+        this.sortByLocation = this.sortByLocation.bind(this);
+        this.getTextForEvents = this.getTextForEvents.bind(this);
     }
     
-    componentDidMount() {
-
+    componentWillMount() {
     }
 
     componentDidUpdate() {
 
     }
+
+    sortByLocation() {
+        var mapByLocation = {}
+        var allEvents = this.props.events;
+        var eventsByLocation = allEvents.reduce(function(current, next) {
+            // console.log(current);
+            // console.log(next.location._id);
+            // if (next.location._id )
+            if (next.location._id in current) {
+                current[next.location._id].push(next);
+            } else {
+                current[next.location._id] = [next]
+            }
+            return current;
+        }, {});
+        return eventsByLocation;
+    }
+
+    getTextForEvents(eventList) {
+        var eventDescriptions = eventList.map(function(current) {
+            return current.description;
+        });
+        console.log("EVENT DESCRIPTIONS: " +eventDescriptions);
+        return (
+            <div className="text">
+                <span>{eventList[0].location.name}</span>
+                {eventDescriptions.map(function(event, index, array){
+                    return (
+                        <li key={index.toString()}>{event}</li>
+                    )
+                })}
+            </div>
+        )
+    }
     
     render () {
-        const position = [this.state.lat, this.state.lng]
+        var x = this;
+        var events = this.sortByLocation();
+        const position = [this.state.lat, this.state.lng];
         return (
             <Map center={position} zoom={this.state.zoom} id="map">
-                {this.state.popups.map(function(popup){
+                {Object.keys(events).map(function(locationId, index, array){
+                    var popup = events[locationId][0].location;
+                    var text = x.getTextForEvents(events[locationId])
                     return (
-                        <div>
+                        <div key={index.toString()}>
                             <TileLayer
                                 attribution='&copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                                 url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
                             />
                             <Marker position={[popup.lat, popup.lng]}>
                                 <Popup>
-                                    <span>{popup.location}<br /> {popup.text} </span>
+                                    {text}
                                 </Popup>
                             </Marker>
                         </div>
                     )
-                })}  
+                })} 
             </Map>
         )
     }

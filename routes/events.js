@@ -48,8 +48,11 @@ router.get('/location/:loc', function(req, res) {
 });
 
 router.get('/time/:time', function(req, res) {
-	// console.log("get by time");
-	// utils.sendSuccessResponse(res, {events: [{name: 'Elysa', host: 'me', description: 'desc', date: '49', time: 'omg', location: 'hadsfk'}, {name: 'rena bena', host: 'me', description: 'desc', date: '49', time: 'omg', location: 'hadsfk'}]});
+	// var location1 = {_id: "1", name: "Maseeh", text: "EVENT", lat: 42.3577, lng: -71.0934};
+	// var location2 = {_id: "2", name: "Baker", text: "blahblah", lat: 42.356791, lng: -71.095381};
+	// utils.sendSuccessResponse(res, {events: [{name: 'Elysa', host: 'me', description: 'elysa\'s event!', date: '49', time: 'omg', location: location1},
+	// 										{name: 'dora', host: 'blah', description: 'dora\'s event', date: '49', time: 'omg', location: location1} ,   
+	// 										{name: 'rena bena', host: 'me', description: 'rena\'s event', date: '49', time: 'omg', location: location2} ]});
 	Event.findEventsByTime(req.params.time, function(err, events) {
 		if (err) {
 			utils.sendErrorResponse(res, 400, err.msg); 
