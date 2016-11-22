@@ -28,9 +28,6 @@ class MapMIT extends Component {
         var mapByLocation = {}
         var allEvents = this.props.events;
         var eventsByLocation = allEvents.reduce(function(current, next) {
-            // console.log(current);
-            // console.log(next.location._id);
-            // if (next.location._id )
             if (next.location._id in current) {
                 current[next.location._id].push(next);
             } else {
@@ -45,7 +42,6 @@ class MapMIT extends Component {
         var eventDescriptions = eventList.map(function(current) {
             return current.description;
         });
-        console.log("EVENT DESCRIPTIONS: " +eventDescriptions);
         return (
             <div className="text">
                 <span>{eventList[0].location.name}</span>
