@@ -18,8 +18,8 @@
   "author": "ekohrs@mit.edu",
   "license": "MIT",
   "dependencies": {
-    "babel-plugin-transform-object-rest-spread": "^6.19.0",
     "amdefine": "^1.0.1",
+    "babel-plugin-transform-object-rest-spread": "^6.19.0",
     "bcrypt": "^0.8.7",
     "body-parser": "^1.14.1",
     "cookie-parser": "^1.4.0",
@@ -37,6 +37,7 @@
     "npm": "^4.0.2",
     "react": "^15.3.2",
     "react-bootstrap-table": "^2.5.8",
+    "react-date-picker": "^5.3.28",
     "react-dom": "^15.3.2",
     "react-leaflet": "^1.0.0",
     "react-router": "^2.8.1",
