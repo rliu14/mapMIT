@@ -5,7 +5,6 @@ import { Component } from 'react';
 import moment from 'moment';
 import { withRouter } from 'react-router';
 import { render } from 'react-dom';
-import NavBar from './Elements/NavBar.jsx';
 
 class App extends Component {
     constructor(props){ 
