@@ -14,16 +14,17 @@ router.post('/', function(req, res) {
 	    location: req.body.content.location,
 	    locationDescription: req.body.content.locationDescription,
 	    host: req.body.content.host
+	    creator: req.body.content.creator
 	}, function(err, createdEvent) {
 		if(err) {
 			if(err.msg) {
 				utils.sendErrorResponse(res, 400, err.msg);
 			} else {
 				utils.sendErrorResponse(res, 500, 'An unknown error occurred.');
-			}
+			};
 		} else {
 			utils.sendSuccessResponse(res, createdEvent);
-		}
+		};
 	});
 });
 
@@ -33,6 +34,16 @@ router.get('/:eventID', function(req, res) {
 			utils.sendErrorResponse(res, 404, 'No such event.');
 		} else {
 			utils.sendSuccessResponse(res, { foundEvent: foundEvent });
+		};
+	});
+});
+
+router.get('/:creator', function(req, res) {
+	Event.findEventsByCreator(req.params.creator, function(err, foundEvents) {
+		if (err) {
+			utils.sendErrorResponse(res, 404, 'No such events.');
+		} else {
+			utils.sendSuccessResponse(res, { foundEvents: foundEvents });
 		};
 	});
 });

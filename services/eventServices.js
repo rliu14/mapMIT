@@ -29,6 +29,14 @@ export default {
         });
     },
 
+    getEventsByCreator : (creator) => {
+        return request({
+            uri : BASE_URL + `/${creator}`,
+            method: 'GET',
+            json : true
+        });
+    },
+
     getEventsByLocation : (loc) => {
         return request({
             uri : BASE_URL + `/location/${loc}`,
