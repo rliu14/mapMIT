@@ -16,8 +16,14 @@ class NavBar extends Component {
 	render() {
 		var currentUserItem = this.props.currentUser === undefined ? null : (
 			<li>
-				<Link to={'/users/'+this.props.currentUser}>Welcome, {this.props.currentUser}</Link>
+				Welcome, {this.props.currentUser}
 			</li>	
+		);
+
+		var myEventsItem = this.props.currentUser === undefined ? null : (
+			<li>
+				<IndexLink to = '/myevents' className = 'myevents'>My Events</IndexLink>
+			</li>
 		);
 
 		var logoutItem = this.props.currentUser === undefined ? null : (
@@ -32,6 +38,9 @@ class NavBar extends Component {
 					<ul>
 						<li>
 							<IndexLink to = '/' className = 'homepage'>MapMIT</IndexLink>
+						</li>
+						<li>
+							{ myEventsItem }
 						</li>
 						<li>
 							{ currentUserItem }
