@@ -10,9 +10,10 @@ var eventSchema = mongoose.Schema({
     startTime: { type: Date, required: true },
     endTime: { type: Date, required: true },
     roomNumber: { type: Number, default: null },
-    location: { type: ObjectId, ref: 'Location'},
+    location: { type: ObjectId, ref: 'Location' },
     locationDescription: { type: String, default: null },
     host: { type: String, required: true }
+    creator: { type: ObjectId, ref: 'User' }
 });
 
 // TODO: methods to update other fields
@@ -26,6 +27,16 @@ eventSchema.statics.deleteEvent = function(eventID, cb) {
             cb(err, true);
         } else {
             cb({ msg: 'Event not deleted.' });
+        };
+    });
+};
+
+eventSchema.statics.findEventsByCreator = function(eventCreator, cb) {
+    this.find( { creator: eventCreator }, function(err, events) {
+        if (err) {
+            cb({ msg: err });
+        } else {
+            cb(err, events);
         };
     });
 };

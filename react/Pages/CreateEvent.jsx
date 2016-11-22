@@ -5,8 +5,6 @@ import eventServices from '../../services/eventServices';
 class CreateEvent extends Component {
 	constructor(props) {
 		super(props);
-		this.defaultProps = {
-		}
 		this.updateEventName = this.updateEventName.bind(this);
 		this.updateEventDate = this.updateEventDate.bind(this);
 		this.updateStartTime = this.updateStartTime.bind(this);
@@ -26,7 +24,8 @@ class CreateEvent extends Component {
 			eventDescription: '',
 			location: '',
 			locationDescription: '',
-			host: ''
+			host: '',
+			creator: ''
 		}
 	};
 
@@ -99,7 +98,8 @@ class CreateEvent extends Component {
 			eventDescription: this.state.eventDescription,
 			location: this.state.location,
 			locationDescription: this.state.locationDescription,
-			host: this.state.host
+			host: this.state.host,
+			creator: this.props.user
 		}
 		eventServices.createEvent(content)
 			.then((resp) => {
@@ -112,7 +112,8 @@ class CreateEvent extends Component {
 					eventDescription: '',
 					location: '',
 					locationDescription: '',
-					host: ''
+					host: '',
+					creator: ''
 				}
 			})
 	}
