@@ -4,6 +4,7 @@ var request = require('request-promise-native');
 
 export default {
     createEvent : (content) => {
+        console.log(content);
         return request({
             uri : BASE_URL,
             method : 'POST',

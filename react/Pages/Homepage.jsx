@@ -30,6 +30,7 @@ class Homepage extends Component {
         // this.props.events with events happening now
         var request = this.props.services.mEvent.getEventsByTime(Date.now());
         this.updateEvents(request);
+        // this.props.services.mEvent.createEvent({});
     }
 
 	render() {

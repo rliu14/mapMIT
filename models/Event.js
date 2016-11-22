@@ -9,12 +9,18 @@ var eventSchema = mongoose.Schema({
     description: { type: String, default: null },
     startTime: { type: Date, required: true },
     endTime: { type: Date, required: true },
-    roomNumber: { type: Number, default: null },
-    location: { type: ObjectId, ref: 'Location' },
+    room: { type: String, default: null },
+    location: { type: ObjectId, ref: 'Location', default: null },
     locationDescription: { type: String, default: null },
-    host: { type: String, required: true }
-    creator: { type: ObjectId, ref: 'User' }
+    host: { type: String, default: null },
+    creator: { type: ObjectId, ref: 'User', default: null }
 });
+
+
+eventSchema.statics.createEvent = function(content, cb) {
+    // TODO do validation on lots of things
+    this.create(content, cb);
+}
 
 // TODO: methods to update other fields
 

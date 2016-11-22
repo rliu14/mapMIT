@@ -5,17 +5,7 @@ var Event = require('../models/Event');
 
 // create event
 router.post('/', function(req, res) {
-	Event.create({
-		name: req.body.content.eventName,
-		description: req.body.content.eventDescription,
-	    startTime: req.body.content.startTime,
-	    endTime: req.body.content.endTime,
-	    roomNumber: req.body.content.roomNumber,
-	    location: req.body.content.location,
-	    locationDescription: req.body.content.locationDescription,
-	    host: req.body.content.host
-	    creator: req.body.content.creator
-	}, function(err, createdEvent) {
+	Event.createEvent(req.body.content, function(err, createdEvent) {
 		if(err) {
 			if(err.msg) {
 				utils.sendErrorResponse(res, 400, err.msg);

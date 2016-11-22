@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router';
 import eventServices from '../../services/eventServices';
+import { DateField, TransitionView, Calendar } from 'react-date-picker'
+import 'react-date-picker/index.css';
 
 class CreateEvent extends Component {
 	constructor(props) {
 		super(props);
 		this.updateEventName = this.updateEventName.bind(this);
-		this.updateEventDate = this.updateEventDate.bind(this);
-		this.updateStartTime = this.updateStartTime.bind(this);
-		this.updateEndTime = this.updateEndTime.bind(this);
-		this.updateRoomNumber = this.updateRoomNumber.bind(this);
+		this.updateStartTime = this.updateStartTime.bind(this); // TODO fix these
+		this.updateEndTime = this.updateEndTime.bind(this); // TODO fix these
+		this.updateRoom = this.updateRoom.bind(this);
 		this.updateEventDescription = this.updateEventDescription.bind(this);
 		this.updateLocation = this.updateLocation.bind(this);
 		this.updateLocationDescription = this.updateLocationDescription.bind(this);
@@ -17,10 +18,9 @@ class CreateEvent extends Component {
 		this.submitEvent = this.submitEvent.bind(this);
 		this.state = {
 			eventName: '',
-			eventDate: '',
-			startTime: '',
-			endTime: '',
-			roomNumber: '',
+			startTime: Date.now(),
+			endTime: Date.now(),
+			room: '',
 			eventDescription: '',
 			location: '',
 			locationDescription: '',
@@ -43,22 +43,28 @@ class CreateEvent extends Component {
 	}
 
 	// TIME PICKER?
-	updateStartTime(event) {
+	updateStartTime(dateString, { dateMoment, timestamp }) {
+		console.log('update start time');
+		console.log(dateMoment);
 		this.setState({
-			startTime: event.target.value
+			startTime: dateMoment.toDate()
 		});
+		console.log(this.state.startTime);
 	}
 
 	// END TIME
-	updateEndTime(event) {
+	updateEndTime(dateString, { dateMoment, timestamp }) {
+		console.log('update end time');
+		console.log(dateMoment);
 		this.setState({
-			endTime: event.target.value
+			endTime: dateMoment.toDate()
 		});
+		console.log(this.state.endTime);
 	}
 
-	updateRoomNumber(event) {
+	updateRoom(event) {
 		this.setState({
-			roomNumber: event.target.value
+			room: event.target.value
 		});
 	}
 
@@ -90,25 +96,23 @@ class CreateEvent extends Component {
 	submitEvent() {
 		// call the createEvent service
 		var content = {
-			eventName: this.state.eventName,
-			eventDate: this.state.eventDate,
+			name: this.state.eventName,
 			startTime: this.state.startTime,
 			endTime: this.state.endTime,
-			roomNumber: this.state.roomNumber,
+			room: this.state.room,
 			eventDescription: this.state.eventDescription,
-			location: this.state.location,
+			// location: this.state.location, TODO bring this back somehow
 			locationDescription: this.state.locationDescription,
 			host: this.state.host,
-			creator: this.props.user
+			creator: this.props.user // TODO figure this out
 		}
 		eventServices.createEvent(content)
 			.then((resp) => {
 				this.setState = {
 					eventName: '',
-					eventDate: '',
 					startTime: '',
 					endTime: '',
-					roomNumber: '',
+					room: '',
 					eventDescription: '',
 					location: '',
 					locationDescription: '',
@@ -129,24 +133,34 @@ class CreateEvent extends Component {
 		  			
 		  			<span>Event Name* </span> 
 		  			<input type="text" className="form-control" value={this.state.eventName} onChange={this.updateEventName}></input> <br/>
-
-		  			<span>Date* </span> 
-		  			<input type="text" className="form-control" value={this.state.eventDate} onChange={this.updateEventDate} placeholder="TEMP"></input> <br/>
-
+		  			
 		  			<span>Time* </span> 
-		  			<input type="text" className="form-control" value={this.startTime} onChange={this.updateStartTime} placeholder="Start"></input>
+		  			<DateField forceValidDate
+					    	   defaultValue={"2016-05-30 15:23:34"}
+					    	   dateFormat="YYYY-MM-DD HH:mm:ss"
+					    	   onChange={this.updateStartTime}>
+					    <TransitionView>
+					    	<Calendar style={{padding: 10}}/>
+					    </TransitionView>
+					</DateField>
 		  			<span> - </span>
-		  			<input type="text" className="form-control" value={this.endTime} onChange={this.updateEndTime} placeholder="End"></input> <br/>
+		  			<DateField forceValidDate
+					    	   defaultValue={"2016-05-30 15:23:34"}
+					    	   dateFormat="YYYY-MM-DD HH:mm:ss"
+					    	   onChange={this.updateEndTime}>
+					    <TransitionView>
+					    	<Calendar style={{padding: 10}}/>
+					    </TransitionView>
+					</DateField> <br/>
 
-		  			<span>Room Number</span> 
-		  			<input type="text" className="form-control" value={this.state.roomNumber} onChange={this.updateRoomNumber}></input> <br/>
+		  			<span>Room</span> 
+		  			<input type="text" className="form-control" value={this.state.room} onChange={this.updateRoom}></input> <br/>
 
 		  			<span>Event Description </span> 
 		  			<input type="text" className="form-control" value={this.eventDescription} onChange={this.updateEventDescription}></input> <br/>
 
 		  			<span>Select Location* </span> 
 		  			<input type="text" className="form-control" value={this.state.location} onChange={this.updateLocation} placeholder="TEMP"></input> <br/>
-
 
 		  			<span>Location Description </span> 
 		  			<input type="text" className="form-control" value={this.locationDescription} onChange={this.updateLocationDescription}></input> <br/>
