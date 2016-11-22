@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var utils = require('../utils/utils');
 var Event = require('../models/Event');
+var Locationn = require('../models/Location');
 
 // create event
 router.post('/', function(req, res) {
