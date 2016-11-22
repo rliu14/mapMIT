@@ -6,7 +6,7 @@ var ObjectId = mongoose.Schema.Types.ObjectId;
  * The schema for a location. A location requires a locationName and coordinates.
  */
  var location = mongoose.Schema({
- 	locationName: { type: String, required: true, unique: true },
+ 	name: { type: String, required: true, unique: true },
  	coordinateX: { type: int, required: true },
  	coordinateY: { type: int, required: true },
  	// isBuilding: { type: boolean },
