@@ -84,6 +84,6 @@ class MapMIT extends Component {
             </Map>
         )
     }
-}   
+}
 
 export default MapMIT;

@@ -2,6 +2,8 @@
 
 var mongoose = require('mongoose');
 var ObjectId = mongoose.Schema.Types.ObjectId;
+var User = require('./User');
+console.log(User);
 
 /* Schema to represent the Event model */
 var eventSchema = mongoose.Schema({
@@ -18,8 +20,17 @@ var eventSchema = mongoose.Schema({
 
 
 eventSchema.statics.createEvent = function(content, cb) {
+    var username = content.creator;
+    User.findUser(username, function(err, creator) {
+        if (err) {
+            cb({ msg: err });
+        } else {
+            content.creator = creator;
+            this.create(content, cb);
+        }
+    });
     // TODO do validation on lots of things
-    this.create(content, cb);
+    
 }
 
 // TODO: methods to update other fields
