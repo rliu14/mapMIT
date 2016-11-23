@@ -105,22 +105,30 @@ eventSchema.statics.findEventsByTime = function(time, cb) {
     });
 };
 
-eventSchema.statics.updateEvent = function(content, cb) {
-    this.name = content.name;
-    this.description = content.description;
-    this.startTime = content.startTime;
-    this.endTime = content.endTime;
-    this.room = content.room;
-    this.location = content.location;
-    this.locationDescription = this.locationDescription;
-    this.host = this.host;
-    this.save(function(err, updatedEvent) {
-        if(err) {
+eventSchema.statics.findAndUpdateEvent = function(eventID, content, cb) {
+    this.findById(eventID, function(err, foundEvent) {
+        if (err) {
             cb({ msg: err });
         } else {
-            cb(err, updatedEvent);
+            foundEvent.name = content.name;
+            foundEvent.description = content.description;
+            foundEvent.startTime = content.startTime;
+            foundEvent.endTime = content.endTime;
+            foundEvent.room = content.room;
+            // this.location = content.location; // TODO somehow add back in
+            foundEvent.locationDescription = content.locationDescription;
+            foundEvent.host = content.host;
+            foundEvent.save(function(err, updatedEvent) {
+                if(err) {
+                    cb({ msg: err });
+                } else {
+                    cb(err, updatedEvent);
+                };
+            });
+
         };
     });
+
 };
 
 module.exports = mongoose.model('Event', eventSchema)
