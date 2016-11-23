@@ -3,7 +3,7 @@ from pymongo import MongoClient
 
 client = MongoClient()
 db = client.mapmit
-collection = db.location
+collection = db.locations
 
 with open('locations.txt') as f:
     for line in f.readlines():
