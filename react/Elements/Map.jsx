@@ -78,14 +78,12 @@ class MapMIT extends Component {
                                     {text}
                                 </Popup>
                             </Marker>
-                        </div>
+                        </div> 
                     )
                 })} 
             </Map>
         )
     }
-}
-
-    
+}   
 
 export default MapMIT;
