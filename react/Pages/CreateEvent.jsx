@@ -95,6 +95,9 @@ class CreateEvent extends Component {
 
 	submitEvent() {
 		// call the createEvent service
+		console.log('PROPS USER');
+		console.log(this.props.user);
+		console.log(this.props.user._id);
 		var content = {
 			name: this.state.eventName,
 			startTime: this.state.startTime,
@@ -105,6 +108,7 @@ class CreateEvent extends Component {
 			locationDescription: this.state.locationDescription,
 			host: this.state.host,
 			creator: this.props.user // TODO figure this out
+			// creator: 
 		}
 		eventServices.createEvent(content)
 			.then((resp) => {
