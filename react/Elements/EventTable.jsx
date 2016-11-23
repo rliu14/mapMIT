@@ -12,16 +12,14 @@ class EventTable extends Component {
         super(props);
     }
     
-    // TODO get actual events
-
     render () {
         return (
             <BootstrapTable data={ this.props.events }>
                 <TableHeaderColumn dataField='name' isKey>Event Name</TableHeaderColumn>
                 <TableHeaderColumn dataField='host'>Host</TableHeaderColumn>
                 <TableHeaderColumn dataField='description'>Description</TableHeaderColumn>
-                <TableHeaderColumn dataField='date'>Date</TableHeaderColumn>
-                <TableHeaderColumn dataField='time'>Time</TableHeaderColumn>
+                <TableHeaderColumn dataField='startTime'>Start Time</TableHeaderColumn>
+                <TableHeaderColumn dataField='endTime'>End Time</TableHeaderColumn>
                 <TableHeaderColumn dataField='location' dataFormat={showLocationName}>Location</TableHeaderColumn>
             </BootstrapTable>
         )

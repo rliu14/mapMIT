@@ -30,7 +30,7 @@ class MapMIT extends Component {
         console.log('allEvents');
         console.log(allEvents);
         var eventsByLocation = allEvents.reduce(function(current, next) {
-            if (next.location != undefined && next.location != null) {
+            if (next.location != undefined && next.location != null) { // TODO probs change after MVP
                 if (next.location._id in current) {
                     current[next.location._id].push(next);
                 } else {
@@ -73,8 +73,7 @@ class MapMIT extends Component {
                         <div key={index.toString()}>
                             <TileLayer
                                 attribution='&copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                                url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
-                            />
+                                url='http://{s}.tile.osm.org/{z}/{x}/{y}.png' />
                             <Marker position={[popup.latitude, popup.longitude]}>
                                 <Popup>
                                     {text}

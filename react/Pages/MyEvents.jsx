@@ -49,9 +49,6 @@ class MyEvents extends Component {
   	}
 
 	render() {
-		var events = this.state.events;
-		console.log('events');
-		console.log(events);
 		// var eventsList = events.map(function(mEvent) {
 		// 	return <li>{mEvent}</li>
 		// });
