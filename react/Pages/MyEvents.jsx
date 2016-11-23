@@ -34,8 +34,8 @@ class MyEvents extends Component {
 
   	//TODO: INCORPORATE EVENT ID
   	toEditEvent(eventID) {
-  		browserHistory.push('/myEvents/edit');
-  		// browserHistory.push('/myEvents/edit/:eventID')
+  		// browserHistory.push('/myEvents/edit');
+  		browserHistory.push('/myEvents/edit/' + eventID )
   	}
   	
   	deleteEvent(eventID) {
@@ -63,7 +63,7 @@ class MyEvents extends Component {
 		  						return (
 		  							<li key={mEvent._id}>
 		  								{mEvent.name}
-		  								<button type='button' className='btn btn-default' onClick={this.toEditEvent}>Edit</button>
+		  								<button type='button' className='btn btn-default' onClick={this.toEditEvent.bind(this, mEvent._id)}>Edit</button>
 		  								<button type='button' className='btn btn-default' onClick={this.deleteEvent}>Cancel Event</button>
 		  							</li>
 		  						)

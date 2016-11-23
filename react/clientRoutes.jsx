@@ -36,7 +36,7 @@ export default (
                    component={Login} />
             <Route path="myEvents"
                    component={MyEvents} />
-            <Route path="myEvents/edit"
+            <Route path="myEvents/edit/:id"
                    component={EditEvent} />
             <Route path="myEvents/create"
                    component={CreateEvent} />
