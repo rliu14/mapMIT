@@ -35,9 +35,7 @@ class MyEvents extends Component {
     	browserHistory.push('/myEvents/create');
   	}
 
-  	//TODO: INCORPORATE EVENT ID
   	toEditEvent(eventID) {
-  		// browserHistory.push('/myEvents/edit');
   		browserHistory.push('/myEvents/edit/' + eventID)
   	}
   	

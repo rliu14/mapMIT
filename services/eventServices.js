@@ -15,9 +15,9 @@ export default {
         });
     },
 
-    updateEvent : (content) => {
+    updateEvent : (eventID, content) => {
         return request({
-            uri : BASE_URL + `/${content.name}`,
+            uri : BASE_URL + `/update/${eventID}`,
             method : 'PUT',
             body : {
                 content : content

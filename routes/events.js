@@ -22,12 +22,27 @@ router.post('/', function(req, res) {
 	});
 });
 
+router.put('/update/:eventId', function(req, res) {
+	console.log('update request');
+	Event.findAndUpdateEvent(req.params.eventId, req.body.content, function(err, updatedEvent) {
+		if(err) {
+			if(err.msg) {
+				utils.sendErrorResponse(res, 400, err.msg);
+			} else {
+				utils.sendErrorResponse(res, 500, 'An unknown error occurred.');
+			};
+		} else {
+			utils.sendSuccessResponse(res, updatedEvent);
+		};
+	});
+});
+
 router.get('/:eventID', function(req, res) {
 	Event.findEventByID(req.params.eventID, function(err, foundEvent) {
 		if(err) {
 			utils.sendErrorResponse(res, 404, 'No such event.');
 		} else {
-			utils.sendSuccessResponse(res, { foundEvent: [foundEvent] });
+			utils.sendSuccessResponse(res, { foundEvent: foundEvent });
 		};
 	});
 });

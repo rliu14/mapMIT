@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter, browserHistory } from 'react-router';
+import eventServices from '../../services/eventServices';
+
 
 class EditEvent extends Component {
 	constructor(props) {
@@ -7,7 +9,6 @@ class EditEvent extends Component {
 		this.defaultProps = {
 		}
 		this.updateEventName = this.updateEventName.bind(this);
-		this.updateEventDate = this.updateEventDate.bind(this);
 		this.updateStartTime = this.updateStartTime.bind(this);
 		this.updateEndTime = this.updateEndTime.bind(this);
 		this.updateRoomNumber = this.updateRoomNumber.bind(this);
@@ -15,30 +16,45 @@ class EditEvent extends Component {
 		this.updateLocation = this.updateLocation.bind(this);
 		this.updateLocationDescription = this.updateLocationDescription.bind(this);
 		this.updateHost = this.updateHost.bind(this);
+		this.updateEvent = this.updateEvent.bind(this);
+		this.backToMyEvents = this.backToMyEvents.bind(this);
 		this.state = {
-			eventName: 'test',
-			eventDate: 'test',
-			startTime: 'test',
-			endTime: 'test',
-			roomNumber: 'test',
-			eventDescription: 'test',
-			location: 'test',
-			locationDescription: 'test',
-			host: 'test',
-			creator: 'test'
+			eventName: '',
+			startTime: '',
+			endTime: '',
+			roomNumber: '',
+			eventDescription: '',
+			location: '',
+			locationDescription: '',
+			host: ''
 		}
+	}
+
+	componentWillMount() {
+		var eventId = this.props.params.eventId;
+		console.log(eventId);
+		eventServices.getEvent(eventId)
+			.then((resp) => {
+				console.log(resp.content.foundEvent);
+				if(resp.success) {
+					var foundEvent = resp.content.foundEvent;
+					this.setState( { 
+						eventName: foundEvent.name,
+						startTime: foundEvent.startTime,
+						endTime: foundEvent.endTime,
+						roomNumber: foundEvent.room,
+						eventDescription: foundEvent.description,
+						location: foundEvent.location,
+						locationDescription: foundEvent.locationDescription,
+						host: foundEvent.host				
+					});
+				}
+			});
 	}
 
 	updateEventName(event) {
 		this.setState({
 			eventName: event.target.value
-		});
-	}
-
-	// DATE PICKER?
-	updateEventDate(event) {
-		this.setState({
-			eventDate: event.target.value
 		});
 	}
 
@@ -88,7 +104,25 @@ class EditEvent extends Component {
 	}
 
 	updateEvent() {
-		
+		console.log('update event');
+		console.log(this);
+		var content = {
+			name: this.state.eventName,
+			startTime: this.state.startTime,
+			endTime: this.state.endTime,
+			room: this.state.roomNumber,
+			description: this.state.eventDescription,
+			// location: this.state.location, TODO bring this back somehow
+			locationDescription: this.state.locationDescription,
+			host: this.state.host,
+			creator: this.state.user // TODO figure this out
+			// creator: 
+		}
+		eventServices.updateEvent(this.props.params.eventId, content)
+			.then((resp) => {
+				console.log(resp);
+				this.backToMyEvents();
+			})
 	}
 
 	backToMyEvents() {
@@ -105,9 +139,6 @@ class EditEvent extends Component {
 		  			
 		  			<span>Event Name* </span> 
 		  			<input type="text" className="form-control" value={this.state.eventName} onChange={this.updateEventName}></input> <br/>
-
-		  			<span>Date* </span> 
-		  			<input type="text" className="form-control" value={this.state.eventDate} onChange={this.updateEventDate} placeholder="TEMP"></input> <br/>
 
 		  			<span>Time* </span> 
 		  			<input type="text" className="form-control" value={this.state.startTime} onChange={this.updateStartTime} placeholder="Start"></input>
