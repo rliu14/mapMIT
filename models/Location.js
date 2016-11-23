@@ -1,5 +1,4 @@
 var mongoose = require("mongoose");
-
 var ObjectId = mongoose.Schema.Types.ObjectId;
 
 /**
@@ -18,7 +17,7 @@ var ObjectId = mongoose.Schema.Types.ObjectId;
   * matching the locationName, or null if an error occurred.
   */
  location.statics.findLocation = function(locationName, callback) {
- 	this.where({'name': locationName}).findOne(function (err, foundLocation) {
+ 	this.find({'name': locationName}, function (err, foundLocation) {
  		if (err) {
  			callback(null);
  		} else {

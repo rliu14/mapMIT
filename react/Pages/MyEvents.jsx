@@ -22,6 +22,9 @@ class MyEvents extends Component {
 		eventServices.getEventsByCreator(this.state.creator)
 			.then((resp) => {
 				console.log(resp.content);
+				console.log('aslkdf');
+				console.log(resp);
+				console.log(resp.success);
 				if(resp.success) {
 					this.setState( { events: resp.content.foundEvents });
 				}
@@ -32,29 +35,31 @@ class MyEvents extends Component {
     	browserHistory.push('/myEvents/create');
   	}
 
-  	//TODO: INCORPORATE EVENT ID
   	toEditEvent(eventID) {
-  		// browserHistory.push('/myEvents/edit');
-  		console.log('to edit event');
-  		browserHistory.push('/myEvents/edit/' + eventID )
+  		browserHistory.push('/myEvents/edit/' + eventID)
   	}
   	
   	deleteEvent(eventID) {
+  		console.log('HELLO');
   		eventServices.deleteEvent(eventID)
   			.then((resp) => {
+  				console.log('the resp');
+  				console.log(resp);
+  				console.log(resp.success);
   				if(resp.success) {
-  					browserHistory.push('/myEvents');
+  					console.log('here');
+  					eventServices.getEventsByCreator(this.state.creator)
+						.then((resp) => {
+							if(resp.success) {
+								console.log('reset state');
+								this.setState( { events: resp.content.foundEvents });
+							};
+						});
   				};
   			});
   	}
 
 	render() {
-		var events = this.state.events;
-		console.log('events');
-		console.log(events);
-		// var eventsList = events.map(function(mEvent) {
-		// 	return <li>{mEvent}</li>
-		// });
 	  	return ( 
 	  		<div>
 		  		<div className="header">
@@ -65,7 +70,7 @@ class MyEvents extends Component {
 		  							<li key={mEvent._id}>
 		  								{mEvent.name}
 		  								<button type='button' className='btn btn-default' onClick={this.toEditEvent.bind(this, mEvent._id)}>Edit</button>
-		  								<button type='button' className='btn btn-default' onClick={this.deleteEvent}>Cancel Event</button>
+		  								<button type='button' className='btn btn-default' onClick={this.deleteEvent.bind(this, mEvent._id)}>Cancel Event</button>
 		  							</li>
 		  						)
 		  					}, this)}
