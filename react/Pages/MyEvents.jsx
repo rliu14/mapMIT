@@ -1,49 +1,77 @@
 import React, { Component } from 'react';
 import { withRouter, browserHistory } from 'react-router';
 import eventServices from '../../services/eventServices';
-import createEventPage from './CreateEvent.jsx';
 
 class MyEvents extends Component {
 	constructor(props) {
 		super(props);
 		this.defaultProps = {
 		}
-		this.handleClick = this.handleClick.bind(this);
+		this.toCreateNewEvent = this.toCreateNewEvent.bind(this);
+		this.toEditEvent = this.toEditEvent.bind(this);
+		this.deleteEvent = this.deleteEvent.bind(this);
 		this.state = {
 			creator: this.props.user,
-			events: ['event1', 'event2']
+			events: []
 		}
 	}
 
-	// componentWillMount() {
-	// 	eventServices.getEventsByCreator(this.state.creator)
-	// 		.then((resp) => {
-	// 			if(resp.success) {
-	// 				this.setState( { events: ['test', 'test'] });//resp.content.foundEvents });
-	// 			}
-	// 		});
-	// };
+	componentWillMount() {
+		console.log('GETTING EVENT');
+		console.log(this.state.creator);
+		eventServices.getEventsByCreator(this.state.creator)
+			.then((resp) => {
+				console.log(resp.content);
+				if(resp.success) {
+					this.setState( { events: resp.content.foundEvents });
+				}
+			});
+	};
 
-	handleClick() {
+	toCreateNewEvent() {
     	browserHistory.push('/myEvents/create');
   	}
 
+  	//TODO: INCORPORATE EVENT ID
+  	toEditEvent(eventID) {
+  		browserHistory.push('/myEvents/edit');
+  		// browserHistory.push('/myEvents/edit/:eventID')
+  	}
+  	
+  	deleteEvent(eventID) {
+  		eventServices.deleteEvent(eventID)
+  			.then((resp) => {
+  				if(resp.success) {
+  					browserHistory.push('/myEvents');
+  				};
+  			});
+  	}
+
 	render() {
+		var events = this.state.events;
+		console.log('events');
+		console.log(events);
+		// var eventsList = events.map(function(mEvent) {
+		// 	return <li>{mEvent}</li>
+		// });
 	  	return ( 
 	  		<div>
 		  		<div className="header">
 		  			<h1>Your Upcoming Events</h1>
 		  			<div>
-		  				{this.state.events.map((mEvent) =>
-		  					<li key={mEvent}>
-		  						{mEvent}
-		  						<button type='button' className='btn btn-default'>Edit</button>
-		  						<button type='button' className='btn btn-default'>Cancel Event</button>
-							</li> 
-		  				)}
+		  					{this.state.events.map(function(mEvent) {
+		  						return (
+		  							<li key={mEvent._id}>
+		  								{mEvent.name}
+		  								<button type='button' className='btn btn-default' onClick={this.toEditEvent}>Edit</button>
+		  								<button type='button' className='btn btn-default' onClick={this.deleteEvent}>Cancel Event</button>
+		  							</li>
+		  						)
+		  					}, this)}
+		  				
 		  			</div>
 		  			
-		  			<button type='button' className='btn btn-default' onClick={this.handleClick}>Create New Event</button>
+		  			<button type='button' className='btn btn-default' onClick={this.toCreateNewEvent}>Create New Event</button>
 		  		</div>
 
 		  	</div>

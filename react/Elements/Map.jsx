@@ -30,10 +30,12 @@ class MapMIT extends Component {
         console.log('allEvents');
         console.log(allEvents);
         var eventsByLocation = allEvents.reduce(function(current, next) {
-            if (next.location._id in current) {
-                current[next.location._id].push(next);
-            } else {
-                current[next.location._id] = [next]
+            if (next.location != undefined && next.location != null) {
+                if (next.location._id in current) {
+                    current[next.location._id].push(next);
+                } else {
+                    current[next.location._id] = [next]
+                }
             }
             return current;
         }, {});
