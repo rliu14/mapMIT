@@ -27,9 +27,11 @@ export default {
     },
 
     deleteEvent : (eventID) => {
+        console.log('delete event service');
         return request({
             uri : BASE_URL + `/${eventID}`,
-            method : 'DELETE'
+            method : 'DELETE',
+            json : true
         });
     },
 

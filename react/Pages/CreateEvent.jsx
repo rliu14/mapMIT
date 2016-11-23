@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router';
+import { withRouter, browserHistory } from 'react-router';
 import eventServices from '../../services/eventServices';
 import { DateField, TransitionView, Calendar } from 'react-date-picker'
 import 'react-date-picker/index.css';
@@ -124,6 +124,7 @@ class CreateEvent extends Component {
 					creator: ''
 				}
 			})
+		browserHistory.push('/myEvents');
 	}
 
 

@@ -43,7 +43,7 @@ eventSchema.statics.deleteEvent = function(eventID, cb) {
             cb({ msg: err });
         } else if (deletedEvent != null) {
             // event is properly deleted
-            cb(err, true);
+            cb(err, deletedEvent);
         } else {
             cb({ msg: 'Event not deleted.' });
         };

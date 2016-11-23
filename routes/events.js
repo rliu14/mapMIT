@@ -69,6 +69,7 @@ router.get('/time/:time', function(req, res) {
 });
 
 router.delete('/:eventID', function(req, res) {
+	console.log('delete event router');
 	Event.deleteEvent(req.params.eventID, function(err, deletedEvent) {
 		if(err) {
 			utils.sendErrorResponse(res, 400, err.msg); 
