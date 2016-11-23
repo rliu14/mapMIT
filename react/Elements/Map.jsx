@@ -27,8 +27,6 @@ class MapMIT extends Component {
     sortByLocation() {
         var mapByLocation = {}
         var allEvents = this.props.events;
-        console.log('allEvents');
-        console.log(allEvents);
         var eventsByLocation = allEvents.reduce(function(current, next) {
             if (next.location != undefined && next.location != null) { // TODO probs change after MVP
                 if (next.location._id in current) {
@@ -39,7 +37,6 @@ class MapMIT extends Component {
             }
             return current;
         }, {});
-        console.log(eventsByLocation);
         return eventsByLocation;
     }
 
@@ -47,7 +44,6 @@ class MapMIT extends Component {
         var eventDescriptions = eventList.map(function(current) {
             return current.description;
         });
-        console.log(eventDescriptions);
         return (
             <div className="text">
                 <span>{eventList[0].location.name}</span>
@@ -66,22 +62,21 @@ class MapMIT extends Component {
         const position = [this.state.lat, this.state.lng];
         return (
             <Map center={position} zoom={this.state.zoom} id="map">
-                {Object.keys(events).map(function(locationId, index, array){
-                    var popup = events[locationId][0].location;
-                    var text = x.getTextForEvents(events[locationId]);
-                    return (
-                        <div key={index.toString()}>
-                            <TileLayer
-                                attribution='&copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                                url='http://{s}.tile.osm.org/{z}/{x}/{y}.png' />
-                            <Marker position={[popup.latitude, popup.longitude]}>
+                <div>
+                    <TileLayer attribution='&copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                               url='http://{s}.tile.osm.org/{z}/{x}/{y}.png' />
+                    {Object.keys(events).map(function(locationId, index, array){
+                        var popup = events[locationId][0].location;
+                        var text = x.getTextForEvents(events[locationId]);
+                        return (
+                            <Marker key={index.toString()} position={[popup.lat, popup.lng]}>
                                 <Popup>
                                     {text}
                                 </Popup>
                             </Marker>
-                        </div> 
-                    )
-                })} 
+                        )
+                    })} 
+                </div>
             </Map>
         )
     }

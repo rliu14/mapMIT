@@ -106,7 +106,7 @@ class CreateEvent extends Component {
 			startTime: this.state.startTime,
 			endTime: this.state.endTime,
 			room: this.state.room,
-			eventDescription: this.state.eventDescription,
+			description: this.state.eventDescription,
 			location: this.state.location, //TODO bring this back somehow
 			locationDescription: this.state.locationDescription,
 			host: this.state.host,

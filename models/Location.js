@@ -6,10 +6,8 @@ var ObjectId = mongoose.Schema.Types.ObjectId;
  */
  var location = mongoose.Schema({
  	name: { type: String, required: true, unique: true },
- 	latitude: { type: Number, required: true },
- 	longitude: { type: Number, required: true },
- 	// isBuilding: { type: boolean },
- 	// roomNumber: {type: int }
+ 	lat: { type: Number, required: true },
+ 	lng: { type: Number, required: true },
  });
 
  /** 
@@ -17,11 +15,11 @@ var ObjectId = mongoose.Schema.Types.ObjectId;
   * matching the locationName, or null if an error occurred.
   */
  location.statics.findLocation = function(locationName, callback) {
- 	this.find({'name': locationName}, function (err, foundLocation) {
+ 	this.findOne({'name': locationName}, function (err, foundLocation) {
  		if (err) {
- 			callback(null);
+ 			callback({msg: err});
  		} else {
- 			callback(foundLocation);
+ 			callback(err, foundLocation);
  		}
  	});
  }
