@@ -14,10 +14,8 @@ class NavBar extends Component {
 	}
 
 	render() {
-		var currentUserItem = this.props.currentUser === undefined ? null : (
-			<p>
-				Welcome, {this.props.currentUser}
-			</p>
+		var currentUserItem = (this.props.currentUser === undefined || this.props.currentUser === 'Not Logged In') ? null : (
+			<p>Welcome, {this.props.currentUser}</p>
 		);
 
 		var myEventsItem = this.props.currentUser === undefined ? null : (
@@ -25,52 +23,36 @@ class NavBar extends Component {
 		);
 
 		var logoutItem = this.props.currentUser === undefined ? null : (
-				<a onClick = {this.props.logout}>Log Out</a>
+				<a onClick={this.props.logout}>Log Out</a>
 		);
-
-		// var currentUserItem = this.props.currentUser === undefined ? null : (
-		// 	<li>
-		// 		<Link to={'/users/'+this.props.currentUser}>Welcome, {this.props.currentUser}</Link>
-		// 	</li>	
-		// );
-
-		// var logoutItem = this.props.currentUser === undefined ? null : (
-		// 	<li>
-		// 		<a onClick = {this.props.logout}>Log Out</a>
-		// 	</li>
-		// );
 
 		return (
 			<nav className = 'navbar'>
 				<div className = 'container'>
 					<ul>
-						<li>
-							<IndexLink to = '/' className = 'homepage'>MapMIT</IndexLink>
-						</li>
-						<li>
-							{ myEventsItem }
-						</li>
-						<li>
-							{ currentUserItem }
-							{ logoutItem }
-						</li>
+						<div id="home-link">
+							<li>
+								<IndexLink to = '/' className = 'homepage'>MapMIT</IndexLink>
+							</li>
+						</div>
+						<div id="welcome-user">
+							<li>
+								{ currentUserItem }
+							</li>
+						</div>
+						<div id="user-events">
+							<li>
+								{ myEventsItem }
+							</li>
+						</div>
+						<div id="logout">
+							<li>
+								{ logoutItem }
+							</li>
+						</div>
 					</ul>
 				</div>
 			</nav>
-
-			// <nav className = 'navbar'>
-			// 	<div className = 'container'>
-			// 		<ul>
-			// 			<li>
-			// 				<IndexLink to = '/' className = 'homepage'>MapMIT</IndexLink>
-			// 			</li>
-			// 			<li>
-			// 				{ currentUserItem }
-			// 				{ logoutItem }
-			// 			</li>
-			// 		</ul>
-			// 	</div>
-			// </nav>
 		)
 	}
 };

@@ -5,11 +5,13 @@ var User = require('../models/User');
 
 var requireAuthentication = function(req, res, next) {
 	if (!req.currentUser) {
-		utils.sendErrorResponse(res, 403, 'Must be logged in.');
+		utils.sendErrorResponse(res, 403, 'Must be logged in to continue.');
 	} else {
 		next();
 	}
 };
+
+router.post('/logout', requireAuthentication);
 
 var isValid = function(req, res) {
 	if (req.currentUser) {
@@ -52,14 +54,9 @@ router.post('/login', function(req, res) {
 	}
 });
 
-router.post('/logout', requireAuthentication) // hmmmmm was in fritter-react but not sure about this
-router.post('/logout', function(req, res) {
-	if (req.currentUser) {
-		req.session.destroy();
-		utils.sendSuccessResponse(res);
-	} else {
-		utils.sendErrorResponse(res, 403, 'There is no user currently logged in.');
-	}
+router.put('/logout', function(req, res) {
+	req.session.destroy();
+	utils.sendSuccessResponse(res);
 });
 
 router.get('/current', function(req, res) {
