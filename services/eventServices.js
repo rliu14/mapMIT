@@ -15,6 +15,17 @@ export default {
         });
     },
 
+    updateEvent : (content) => {
+        return request({
+            uri : BASE_URL + `/${content.name}`,
+            method : 'PUT',
+            body : {
+                content : content
+            },
+            json : true
+        });
+    },
+
     deleteEvent : (eventID) => {
         return request({
             uri : BASE_URL + `/${eventID}`,
@@ -31,8 +42,9 @@ export default {
     },
 
     getEventsByCreator : (creator) => {
+        console.log("get by creator service");
         return request({
-            uri : BASE_URL + `/${creator}`,
+            uri : BASE_URL + `/creator/${creator}`,
             method: 'GET',
             json : true
         });

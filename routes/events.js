@@ -6,6 +6,9 @@ var Event = require('../models/Event');
 // create event
 router.post('/', function(req, res) {
 	Event.createEvent(req.body.content, function(err, createdEvent) {
+		console.log(req.body.content);
+		console.log('CREATED EVENT');
+		console.log(createdEvent);
 		if(err) {
 			if(err.msg) {
 				utils.sendErrorResponse(res, 400, err.msg);
@@ -23,12 +26,13 @@ router.get('/:eventID', function(req, res) {
 		if(err) {
 			utils.sendErrorResponse(res, 404, 'No such event.');
 		} else {
-			utils.sendSuccessResponse(res, { foundEvent: foundEvent });
+			utils.sendSuccessResponse(res, { foundEvent: [foundEvent] });
 		};
 	});
 });
 
-router.get('/:creator', function(req, res) {
+router.get('/creator/:creator', function(req, res) {
+	console.log('route for get by creator');
 	Event.findEventsByCreator(req.params.creator, function(err, foundEvents) {
 		if (err) {
 			utils.sendErrorResponse(res, 404, 'No such events.');

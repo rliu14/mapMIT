@@ -15,22 +15,30 @@ class NavBar extends Component {
 
 	render() {
 		var currentUserItem = this.props.currentUser === undefined ? null : (
-			<li>
+			<p>
 				Welcome, {this.props.currentUser}
-			</li>	
+			</p>
 		);
 
 		var myEventsItem = this.props.currentUser === undefined ? null : (
-			<li>
 				<IndexLink to = '/myevents' className = 'myevents'>My Events</IndexLink>
-			</li>
 		);
 
 		var logoutItem = this.props.currentUser === undefined ? null : (
-			<li>
 				<a onClick = {this.props.logout}>Log Out</a>
-			</li>
 		);
+
+		// var currentUserItem = this.props.currentUser === undefined ? null : (
+		// 	<li>
+		// 		<Link to={'/users/'+this.props.currentUser}>Welcome, {this.props.currentUser}</Link>
+		// 	</li>	
+		// );
+
+		// var logoutItem = this.props.currentUser === undefined ? null : (
+		// 	<li>
+		// 		<a onClick = {this.props.logout}>Log Out</a>
+		// 	</li>
+		// );
 
 		return (
 			<nav className = 'navbar'>
@@ -49,6 +57,20 @@ class NavBar extends Component {
 					</ul>
 				</div>
 			</nav>
+
+			// <nav className = 'navbar'>
+			// 	<div className = 'container'>
+			// 		<ul>
+			// 			<li>
+			// 				<IndexLink to = '/' className = 'homepage'>MapMIT</IndexLink>
+			// 			</li>
+			// 			<li>
+			// 				{ currentUserItem }
+			// 				{ logoutItem }
+			// 			</li>
+			// 		</ul>
+			// 	</div>
+			// </nav>
 		)
 	}
 };
