@@ -80,6 +80,7 @@ class App extends Component {
                         events : this.state.tweets,
                         loginUser : this.loginUser,
                         registerUser : this.registerUser,
+                        logout : this.logout
                     })}
                 </div>
             </div>
