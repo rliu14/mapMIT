@@ -3,6 +3,7 @@
 var mongoose = require('mongoose');
 var ObjectId = mongoose.Schema.Types.ObjectId;
 var User = require("./User.js");
+var Loc = require("./Location.js");
 
 /* Schema to represent the Event model */
 var eventSchema = mongoose.Schema({
@@ -17,23 +18,30 @@ var eventSchema = mongoose.Schema({
     creator: { type: ObjectId, ref: 'User', default: null }
 });
 
-// eventSchema.statics.createEvent = function(content, cb) {
-//     // TODO do validation on lots of things
-//     this.create(content, cb);
-// }
-
 eventSchema.statics.createEvent = function(content, cb) {
     var username = content.creator;
+    var location = content.location;
     var Event = this;
     User.findUser(username, function(err, creator) {
         if (err) {
             cb({ msg: err });
         } else {
             content.creator = creator;
-            Event.create(content, cb);
-        }
+            Loc.findLocation(location, function(err, foundLocation) {
+                console.log('LOCATION');
+                console.log(location);
+                console.log('FOUND LOCATION');
+                console.log(foundLocation);
+                if (err) {
+                    cb({ msg: err });
+                } else {
+                    content.location = foundLocation;
+                    Event.create(content, cb);
+                };
+            });
+        };
     });    
-}
+};
 
 // TODO: methods to update other fields
 
@@ -43,7 +51,7 @@ eventSchema.statics.deleteEvent = function(eventID, cb) {
             cb({ msg: err });
         } else if (deletedEvent != null) {
             // event is properly deleted
-            cb(err, true);
+            cb(err, deletedEvent);
         } else {
             cb({ msg: 'Event not deleted.' });
         };
@@ -65,13 +73,6 @@ eventSchema.statics.findEventsByCreator = function(eventCreator, cb) {
             });
         };
     });
-    // this.find( { creator: eventCreator }, function(err, events) {
-    //     if (err) {
-    //         cb({ msg: err });
-    //     } else {
-    //         cb(err, events);
-    //     };
-    // });
 };
 
 eventSchema.statics.findEventByID = function(eventID, cb) {
