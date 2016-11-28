@@ -42,7 +42,7 @@ class MapMIT extends Component {
 
     getTextForEvents(eventList) {
         var eventDescriptions = eventList.map(function(current) {
-            return current.description;
+            return current.name;
         });
         return (
             <div className="text">

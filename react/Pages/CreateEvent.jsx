@@ -98,9 +98,6 @@ class CreateEvent extends Component {
 
 	submitEvent() {
 		// call the createEvent service
-		console.log('PROPS USER');
-		console.log(this.props.user);
-		console.log(this.state.location);
 		var content = {
 			name: this.state.eventName,
 			startTime: this.state.startTime,
@@ -124,9 +121,9 @@ class CreateEvent extends Component {
 					locationDescription: '',
 					host: '',
 					creator: ''
-				}
+				};
+				browserHistory.push('/myEvents');
 			})
-		browserHistory.push('/myEvents');
 	}
 
 
