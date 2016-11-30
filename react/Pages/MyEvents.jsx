@@ -1,3 +1,5 @@
+/* Lead author: Dora */
+
 import React, { Component } from 'react';
 import { withRouter, browserHistory } from 'react-router';
 import eventServices from '../../services/eventServices';
@@ -16,6 +18,7 @@ class MyEvents extends Component {
 		}
 	}
 
+	// will get and display all events created by current user
 	componentWillMount() {
 		console.log('GETTING EVENT');
 		console.log(this.state.creator);
