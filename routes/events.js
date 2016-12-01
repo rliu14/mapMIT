@@ -4,7 +4,6 @@ var express = require('express');
 var router = express.Router();
 var utils = require('../utils/utils');
 var Event = require('../models/Event');
-var Locationn = require('../models/Location');
 
 /*
   POST /events
@@ -27,9 +26,6 @@ var Locationn = require('../models/Location');
 */
 router.post('/', function(req, res) {
 	Event.createEvent(req.body.content, function(err, createdEvent) {
-		console.log(req.body.content);
-		console.log('CREATED EVENT');
-		console.log(createdEvent);
 		if(err) {
 			if(err.msg) {
 				utils.sendErrorResponse(res, 400, err.msg);
@@ -63,7 +59,6 @@ router.post('/', function(req, res) {
     - err: on error, an error message
 */
 router.put('/update/:eventId', function(req, res) {
-	console.log('update request');
 	Event.findAndUpdateEvent(req.params.eventId, req.body.content, function(err, updatedEvent) {
 		if(err) {
 			if(err.msg) {
@@ -145,11 +140,6 @@ router.get('/location/:loc', function(req, res) {
     - err: on error, an error message
 */
 router.get('/time/:time', function(req, res) {
-	// var location1 = {_id: "1", name: "Maseeh", text: "EVENT", lat: 42.3577, lng: -71.0934};
-	// var location2 = {_id: "2", name: "Baker", text: "blahblah", lat: 42.356791, lng: -71.095381};
-	// utils.sendSuccessResponse(res, {events: [{name: 'Elysa', host: 'me', description: 'elysa\'s event!', date: '49', time: 'omg', location: location1},
-	// 										{name: 'dora', host: 'blah', description: 'dora\'s event', date: '49', time: 'omg', location: location1} ,   
-	// 										{name: 'rena bena', host: 'me', description: 'rena\'s event', date: '49', time: 'omg', location: location2} ]});
 	Event.findEventsByTime(req.params.time, function(err, events) {
 		if (err) {
 			utils.sendErrorResponse(res, 400, err.msg); 
@@ -169,7 +159,6 @@ router.get('/time/:time', function(req, res) {
     - err: on error, an error message
 */
 router.delete('/:eventID', function(req, res) {
-	console.log('delete event router');
 	Event.deleteEvent(req.params.eventID, function(err, deletedEvent) {
 		if(err) {
 			utils.sendErrorResponse(res, 400, err.msg); 
