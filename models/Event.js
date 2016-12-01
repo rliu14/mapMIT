@@ -28,10 +28,6 @@ eventSchema.statics.createEvent = function(content, cb) {
         } else {
             content.creator = creator;
             Loc.findLocation(location, function(err, foundLocation) {
-                console.log('LOCATION');
-                console.log(location);
-                console.log('FOUND LOCATION');
-                console.log(foundLocation);
                 if (err) {
                     cb({ msg: err });
                 } else {
