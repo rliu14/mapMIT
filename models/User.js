@@ -41,7 +41,7 @@ userSchema.statics.createUser = function(username, password, callback) {
 				});
 				user.save(function(err, result) {
 					if (err) callback(err);
-					else callback(null, { username : username });
+					else callback(null, { user: user, username : username });
 				});
 			} else {
 				callback({ msg : 'User already exists.' });

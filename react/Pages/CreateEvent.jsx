@@ -1,3 +1,5 @@
+/* Lead author: Dora */
+
 import React, { Component } from 'react';
 import { withRouter, browserHistory } from 'react-router';
 import { MenuItem, DropdownButton } from 'react-bootstrap';
@@ -36,14 +38,6 @@ class CreateEvent extends Component {
 		});
 	}
 
-	// DATE PICKER?
-	updateEventDate(event) {
-		this.setState({
-			eventDate: event.target.value
-		});
-	}
-
-	// TIME PICKER?
 	updateStartTime(dateString, { dateMoment, timestamp }) {
 		console.log('update start time');
 		console.log(dateMoment);
@@ -53,7 +47,6 @@ class CreateEvent extends Component {
 		console.log(this.state.startTime);
 	}
 
-	// END TIME
 	updateEndTime(dateString, { dateMoment, timestamp }) {
 		console.log('update end time');
 		console.log(dateMoment);
@@ -96,15 +89,16 @@ class CreateEvent extends Component {
 		});
 	}
 
+	// creates event in the event database
 	submitEvent() {
-		// call the createEvent service
-		var content = {
+		// call the createEvent service to create an event with content
+		var content =  {
 			name: this.state.eventName,
 			startTime: this.state.startTime,
 			endTime: this.state.endTime,
 			room: this.state.room,
 			description: this.state.eventDescription,
-			location: this.state.location, //TODO bring this back somehow
+			location: this.state.location, 
 			locationDescription: this.state.locationDescription,
 			host: this.state.host,
 			creator: this.props.user

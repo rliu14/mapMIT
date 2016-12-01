@@ -18,6 +18,23 @@ var eventSchema = mongoose.Schema({
     creator: { type: ObjectId, ref: 'User', default: null }
 });
 
+/**
+ * Creates an event in the events database.
+ * @param {Object} content The information needed to create an event,
+ *      content is in the format - {
+ *          name: {String}
+ *          startTime: {Date},
+ *          endTime: {Date},
+ *          room: {String},
+ *          description: {String},
+ *          location: {Location}, 
+ *          locationDescription: {String},
+ *          host: {String},
+ *          creator: {User}
+ *      }
+ * @param {Function} cb The callback function to execute, of the
+ *      format cb(err).
+ */
 eventSchema.statics.createEvent = function(content, cb) {
     var username = content.creator;
     var location = content.location;
@@ -39,8 +56,13 @@ eventSchema.statics.createEvent = function(content, cb) {
     });    
 };
 
-// TODO: methods to update other fields
-
+/**
+ * Deletes specified event from events database.
+ * @param {String} eventID The id of the event we want to delete
+ * @param {Function} cb The callback function to execute, of the
+ *      format cb(err, deletedEvent), where deletedEvent is the
+ *          event that was just deleted.
+ */
 eventSchema.statics.deleteEvent = function(eventID, cb) {
     this.findByIdAndRemove(eventID, function(err, deletedEvent) {
         if (err) {
@@ -54,6 +76,13 @@ eventSchema.statics.deleteEvent = function(eventID, cb) {
     });
 };
 
+/**
+ * Finds events in the events database that are created by a specified creator.
+ * @param {String} eventCreator The specified creator
+ * @param {Function} cb The callback function to execute, of the
+ *      format cb(err, events), where events is the
+ *          list of events created by eventCreator.
+ */
 eventSchema.statics.findEventsByCreator = function(eventCreator, cb) {
     var Event = this;
     User.findUser(eventCreator, function(err, user) {
@@ -71,6 +100,13 @@ eventSchema.statics.findEventsByCreator = function(eventCreator, cb) {
     });
 };
 
+/**
+ * Finds the specified event from events database.
+ * @param {String} eventID The id of the event we want to find
+ * @param {Function} cb The callback function to execute, of the
+ *      format cb(err, foundEvent), where foundEvent is the
+ *          event that was just found.
+ */
 eventSchema.statics.findEventByID = function(eventID, cb) {
     this.findById(eventID, function(err, foundEvent) {
         if (err) {
@@ -81,6 +117,13 @@ eventSchema.statics.findEventByID = function(eventID, cb) {
     });
 };
 
+/**
+ * Finds events from then events database with a specified location.
+ * @param {ObjectId} loc The specified location
+ * @param {Function} cb The callback function to execute, of the
+ *      format cb(err, events), where events is the
+ *          list of events at the specified location.
+ */
 eventSchema.statics.findEventsByLocation = function(loc, cb) {
     this.find( { location: loc}, function(err, events) {
         if (err) {
@@ -92,6 +135,13 @@ eventSchema.statics.findEventsByLocation = function(loc, cb) {
     });
 };
 
+/**
+ * Finds events from then events database happening at a specified time.
+ * @param {Date} time The specified time
+ * @param {Function} cb The callback function to execute, of the
+ *      format cb(err, events), where events is the
+ *          list of events at the specified time.
+ */
 eventSchema.statics.findEventsByTime = function(time, cb) {
     this.find( { startTime: {$lt: time}, endTime: {$gt: time} }).populate('location').exec(function(err, events) {
         if (err) {
@@ -102,6 +152,26 @@ eventSchema.statics.findEventsByTime = function(time, cb) {
     });
 };
 
+/**
+ * Finds an from then events database with a specified id,
+ *      then updates that event.
+ * @param {String} eventID The specified event id
+ * @param {Object} content The new content to update the event.
+ *      content is in the format - {
+ *          name: {String}
+ *          startTime: {Date},
+ *          endTime: {Date},
+ *          room: {String},
+ *          description: {String},
+ *          location: {Location}, 
+ *          locationDescription: {String},
+ *          host: {String},
+ *          creator: {User}
+ *      }
+ * @param {Function} cb The callback function to execute, of the
+ *      format cb(err, updatedEvent), where updatedEvent is the
+ *          event that was just updated.
+ */
 eventSchema.statics.findAndUpdateEvent = function(eventID, content, cb) {
     this.findById(eventID, function(err, foundEvent) {
         if (err) {

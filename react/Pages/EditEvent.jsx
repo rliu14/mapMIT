@@ -1,3 +1,5 @@
+/* Lead author: Dora */
+
 import React, { Component } from 'react';
 import { withRouter, browserHistory } from 'react-router';
 import eventServices from '../../services/eventServices';
@@ -30,6 +32,7 @@ class EditEvent extends Component {
 		}
 	}
 
+	// pre-populates all the input forms with the event's current details
 	componentWillMount() {
 		var eventId = this.props.params.eventId;
 		console.log(eventId);
@@ -84,7 +87,6 @@ class EditEvent extends Component {
 		});
 	}
 
-	// NEED LOCATION DROPDOWN 
 	updateLocation(event) {
 		this.setState({
 			location: event.target.value
@@ -115,8 +117,7 @@ class EditEvent extends Component {
 			// location: this.state.location, TODO bring this back somehow
 			locationDescription: this.state.locationDescription,
 			host: this.state.host,
-			creator: this.state.user // TODO figure this out
-			// creator: 
+			creator: this.state.user 
 		}
 		eventServices.updateEvent(this.props.params.eventId, content)
 			.then((resp) => {
