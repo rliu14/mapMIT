@@ -92,8 +92,7 @@ class CreateEvent extends Component {
 	// creates event in the event database
 	submitEvent() {
 		// call the createEvent service to create an event with content
-		var content = 
-		eventServices.createEvent(content){
+		var content =  {
 			name: this.state.eventName,
 			startTime: this.state.startTime,
 			endTime: this.state.endTime,
@@ -104,6 +103,7 @@ class CreateEvent extends Component {
 			host: this.state.host,
 			creator: this.props.user
 		}
+		eventServices.createEvent(content)
 			.then((resp) => {
 				this.setState = {
 					eventName: '',
