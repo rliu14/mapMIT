@@ -76,4 +76,21 @@ groupSchema.statics.findGroupAndAddMember = function(groupId, newMember, cb) {
     });
 }
 
+groupSchema.statics.findGroupAndRemoveMember = function(groupId, member, cb) {
+    this.findById(groupId, function(err, group) {
+        if (err) {
+            cb({ msg: err });
+        } else {
+            User.findUser(member, function(err, user) {
+                if (err) {
+                    cb({ msg: err });
+                } else {
+                    group.members.pull(user);
+                    group.save(cb);
+                };
+            });
+        };
+    });
+}
+
 module.exports = mongoose.model('Group', groupSchema)
