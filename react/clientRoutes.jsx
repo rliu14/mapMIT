@@ -26,6 +26,7 @@ const authCheck = (nextState, replace, callback) => {
     });
 };
 
+// TODO add back in auth checking
 export default (
     <Router history={browserHistory} >
         <Route path='/' component={App}  >
@@ -40,6 +41,8 @@ export default (
                    component={EditEvent} />
             <Route path="myEvents/create"
                    component={CreateEvent} />
+            <Route path="myGroups"
+                   component={MyGroups} />
             <Route path="*"
                    component={NotFound} />
         </Route>

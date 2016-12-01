@@ -13,7 +13,7 @@ class MyEvents extends Component {
 		this.toEditEvent = this.toEditEvent.bind(this);
 		this.deleteEvent = this.deleteEvent.bind(this);
 		this.state = {
-			creator: this.props.user,
+			creator: this.props.user, // TODO elysa has a question about this dora
 			events: []
 		}
 	}
