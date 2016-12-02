@@ -1,9 +1,11 @@
 var express = require('express');
 var router = express.Router();
 var utils = require('../utils/utils');
+var Group = require('../models/Group');
+
 
 router.post('/', function(req, res) {
-	Event.createGroup(req.body.content, function(err, createdGroup) {
+	Group.createGroup(req.body.content, function(err, createdGroup) {
 		if(err) {
 			if(err.msg) {
 				utils.sendErrorResponse(res, 400, err.msg);
@@ -29,7 +31,7 @@ router.get('/creator/:creator', function(req, res) {
 	console.log('route for get by creator');
 	Group.getGroupsByCreator(req.params.creator, function(err, foundGroups) {
 		if (err) {
-			utils.sendErrorResponse(res, 404, 'No such events.'); // TODO is this right
+			utils.sendErrorResponse(res, 404, 'No such groups.'); // TODO is this right
 		} else {
 			utils.sendSuccessResponse(res, { foundGroups: foundGroups });
 		};
@@ -38,9 +40,9 @@ router.get('/creator/:creator', function(req, res) {
 
 router.get('/member/:member', function(req, res) {
 	console.log('route for get by member');
-	Group.getGroupsWithMember(req.params.creator, function(err, foundGroups) {
+	Group.getGroupsWithMember(req.params.member, function(err, foundGroups) {
 		if (err) {
-			utils.sendErrorResponse(res, 404, 'No such events.'); // TODO is this right
+			utils.sendErrorResponse(res, 404, 'No such groups.'); // TODO is this right
 		} else {
 			utils.sendSuccessResponse(res, { foundGroups: foundGroups });
 		};

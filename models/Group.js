@@ -28,6 +28,8 @@ groupSchema.statics.createGroup = function(content, cb) {
 groupSchema.statics.getGroupsByCreator = function(groupCreator, cb) {
     var Group = this;
     User.findUser(groupCreator, function(err, user) {
+        console.log('creator');
+        console.log(user);
         if (err) {
             cb({ msg: err });
         } else {
@@ -45,6 +47,8 @@ groupSchema.statics.getGroupsByCreator = function(groupCreator, cb) {
 groupSchema.statics.getGroupsWithMember = function(groupMember, cb) {
     var Group = this;
     User.findUser(groupMember, function(err, user) {
+        console.log('member');
+        console.log(user);
         if (err) {
             cb({ msg: err });
         } else {

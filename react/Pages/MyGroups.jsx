@@ -42,6 +42,10 @@ class MyGroups extends Component {
 	  			<div>
 	  				{this.state.creatorGroups}
 	  			</div>
+	  			<h1>Create a Group</h1>
+	  			<div>
+	  				{this.state.creatorGroups}
+	  			</div>
 		  	</div>
 		  	<div>
 	  			<h1>My Groups</h1>

@@ -44,7 +44,7 @@ export default {
         });
     },
 
-    getEventsWithMember : (member) => {
+    getGroupsWithMember : (member) => {
         return request({
             uri : BASE_URL + `/member/${member}`,
             method : 'GET',
