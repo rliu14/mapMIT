@@ -20,14 +20,10 @@ class MyEvents extends Component {
 
 	// will get and display all events created by current user
 	componentWillMount() {
-		console.log('GETTING EVENT');
-		console.log(this.state.creator);
 		eventServices.getEventsByCreator(this.state.creator)
 			.then((resp) => {
-				console.log(resp.content);
-				console.log('aslkdf');
-				console.log(resp);
-				console.log(resp.success);
+				console.log('got events');
+				console.log(resp.content.foundEvents);
 				if(resp.success) {
 					this.setState( { events: resp.content.foundEvents });
 				}

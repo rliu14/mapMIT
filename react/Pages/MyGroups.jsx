@@ -9,28 +9,65 @@ class MyGroups extends Component {
 		super(props);
 		this.defaultProps = {
 		}
-		// bind things?
+		this.createGroup = this.createGroup.bind(this);
+		this.updateGroupName = this.updateGroupName.bind(this);
+		this.getCreatorGroups = this.getCreatorGroups.bind(this);
+		this.getMemberGroups = this.getMemberGroups.bind(this);
+
 		this.state = {
 			// creator: this.props.user,
 			creatorGroups: [],
-			memberGroups: []
+			memberGroups: [],
+			groupName: ''
 		}
 	}
 
 	componentWillMount() {
+		this.getCreatorGroups();
+		this.getMemberGroups();
+	};
+
+	getCreatorGroups() {
 		groupServices.getGroupsByCreator(this.props.user)
 			.then((resp) => {
 				if(resp.success) {
+					console.log('got creator groups');
+					console.log(resp.content.foundGroups);
 					this.setState( { creatorGroups: resp.content.foundGroups });
 				}
 			});
+	}
+
+	getMemberGroups() {
 		groupServices.getGroupsWithMember(this.props.user)
 			.then((resp) => {
 				if(resp.success) {
+					console.log('got member groups');
+					console.log(resp.content.foundGroups);
 					this.setState( { memberGroups: resp.content.foundGroups });
 				}
-			});
-	};
+			});		
+	}
+
+	createGroup() {
+		var content =  {
+			name: this.state.groupName,
+			creator: this.props.user
+		}
+		groupServices.createGroup(content)
+			.then((resp) => {
+				this.setState = {
+					groupName: '',
+					// TODO update creator groups and member groups
+				};
+			})
+	}
+
+	updateGroupName(event) {
+		this.setState({
+			groupName: event.target.value
+		});
+	}
 
 
 
@@ -44,7 +81,12 @@ class MyGroups extends Component {
 	  			</div>
 	  			<h1>Create a Group</h1>
 	  			<div>
-	  				{this.state.creatorGroups}
+		  			<input type="text" className="form-control" value={this.groupName} onChange={this.updateGroupName}></input>
+	  				<span className='input-group-btn'>
+	                    <button type='button' className='btn btn-default' onClick={this.createGroup}>
+	                        Create
+	                    </button>
+	                </span>
 	  			</div>
 		  	</div>
 		  	<div>
