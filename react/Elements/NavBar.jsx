@@ -22,6 +22,11 @@ class NavBar extends Component {
 				<IndexLink to = '/myevents' className = 'myevents'>My Events</IndexLink>
 		);
 
+		var myGroupsItem = this.props.currentUser === undefined ? null : (
+				<IndexLink to = '/mygroups' className = 'mygroups'>My Groups</IndexLink>
+		);
+
+
 		var logoutItem = this.props.currentUser === undefined ? null : (
 				<a onClick={this.props.logout}>Log Out</a>
 		);
@@ -43,6 +48,11 @@ class NavBar extends Component {
 						<div id="user-events">
 							<li>
 								{ myEventsItem }
+							</li>
+						</div>
+						<div id="user-groups">
+							<li>
+								{ myGroupsItem }
 							</li>
 						</div>
 						<div id="logout">

@@ -32,19 +32,21 @@ class MyGroups extends Component {
 			});
 	};
 
+
+
 	render() {
 	  	return ( 
 	  		<div>
-		  			<h1>Groups I Own</h1>
-		  			<div>
-		  					{this.state.creatorGroups}
-		  			</div>
+	  			<h1>Groups I Own</h1>
+	  			<div>
+	  				{this.state.creatorGroups}
+	  			</div>
 		  	</div>
 		  	<div>
-		  			<h1>My Groups</h1>
-		  			<div>
-		  					{this.state.memberGroups}
-		  			</div>
+	  			<h1>My Groups</h1>
+	  			<div>
+	  				{this.state.memberGroups}
+	  			</div>
 		  	</div>
 	  	)
 	}
