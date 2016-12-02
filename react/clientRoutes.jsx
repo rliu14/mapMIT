@@ -4,6 +4,7 @@ import EditEvent from './Pages/EditEvent.jsx';
 import Homepage from './Pages/Homepage.jsx';
 import Login from './Pages/Login.jsx';
 import MyEvents from './Pages/MyEvents.jsx';
+import MyGroups from './Pages/MyGroups.jsx';
 import NotFound from './Pages/NotFound.jsx';
 import SignUp from './Pages/Signup.jsx';
 

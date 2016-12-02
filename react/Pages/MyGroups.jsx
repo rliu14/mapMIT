@@ -37,6 +37,7 @@ class MyGroups extends Component {
 	render() {
 	  	return ( 
 	  		<div>
+	  		<div>
 	  			<h1>Groups I Own</h1>
 	  			<div>
 	  				{this.state.creatorGroups}
@@ -48,8 +49,9 @@ class MyGroups extends Component {
 	  				{this.state.memberGroups}
 	  			</div>
 		  	</div>
+		  	</div>
 	  	)
 	}
 }
 
-export default withRouter(MyEvents);
+export default withRouter(MyGroups);
