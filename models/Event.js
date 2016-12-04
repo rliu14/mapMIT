@@ -125,14 +125,22 @@ eventSchema.statics.findEventByID = function(eventID, cb) {
  *          list of events at the specified location.
  */
 eventSchema.statics.findEventsByLocation = function(loc, cb) {
-    this.find( { location: loc}, function(err, events) {
+    var Event = this;
+    Loc.findLocation(loc, function(err, foundLocation) {
         if (err) {
-            cb( { msg: err });
+            cb({ msg: err });
         } else {
-            // found events with specified location
-            cb(err, events);
-        }
-    });
+            Event.find( { location: foundLocation}, function(err, events) {
+                if (err) {
+                    cb( { msg: err });
+                } else {
+                    // found events with specified location
+
+                    cb(err, events);
+                }
+            }).populate('location');
+        };
+    });    
 };
 
 /**

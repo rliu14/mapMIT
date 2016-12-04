@@ -13,6 +13,7 @@ class Homepage extends Component {
             events : []
 		};
         this.updateEvents = this.updateEvents.bind(this);
+        this.onFilter = this.onFilter.bind(this);
 	}
 
     updateEvents(request){
@@ -27,6 +28,12 @@ class Homepage extends Component {
         })
     }
 
+    onFilter(filteredEvents) {
+        this.setState({
+            events : filteredEvents
+        });
+    };
+
     componentWillMount(){
         // Call the "getEventsByTime" service to update
         // this.props.events with events happening now
@@ -39,7 +46,7 @@ class Homepage extends Component {
       	return ( 
             <div id="homepage-container">
                 <div id="homepage-left">
-                    <Filtering />
+                    <Filtering onUpdate={this.onFilter}/>
                 </div>
                 <div id="homepage-right">
                     <MapMIT events = {this.state.events}/>
