@@ -1,8 +1,10 @@
+/* Lead author: Rena */
+
 var mongoose = require("mongoose");
 var ObjectId = mongoose.Schema.Types.ObjectId;
 
 /**
- * The schema for a location. A location requires a locationName and coordinates.
+ * Schema to represent the location model. A location requires a locationName and coordinates.
  */
  var location = mongoose.Schema({
  	name: { type: String, required: true, unique: true },
