@@ -12,22 +12,27 @@ class Filtering extends Component {
             checkedGroupIds: [],
             timeOption: '',
             time: Date.now(),
-            location: ''
+            location: 'None'
         };
+
         this.onPublicChange = this.onPublicChange.bind(this);
         this.onGroupEventChange = this.onGroupEventChange.bind(this);
         this.handleOptionChange = this.handleOptionChange.bind(this);
         this.updateLocation = this.updateLocation.bind(this);
         this.updateTime = this.updateTime.bind(this);
         this.onApplyFilter = this.onApplyFilter.bind(this);
+        this.getLocations = this.getLocations.bind(this);
+
     }
 
-    allLocations = ['None', 'Building 1', 'Building 2', 'Building 3', 'Building 4', 'Building 5',
+    getLocations() {
+        return ['None', 'Building 1', 'Building 2', 'Building 3', 'Building 4', 'Building 5',
                         'Building 6', 'Building 7', 'Building 10', 'Building 13', 'Building 14', 'Building 18',
                         'Building 34', 'Building 36', 'Building 38', 'Building 56', 'Building 66', 'Green Building',
                         'Stata Center', 'Maseeh Hall', 'McCormick Hall', 'Baker House', 'Burton Connor', 'Macgregor House',
                         'New House', 'Next House', 'Simmons House', 'Tennis Courts', 'Z Center', 'Kresge Auditorium',
-                        'Kresge Barbecue Pits', 'Stratton Student Center']
+                        'Kresge Barbecue Pits', 'Stratton Student Center'];
+    }
 
     onPublicChange() {
         this.setState({isPublic: !this.state.isPublic});
@@ -44,8 +49,9 @@ class Filtering extends Component {
     }
 
     updateLocation(eventKey) {
+        console.log("HERE", eventKey);
         this.setState({
-            location: eventKey
+            location: eventKey.value
         });
     }
 
@@ -156,7 +162,16 @@ class Filtering extends Component {
                     </div>
 
                 <h3>Location</h3>
-                    <DropdownButton title='Select' onSelect={this.updateLocation}>
+                    <form>
+                        <label>
+                            <select value={this.state.location} onChange={this.updateLocation}>
+                                {this.getLocations().map(function(location){
+                                    return (<option value={location}>{location}</option>)
+                                })}
+                            </select>
+                        </label>
+                    </form>
+                    {/* <DropdownButton title='Select' onSelect={this.updateLocation} toggleLabel= {this.state.location}>
                         <MenuItem eventKey="Building 1">Building 1</MenuItem>
                         <MenuItem eventKey="Building 2">Building 2</MenuItem>
                         <MenuItem eventKey="Building 3">Building 3</MenuItem>
@@ -188,7 +203,7 @@ class Filtering extends Component {
                         <MenuItem eventKey="Kresge Auditorium">Kresge Auditorium</MenuItem>
                         <MenuItem eventKey="Kresge Barbecue Pits">Kresge Barbecue Pits</MenuItem>
                         <MenuItem eventKey="Stratton Student Center">Stratton Student Center</MenuItem>
-                    </DropdownButton>
+                    </DropdownButton> */}
 
 
 
