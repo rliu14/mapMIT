@@ -106,8 +106,6 @@ class EditEvent extends Component {
 	}
 
 	updateEvent() {
-		console.log('update event');
-		console.log(this);
 		var content = {
 			name: this.state.eventName,
 			startTime: this.state.startTime,

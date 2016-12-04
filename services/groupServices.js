@@ -14,23 +14,23 @@ export default {
         });
     },
 
-    addMemberToGroup : (groupId, content) => {
+    addMemberToGroup : (groupId, username) => {
         return request({
             uri : BASE_URL + `/add/${groupId}`,
             method : 'PUT',
             body : {
-                content : content
+                username : username
             },
             json : true
         });
     },
 
-    removeMemberFromGroup : (groupId, content) => {
+    removeMemberFromGroup : (groupId, username) => {
         return request({
             uri : BASE_URL + `/remove/${groupId}`,
             method : 'PUT',
             body : {
-                content : content
+                username : username
             },
             json : true
         });
