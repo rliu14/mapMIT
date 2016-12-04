@@ -50,6 +50,6 @@ export default {
             method : 'GET',
             json : true
         });
-    },
+    }
 
 }

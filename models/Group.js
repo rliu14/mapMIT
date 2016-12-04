@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 var ObjectId = mongoose.Schema.Types.ObjectId;
 var User = require("./User.js");
 
-/* Schema to represent the Event model */
+/* Schema to represent the Group model */
 var groupSchema = mongoose.Schema({
     name: { type: String, required: true, unique: true, required: true },
     creator: { type: ObjectId, ref: 'User', required: true },
@@ -28,8 +28,6 @@ groupSchema.statics.createGroup = function(content, cb) {
 groupSchema.statics.getGroupsByCreator = function(groupCreator, cb) {
     var Group = this;
     User.findUser(groupCreator, function(err, user) {
-        console.log('creator');
-        console.log(user);
         if (err) {
             cb({ msg: err });
         } else {
@@ -47,8 +45,6 @@ groupSchema.statics.getGroupsByCreator = function(groupCreator, cb) {
 groupSchema.statics.getGroupsWithMember = function(groupMember, cb) {
     var Group = this;
     User.findUser(groupMember, function(err, user) {
-        console.log('member');
-        console.log(user);
         if (err) {
             cb({ msg: err });
         } else {
@@ -63,20 +59,29 @@ groupSchema.statics.getGroupsWithMember = function(groupMember, cb) {
     });
 }
 
+groupSchema.statics.getGroupsWithMemberNotCreator = function(groupMember, cb) {
+    var Group = this;
+    User.findUser(groupMember, function(err, user) {
+        if (err) {
+            cb({ msg: err });
+        } else {
+            Group.find({ members: user, creator: {$ne: user}}).populate('members').exec(function(err, groups) {
+                if (err) {
+                    cb({ msg: err });
+                } else {
+                    cb(err, groups);
+                };
+            });
+        };
+    });
+}
+
 groupSchema.statics.findGroupAndAddMember = function(groupId, newMember, cb) {
-    console.log('groupid');
-    console.log(groupId);
-    console.log('newmember');
-    console.log(newMember);
     this.findById(groupId, function(err, group) {
         if (err) {
             cb({ msg: err });
         } else {
-            console.log('group');
-            console.log(group);
             User.findUser(newMember, function(err, user) {
-                console.log('user');
-                console.log(user);
                 if (err) {
                     cb({ msg: err });
                 } else {

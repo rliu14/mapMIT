@@ -25,3 +25,10 @@
 	float: left;
 	padding: 20px;
 }
+
+.my-groups-column {
+	width: 50%;
+    display: inline-block;
+    vertical-align: top;
+    padding: 20px;
+}
