@@ -32,3 +32,22 @@
     vertical-align: top;
     padding: 20px;
 }
+
+.group-i-own {
+	margin-left: 15px;
+}
+
+.group-members-section, .add-group-member-section, .group-members-list {
+	margin-left: 15px;
+}
+
+.create-group-name-input, .add-member-input {
+	margin-left: 15px;
+	width: 200px;
+	display: inline-block;
+}
+
+.create-group-btn, .add-member-btn {
+	margin-left: 5px;
+	display: inline-block;
+}
