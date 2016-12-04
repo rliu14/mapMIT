@@ -33,7 +33,7 @@
     padding: 20px;
 }
 
-.group-i-own {
+.group-i-own, .group-im-in {
 	margin-left: 15px;
 }
 
@@ -49,5 +49,14 @@
 
 .create-group-btn, .add-member-btn {
 	margin-left: 5px;
+	display: inline-block;
+}
+
+.remove-from-group-btn {
+	margin-left: 10px;
+	display: inline-block;
+}
+
+.group-im-in-name {
 	display: inline-block;
 }

@@ -154,14 +154,12 @@ class MyGroups extends Component {
 		  			<div>
 		  				{this.state.memberGroups.map(function(group) {
 	  						return (
-	  							<li key={group._id}>
-	  								{group.name}
-	  								<span className='input-group-btn'>
-					                    <button type='button' className='btn btn-default' onClick={this.removeSelfFromGroup.bind(this, group._id)}>
-					                        Remove
-					                    </button>
-					                </span>
-	  							</li>
+	  							<div key={group._id} className="group-im-in">
+	  								<h4 className="group-im-in-name">{group.name}</h4>
+	  								<button type='button' className='btn btn-default remove-from-group-btn' onClick={this.removeSelfFromGroup.bind(this, group._id)}>
+					                    Remove Myself
+					                </button>
+  								</div>
 	  						)
 	  					}, this)}
 		  			</div>
