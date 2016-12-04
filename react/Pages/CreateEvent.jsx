@@ -39,8 +39,6 @@ class CreateEvent extends Component {
 	}
 
 	updateStartTime(dateString, { dateMoment, timestamp }) {
-		console.log('update start time');
-		console.log(dateMoment);
 		this.setState({
 			startTime: dateMoment.toDate()
 		});
@@ -48,8 +46,6 @@ class CreateEvent extends Component {
 	}
 
 	updateEndTime(dateString, { dateMoment, timestamp }) {
-		console.log('update end time');
-		console.log(dateMoment);
 		this.setState({
 			endTime: dateMoment.toDate()
 		});
@@ -70,8 +66,6 @@ class CreateEvent extends Component {
 
 	// NEED LOCATION DROPDOWN 
 	updateLocation(eventKey) {
-		console.log('EVENTKEY');
-		console.log(eventKey);
 		this.setState({
 			location: eventKey
 		});
@@ -125,78 +119,95 @@ class CreateEvent extends Component {
 	  	return ( 
 	  		<div>
 		  		<div className="header">
-		  			<h1>Create an Event!</h1>
+		  			<h2>Create an Event!</h2>
 		  		</div>
-		  		<div className="input-group">
-		  			
-		  			<span>Event Name* </span> 
-		  			<input type="text" className="form-control" value={this.state.eventName} onChange={this.updateEventName}></input> <br/>
-		  			
-		  			<span>Time* </span> 
-		  			<DateField forceValidDate
-					    	   defaultValue={"2016-05-30 15:23:34"}
-					    	   dateFormat="YYYY-MM-DD HH:mm:ss"
-					    	   onChange={this.updateStartTime}>
-					    <TransitionView>
-					    	<Calendar style={{padding: 10}}/>
-					    </TransitionView>
-					</DateField>
-		  			<span> - </span>
-		  			<DateField forceValidDate
-					    	   defaultValue={"2016-05-30 15:23:34"}
-					    	   dateFormat="YYYY-MM-DD HH:mm:ss"
-					    	   onChange={this.updateEndTime}>
-					    <TransitionView>
-					    	<Calendar style={{padding: 10}}/>
-					    </TransitionView>
-					</DateField> <br/>
+		  		<div className="">
+		  			<div className="create-event-input">
+		  				<span className="create-event-input-label">Event Name* </span> 
+		  				<input type="text" className="form-control create-event-input-option" value={this.state.eventName} onChange={this.updateEventName}></input> <br/>
+		  			</div>
+		  		
+		  			<div className="create-event-input">
+			  			<span className="create-event-input-label">Time* </span> 
+			  			<div className="create-event-input-option">
+				  			<DateField forceValidDate
+							    	   defaultValue={this.state.startTime}
+							    	   dateFormat="MM-DD-YYYY hh:mm a"
+							    	   onChange={this.updateStartTime}>
+							    <TransitionView>
+							    	<Calendar style={{padding: 10}}/>
+							    </TransitionView>
+							</DateField>
+				  			<span> - </span>
+				  			<DateField forceValidDate
+							    	   defaultValue={this.state.endTime}
+							    	   dateFormat="MM-DD-YYYY HH:mm a"
+							    	   onChange={this.updateEndTime}>
+							    <TransitionView>
+							    	<Calendar style={{padding: 10}}/>
+							    </TransitionView>
+							</DateField><br/>
+						</div>
+					</div>
 
-		  			<span>Room</span> 
-		  			<input type="text" className="form-control" value={this.state.room} onChange={this.updateRoom}></input> <br/>
+		  			<div className="create-event-input">
+		  				<span className="create-event-input-label">Room</span> 
+		  				<input type="text" className="form-control create-event-input-option" value={this.state.room} onChange={this.updateRoom}></input> <br/>
+		  			</div>
 
-		  			<span>Event Description </span> 
-		  			<input type="text" className="form-control" value={this.eventDescription} onChange={this.updateEventDescription}></input> <br/>
+		  			<div className="create-event-input">
+		  				<span className="create-event-input-label">Event Description </span> 
+		  				<input type="text" className="form-control create-event-input-option" value={this.eventDescription} onChange={this.updateEventDescription}></input> <br/>
+		  			</div>
 
-		  			<span>Select Location* </span> 
-		  			<DropdownButton title='Select' onSelect={this.updateLocation}>
-				    	<MenuItem eventKey="Building 1">Building 1</MenuItem>
-				    	<MenuItem eventKey="Building 2">Building 2</MenuItem>
-				    	<MenuItem eventKey="Building 3">Building 3</MenuItem>
-				    	<MenuItem eventKey="Building 4">Building 4</MenuItem>
-				    	<MenuItem eventKey="Building 5">Building 5</MenuItem>
-				    	<MenuItem eventKey="Building 6">Building 6</MenuItem>
-				    	<MenuItem eventKey="Building 7">Building 7</MenuItem>
-				    	<MenuItem eventKey="Building 10">Building 10</MenuItem>
-				    	<MenuItem eventKey="Building 13">Building 13</MenuItem>
-				    	<MenuItem eventKey="Building 14">Building 14</MenuItem>
-				    	<MenuItem eventKey="Building 18">Building 18</MenuItem>
-				    	<MenuItem eventKey="Building 34">Building 34</MenuItem>
-				    	<MenuItem eventKey="Building 36">Building 36</MenuItem>
-				    	<MenuItem eventKey="Building 38">Building 38</MenuItem>
-				    	<MenuItem eventKey="Building 56">Building 56</MenuItem>
-				    	<MenuItem eventKey="Building 66">Building 66</MenuItem>
-				    	<MenuItem eventKey="Green Building">Green Building</MenuItem>
-				    	<MenuItem eventKey="Stata Center">Stata Center</MenuItem>
-				    	<MenuItem eventKey="Maseeh Hall">Maseeh Hall</MenuItem>
-				    	<MenuItem eventKey="McCormick Hall">McCormick Hall</MenuItem>
-				    	<MenuItem eventKey="Baker House">Baker House</MenuItem>
-				    	<MenuItem eventKey="Burton Connor">Burton Connor</MenuItem>
-				    	<MenuItem eventKey="Macgregor House">Macgregor House</MenuItem>
-				    	<MenuItem eventKey="New House">New House</MenuItem>
-				    	<MenuItem eventKey="Next House">Next House</MenuItem>
-				    	<MenuItem eventKey="Simmons House">Simmons House</MenuItem>
-				    	<MenuItem eventKey="Tennis Courts">Tennis Courts</MenuItem>
-				    	<MenuItem eventKey="Z Center">Z Center</MenuItem>
-				    	<MenuItem eventKey="Kresge Auditorium">Kresge Auditorium</MenuItem>
-				    	<MenuItem eventKey="Kresge Barbecue Pits">Kresge Barbecue Pits</MenuItem>
-				    	<MenuItem eventKey="Stratton Student Center">Stratton Student Center</MenuItem>
-				    </DropdownButton>
+		  			<div className="create-event-input">
+			  			<span className="create-event-input-label">Select Location* </span> 
+			  			<div className="create-event-input-option">
+				  			<DropdownButton title='Select' onSelect={this.updateLocation}>
+						    	<MenuItem eventKey="Building 1">Building 1</MenuItem>
+						    	<MenuItem eventKey="Building 2">Building 2</MenuItem>
+						    	<MenuItem eventKey="Building 3">Building 3</MenuItem>
+						    	<MenuItem eventKey="Building 4">Building 4</MenuItem>
+						    	<MenuItem eventKey="Building 5">Building 5</MenuItem>
+						    	<MenuItem eventKey="Building 6">Building 6</MenuItem>
+						    	<MenuItem eventKey="Building 7">Building 7</MenuItem>
+						    	<MenuItem eventKey="Building 10">Building 10</MenuItem>
+						    	<MenuItem eventKey="Building 13">Building 13</MenuItem>
+						    	<MenuItem eventKey="Building 14">Building 14</MenuItem>
+						    	<MenuItem eventKey="Building 18">Building 18</MenuItem>
+						    	<MenuItem eventKey="Building 34">Building 34</MenuItem>
+						    	<MenuItem eventKey="Building 36">Building 36</MenuItem>
+						    	<MenuItem eventKey="Building 38">Building 38</MenuItem>
+						    	<MenuItem eventKey="Building 56">Building 56</MenuItem>
+						    	<MenuItem eventKey="Building 66">Building 66</MenuItem>
+						    	<MenuItem eventKey="Green Building">Green Building</MenuItem>
+						    	<MenuItem eventKey="Stata Center">Stata Center</MenuItem>
+						    	<MenuItem eventKey="Maseeh Hall">Maseeh Hall</MenuItem>
+						    	<MenuItem eventKey="McCormick Hall">McCormick Hall</MenuItem>
+						    	<MenuItem eventKey="Baker House">Baker House</MenuItem>
+						    	<MenuItem eventKey="Burton Connor">Burton Connor</MenuItem>
+						    	<MenuItem eventKey="Macgregor House">Macgregor House</MenuItem>
+						    	<MenuItem eventKey="New House">New House</MenuItem>
+						    	<MenuItem eventKey="Next House">Next House</MenuItem>
+						    	<MenuItem eventKey="Simmons House">Simmons House</MenuItem>
+						    	<MenuItem eventKey="Tennis Courts">Tennis Courts</MenuItem>
+						    	<MenuItem eventKey="Z Center">Z Center</MenuItem>
+						    	<MenuItem eventKey="Kresge Auditorium">Kresge Auditorium</MenuItem>
+						    	<MenuItem eventKey="Kresge Barbecue Pits">Kresge Barbecue Pits</MenuItem>
+						    	<MenuItem eventKey="Stratton Student Center">Stratton Student Center</MenuItem>
+						    </DropdownButton>
+					    </div>
+					</div>
 
-		  			<span>Location Description </span> 
-		  			<input type="text" className="form-control" value={this.locationDescription} onChange={this.updateLocationDescription}></input> <br/>
+		  			<div className="create-event-input">
+		  				<span className="create-event-input-label">Location Description </span> 
+		  				<input type="text" className="form-control create-event-input-option" value={this.locationDescription} onChange={this.updateLocationDescription}></input> <br/>
+		  			</div>
 
-		  			<span>Host* </span> 
-		  			<input type="text" className="form-control" value={this.host} onChange={this.updateHost}></input> <br/>
+		  			<div className="create-event-input">
+			  			<span className="create-event-input-label">Host* </span> 
+			  			<input type="text" className="form-control create-event-input-option" value={this.host} onChange={this.updateHost}></input> <br/>
+		  			</div>
 		  		</div>
 		  		<span className='input-group-btn'>
                     <button type='button' className='btn btn-default' onClick={this.submitEvent}>

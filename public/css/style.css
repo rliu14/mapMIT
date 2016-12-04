@@ -60,3 +60,15 @@
 .group-im-in-name {
 	display: inline-block;
 }
+
+.create-event-input-label, .create-event-input-option {
+	display: inline-block;
+}
+
+.create-event-input-label {
+	width: 170px;
+}
+
+.create-event-input-option {
+	width: 80%;
+}
