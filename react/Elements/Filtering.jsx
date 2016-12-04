@@ -27,11 +27,11 @@ class Filtering extends Component {
 
     getLocations() {
         return ['None', 'Building 1', 'Building 2', 'Building 3', 'Building 4', 'Building 5',
-                        'Building 6', 'Building 7', 'Building 10', 'Building 13', 'Building 14', 'Building 18',
-                        'Building 34', 'Building 36', 'Building 38', 'Building 56', 'Building 66', 'Green Building',
-                        'Stata Center', 'Maseeh Hall', 'McCormick Hall', 'Baker House', 'Burton Connor', 'Macgregor House',
-                        'New House', 'Next House', 'Simmons House', 'Tennis Courts', 'Z Center', 'Kresge Auditorium',
-                        'Kresge Barbecue Pits', 'Stratton Student Center'];
+                'Building 6', 'Building 7', 'Building 10', 'Building 13', 'Building 14', 'Building 18',
+                'Building 34', 'Building 36', 'Building 38', 'Building 56', 'Building 66', 'Green Building',
+                'Stata Center', 'Maseeh Hall', 'McCormick Hall', 'Baker House', 'Burton Connor', 'Macgregor House',
+                'New House', 'Next House', 'Simmons House', 'Tennis Courts', 'Z Center', 'Kresge Auditorium',
+                'Kresge Barbecue Pits', 'Stratton Student Center'];
     }
 
     onPublicChange() {
@@ -49,9 +49,8 @@ class Filtering extends Component {
     }
 
     updateLocation(eventKey) {
-        console.log("HERE", eventKey);
         this.setState({
-            location: eventKey.value
+            location: eventKey.target.value
         });
     }
 
@@ -171,41 +170,6 @@ class Filtering extends Component {
                             </select>
                         </label>
                     </form>
-                    {/* <DropdownButton title='Select' onSelect={this.updateLocation} toggleLabel= {this.state.location}>
-                        <MenuItem eventKey="Building 1">Building 1</MenuItem>
-                        <MenuItem eventKey="Building 2">Building 2</MenuItem>
-                        <MenuItem eventKey="Building 3">Building 3</MenuItem>
-                        <MenuItem eventKey="Building 4">Building 4</MenuItem>
-                        <MenuItem eventKey="Building 5">Building 5</MenuItem>
-                        <MenuItem eventKey="Building 6">Building 6</MenuItem>
-                        <MenuItem eventKey="Building 7">Building 7</MenuItem>
-                        <MenuItem eventKey="Building 10">Building 10</MenuItem>
-                        <MenuItem eventKey="Building 13">Building 13</MenuItem>
-                        <MenuItem eventKey="Building 14">Building 14</MenuItem>
-                        <MenuItem eventKey="Building 18">Building 18</MenuItem>
-                        <MenuItem eventKey="Building 34">Building 34</MenuItem>
-                        <MenuItem eventKey="Building 36">Building 36</MenuItem>
-                        <MenuItem eventKey="Building 38">Building 38</MenuItem>
-                        <MenuItem eventKey="Building 56">Building 56</MenuItem>
-                        <MenuItem eventKey="Building 66">Building 66</MenuItem>
-                        <MenuItem eventKey="Green Building">Green Building</MenuItem>
-                        <MenuItem eventKey="Stata Center">Stata Center</MenuItem>
-                        <MenuItem eventKey="Maseeh Hall">Maseeh Hall</MenuItem>
-                        <MenuItem eventKey="McCormick Hall">McCormick Hall</MenuItem>
-                        <MenuItem eventKey="Baker House">Baker House</MenuItem>
-                        <MenuItem eventKey="Burton Connor">Burton Connor</MenuItem>
-                        <MenuItem eventKey="Macgregor House">Macgregor House</MenuItem>
-                        <MenuItem eventKey="New House">New House</MenuItem>
-                        <MenuItem eventKey="Next House">Next House</MenuItem>
-                        <MenuItem eventKey="Simmons House">Simmons House</MenuItem>
-                        <MenuItem eventKey="Tennis Courts">Tennis Courts</MenuItem>
-                        <MenuItem eventKey="Z Center">Z Center</MenuItem>
-                        <MenuItem eventKey="Kresge Auditorium">Kresge Auditorium</MenuItem>
-                        <MenuItem eventKey="Kresge Barbecue Pits">Kresge Barbecue Pits</MenuItem>
-                        <MenuItem eventKey="Stratton Student Center">Stratton Student Center</MenuItem>
-                    </DropdownButton> */}
-
-
 
         <button type='button' className='btn btn-default' onClick={this.onApplyFilter}>Apply</button>
       </div>
