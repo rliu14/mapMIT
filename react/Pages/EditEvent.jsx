@@ -3,7 +3,8 @@
 import React, { Component } from 'react';
 import { withRouter, browserHistory } from 'react-router';
 import eventServices from '../../services/eventServices';
-
+import { DateField, TransitionView, Calendar } from 'react-date-picker'
+import 'react-date-picker/index.css';
 
 class EditEvent extends Component {
 	constructor(props) {
@@ -43,14 +44,16 @@ class EditEvent extends Component {
 					var foundEvent = resp.content.foundEvent;
 					this.setState( { 
 						eventName: foundEvent.name,
-						startTime: foundEvent.startTime,
-						endTime: foundEvent.endTime,
+						startTime: Date.parse(foundEvent.startTime),
+						endTime: Date.parse(foundEvent.endTime),
 						roomNumber: foundEvent.room,
 						eventDescription: foundEvent.description,
 						location: foundEvent.location,
 						locationDescription: foundEvent.locationDescription,
 						host: foundEvent.host				
 					});
+					console.log('start time');
+					console.log(this.state.startTime);
 				}
 			});
 	}
@@ -62,17 +65,35 @@ class EditEvent extends Component {
 	}
 
 	// TIME PICKER?
-	updateStartTime(event) {
+	// updateStartTime(event) {
+	// 	this.setState({
+	// 		startTime: event.target.value
+	// 	});
+	// }
+
+	// // END TIME
+	// updateEndTime(event) {
+	// 	this.setState({
+	// 		endTime: event.target.value
+	// 	});
+	// }
+
+	updateStartTime(dateString, { dateMoment, timestamp }) {
+		console.log('update start time');
+		console.log(dateMoment);
 		this.setState({
-			startTime: event.target.value
+			startTime: dateMoment.toDate()
 		});
+		console.log(this.state.startTime);
 	}
 
-	// END TIME
-	updateEndTime(event) {
+	updateEndTime(dateString, { dateMoment, timestamp }) {
+		console.log('update end time');
+		console.log(dateMoment);
 		this.setState({
-			endTime: event.target.value
+			endTime: dateMoment.toDate()
 		});
+		console.log(this.state.endTime);
 	}
 
 	updateRoomNumber(event) {
@@ -140,9 +161,23 @@ class EditEvent extends Component {
 		  			<input type="text" className="form-control" value={this.state.eventName} onChange={this.updateEventName}></input> <br/>
 
 		  			<span>Time* </span> 
-		  			<input type="text" className="form-control" value={this.state.startTime} onChange={this.updateStartTime} placeholder="Start"></input>
+		  			<DateField
+					    	   defaultValue={this.state.startTime}
+					    	   dateFormat="YYYY-MM-DD HH:mm:ss"
+					    	   onChange={this.updateStartTime}>
+					    <TransitionView>
+					    	<Calendar style={{padding: 10}}/>
+					    </TransitionView>
+					</DateField>
 		  			<span> - </span>
-		  			<input type="text" className="form-control" value={this.state.endTime} onChange={this.updateEndTime} placeholder="End"></input> <br/>
+		  			<DateField forceValidDate
+					    	   defaultValue={this.state.endTime}
+					    	   dateFormat="YYYY-MM-DD HH:mm:ss"
+					    	   onChange={this.updateStartTime}>
+					    <TransitionView>
+					    	<Calendar style={{padding: 10}}/>
+					    </TransitionView>
+					</DateField>
 
 		  			<span>Room Number</span> 
 		  			<input type="text" className="form-control" value={this.state.roomNumber} onChange={this.updateRoomNumber}></input> <br/>
