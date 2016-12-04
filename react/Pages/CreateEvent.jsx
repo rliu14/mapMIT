@@ -153,7 +153,7 @@ class CreateEvent extends Component {
 				  			<span> - </span>
 				  			<DateField forceValidDate
 							    	   defaultValue={this.state.endTime}
-							    	   dateFormat="MM-DD-YYYY HH:mm a"
+							    	   dateFormat="MM-DD-YYYY hh:mm a"
 							    	   onChange={this.updateEndTime}>
 							    <TransitionView>
 							    	<Calendar style={{padding: 10}}/>

@@ -140,7 +140,7 @@ class Filtering extends Component {
                                 Happening At
                                 <DateField forceValidDate
                                     defaultValue={"2016-05-30 15:23:34"}
-                                    dateFormat="YYYY-MM-DD HH:mm:ss"
+                                    dateFormat="YYYY-MM-DD hh:mm:ss"
                                     onChange={this.updateTime}>
                                     <TransitionView>
                                         <Calendar style={{padding: 10}}/>
