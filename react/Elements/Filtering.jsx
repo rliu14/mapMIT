@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
-import { MenuItem, DropdownButton } from 'react-bootstrap';
 import eventServices from '../../services/eventServices';
+import LocationPicker from './LocationPicker.jsx';
 import { DateField, TransitionView, Calendar } from 'react-date-picker'
 
 class Filtering extends Component {
@@ -21,17 +21,6 @@ class Filtering extends Component {
         this.updateLocation = this.updateLocation.bind(this);
         this.updateTime = this.updateTime.bind(this);
         this.onApplyFilter = this.onApplyFilter.bind(this);
-        this.getLocations = this.getLocations.bind(this);
-
-    }
-
-    getLocations() {
-        return ['None', 'Building 1', 'Building 2', 'Building 3', 'Building 4', 'Building 5',
-                'Building 6', 'Building 7', 'Building 10', 'Building 13', 'Building 14', 'Building 18',
-                'Building 34', 'Building 36', 'Building 38', 'Building 56', 'Building 66', 'Green Building',
-                'Stata Center', 'Maseeh Hall', 'McCormick Hall', 'Baker House', 'Burton Connor', 'Macgregor House',
-                'New House', 'Next House', 'Simmons House', 'Tennis Courts', 'Z Center', 'Kresge Auditorium',
-                'Kresge Barbecue Pits', 'Stratton Student Center'];
     }
 
     onPublicChange() {
@@ -48,9 +37,9 @@ class Filtering extends Component {
         });
     }
 
-    updateLocation(eventKey) {
+    updateLocation(location) {
         this.setState({
-            location: eventKey.target.value
+            location: location
         });
     }
 
@@ -161,16 +150,9 @@ class Filtering extends Component {
                     </div>
 
                 <h3>Location</h3>
-                    <form>
-                        <label>
-                            <select value={this.state.location} onChange={this.updateLocation}>
-                                {this.getLocations().map(function(location){
-                                    return (<option value={location}>{location}</option>)
-                                })}
-                            </select>
-                        </label>
-                    </form>
-
+                <div>
+                    <LocationPicker onUpdate={this.updateLocation}/>
+                </div>
         <button type='button' className='btn btn-default' onClick={this.onApplyFilter}>Apply</button>
       </div>
     )
