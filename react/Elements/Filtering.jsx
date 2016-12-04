@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { render } from 'react-dom';
 import { MenuItem, DropdownButton } from 'react-bootstrap';
 import eventServices from '../../services/eventServices';
-import Homepage from '../Pages/Homepage.jsx';
+import { DateField, TransitionView, Calendar } from 'react-date-picker'
 
 class Filtering extends Component {
     constructor(props){ 
@@ -10,13 +10,15 @@ class Filtering extends Component {
         this.state = {
             isPublic: false,
             checkedGroupIds: [],
-            timeOption: 'none',
+            timeOption: '',
+            time: Date.now(),
             location: ''
         };
         this.onPublicChange = this.onPublicChange.bind(this);
         this.onGroupEventChange = this.onGroupEventChange.bind(this);
         this.handleOptionChange = this.handleOptionChange.bind(this);
         this.updateLocation = this.updateLocation.bind(this);
+        this.updateTime = this.updateTime.bind(this);
         this.onApplyFilter = this.onApplyFilter.bind(this);
     }
 
@@ -40,22 +42,64 @@ class Filtering extends Component {
         });
     }
 
+    updateTime(dateString, { dateMoment, timestamp }) {
+        this.setState({
+            time: dateMoment.toDate()
+        });
+    }
+
     onApplyFilter() {
+        // var locationEvents, timeEvents;
         console.log("apply filter");
+        // APPLY LOCATION FILTER
         eventServices.getEventsByLocation(this.state.location)
             .then((resp) => {
-                console.log('resp');
-                console.log(resp);
-                this.setState = {
+                this.setState({
                     location: ''
+                });
+                var locationEvents = resp.content.foundEvents;
+                console.log('location events');
+                console.log(locationEvents);
+                
+                // APPLY TIME FILTER
+                if (this.state.timeOption != 'none') {
+                    console.log('state time');
+                    console.log(this.state.time);
+                    eventServices.getEventsByTime(this.state.time)
+                        .then((resp) => {
+                            this.setState({
+                                time: Date.now()
+                            }) ;
+                            var timeEvents = resp.content.events;
+                            console.log('filtered time events');
+                            console.log(timeEvents);
+                            var filteredEvents = [];
+                            locationEvents.forEach(function(loc) {
+                                timeEvents.forEach(function(time) {
+                                    if (loc._id == time._id) {
+                                        filteredEvents.push(loc);
+                                    };
+                                });
+                            });
+                            console.log('filtered events');
+                            console.log(filteredEvents);
+                            this.props.onUpdate(filteredEvents);
+                        });
                 };
-                var filteredEvents = resp.content.foundEvents;
-                console.log('filtered events');
-                console.log(filteredEvents);
-                console.log(this.props);
-                // console.log(this.props.onUpdate(onFilter));
-                this.props.onUpdate(filteredEvents);
             });
+
+        
+
+        // console.log('time option');
+        // console.log(this.state.timeOption);
+        // console.log(this.state.time);
+        // console.log('location and time events');
+        // console.log(locationEvents);
+        // console.log(timeEvents);
+        // var filteredEvents = locationEvents.filter(function(e) {
+        //     return timeEvents.indexOf(e) != -1;
+        // });
+        // this.props.onUpdate(filteredEvents);
     }
   
   render () {
@@ -79,13 +123,13 @@ class Filtering extends Component {
                 <h3>Time</h3>
                     <div className="radio">
                         <label>
-                            <input type="radio" value="none" checked={this.state.timeOption === 'none'} onChange={this.handleOptionChange} />
+                            <input type="radio" value='none' checked={this.state.timeOption === 'none'} onChange={this.handleOptionChange} />
                                 None
                         </label>
                     </div>
                     <div className="radio">
                         <label>
-                            <input type="radio" value="now" checked={this.state.timeOption === 'now'} onChange={this.handleOptionChange} />
+                            <input type="radio" value='now' checked={this.state.timeOption === 'now'} onChange={this.handleOptionChange} />
                                 Happening Now
                         </label>
                     </div>
@@ -93,6 +137,14 @@ class Filtering extends Component {
                         <label>
                             <input type="radio" value="at" checked={this.state.timeOption === 'at'} onChange={this.handleOptionChange} />
                                 Happening At
+                                <DateField forceValidDate
+                                    defaultValue={"2016-05-30 15:23:34"}
+                                    dateFormat="YYYY-MM-DD HH:mm:ss"
+                                    onChange={this.updateTime}>
+                                    <TransitionView>
+                                        <Calendar style={{padding: 10}}/>
+                                    </TransitionView>
+                                </DateField>
                         </label>
                     </div>
 
