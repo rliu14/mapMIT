@@ -22,6 +22,13 @@ class Filtering extends Component {
         this.onApplyFilter = this.onApplyFilter.bind(this);
     }
 
+    allLocations = ['None', 'Building 1', 'Building 2', 'Building 3', 'Building 4', 'Building 5',
+                        'Building 6', 'Building 7', 'Building 10', 'Building 13', 'Building 14', 'Building 18',
+                        'Building 34', 'Building 36', 'Building 38', 'Building 56', 'Building 66', 'Green Building',
+                        'Stata Center', 'Maseeh Hall', 'McCormick Hall', 'Baker House', 'Burton Connor', 'Macgregor House',
+                        'New House', 'Next House', 'Simmons House', 'Tennis Courts', 'Z Center', 'Kresge Auditorium',
+                        'Kresge Barbecue Pits', 'Stratton Student Center']
+
     onPublicChange() {
         this.setState({isPublic: !this.state.isPublic});
     }
@@ -182,6 +189,8 @@ class Filtering extends Component {
                         <MenuItem eventKey="Kresge Barbecue Pits">Kresge Barbecue Pits</MenuItem>
                         <MenuItem eventKey="Stratton Student Center">Stratton Student Center</MenuItem>
                     </DropdownButton>
+
+
 
         <button type='button' className='btn btn-default' onClick={this.onApplyFilter}>Apply</button>
       </div>
