@@ -50,7 +50,7 @@ router.get('/member/:member', function(req, res) {
 });
 
 router.put('/add/:groupId', function(req, res) {
-	Group.findGroupAndAddMember(req.params.groupId, req.body.content, function(err, updatedGroup) {
+	Group.findGroupAndAddMember(req.params.groupId, req.body.username, function(err, updatedGroup) {
 		if(err) {
 			if(err.msg) {
 				utils.sendErrorResponse(res, 400, err.msg);
@@ -64,7 +64,7 @@ router.put('/add/:groupId', function(req, res) {
 });
 
 router.put('/remove/:groupId', function(req, res) {
-	Group.findGroupAndRemoveMember(req.params.groupId, req.body.content, function(err, updatedGroup) {
+	Group.findGroupAndRemoveMember(req.params.groupId, req.body.username, function(err, updatedGroup) {
 		if(err) {
 			if(err.msg) {
 				utils.sendErrorResponse(res, 400, err.msg);

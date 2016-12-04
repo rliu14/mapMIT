@@ -6,7 +6,7 @@ var User = require("./User.js");
 
 /* Schema to represent the Event model */
 var groupSchema = mongoose.Schema({
-    name: { type: String, required: true },
+    name: { type: String, required: true, unique: true, required: true },
     creator: { type: ObjectId, ref: 'User', required: true },
     members: [{ type: ObjectId, ref: 'User' }]
 });
@@ -33,7 +33,7 @@ groupSchema.statics.getGroupsByCreator = function(groupCreator, cb) {
         if (err) {
             cb({ msg: err });
         } else {
-            Group.find( { creator: user }, function(err, groups) {
+            Group.find({ creator: user }).populate('members').exec(function(err, groups) {
                 if (err) {
                     cb({ msg: err });
                 } else {
@@ -52,7 +52,7 @@ groupSchema.statics.getGroupsWithMember = function(groupMember, cb) {
         if (err) {
             cb({ msg: err });
         } else {
-            Group.find( { members: user }, function(err, groups) {
+            Group.find({ members: user }).populate('members').exec(function(err, groups) {
                 if (err) {
                     cb({ msg: err });
                 } else {
@@ -64,11 +64,19 @@ groupSchema.statics.getGroupsWithMember = function(groupMember, cb) {
 }
 
 groupSchema.statics.findGroupAndAddMember = function(groupId, newMember, cb) {
+    console.log('groupid');
+    console.log(groupId);
+    console.log('newmember');
+    console.log(newMember);
     this.findById(groupId, function(err, group) {
         if (err) {
             cb({ msg: err });
         } else {
+            console.log('group');
+            console.log(group);
             User.findUser(newMember, function(err, user) {
+                console.log('user');
+                console.log(user);
                 if (err) {
                     cb({ msg: err });
                 } else {
