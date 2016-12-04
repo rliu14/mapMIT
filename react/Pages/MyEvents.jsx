@@ -81,7 +81,6 @@ class MyEvents extends Component {
 		  			
 		  			<button type='button' className='btn btn-default' onClick={this.toCreateNewEvent}>Create New Event</button>
 		  		</div>
-
 		  	</div>
 	  	)
 	}

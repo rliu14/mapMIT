@@ -3,6 +3,8 @@
 import React, { Component } from 'react';
 import { withRouter, browserHistory } from 'react-router';
 import eventServices from '../../services/eventServices';
+import groupServices from '../../services/groupServices';
+
 import { DateField, TransitionView, Calendar } from 'react-date-picker'
 import 'react-date-picker/index.css';
 
@@ -23,13 +25,14 @@ class EditEvent extends Component {
 		this.backToMyEvents = this.backToMyEvents.bind(this);
 		this.state = {
 			eventName: '',
-			startTime: '',
-			endTime: '',
+			startTime: Date.now(),
+			endTime: Date.now(),
 			roomNumber: '',
 			eventDescription: '',
 			location: '',
 			locationDescription: '',
-			host: ''
+			host: '',
+			groups: []
 		}
 	}
 
@@ -39,23 +42,33 @@ class EditEvent extends Component {
 		console.log(eventId);
 		eventServices.getEvent(eventId)
 			.then((resp) => {
-				console.log(resp.content.foundEvent);
+				
 				if(resp.success) {
 					var foundEvent = resp.content.foundEvent;
+					console.log(resp.content.foundEvent);
+				var startTime = Date.parse(foundEvent.startTime);
+				var endTime = Date.parse(foundEvent.endTime);
+				console.log('parsed start time');
+				console.log(startTime);
+				console.log(endTime);
 					this.setState( { 
 						eventName: foundEvent.name,
-						startTime: Date.parse(foundEvent.startTime),
-						endTime: Date.parse(foundEvent.endTime),
+						startTime: startTime,
+						endTime: endTime,
 						roomNumber: foundEvent.room,
 						eventDescription: foundEvent.description,
 						location: foundEvent.location,
 						locationDescription: foundEvent.locationDescription,
 						host: foundEvent.host				
 					});
-					console.log('start time');
-					console.log(this.state.startTime);
 				}
 			});
+		groupServices.getGroupsWithMember(this.props.user)
+			.then((resp) => {
+				if(resp.success) {
+					this.setState( { groups: resp.content.foundGroups });
+				}
+			});		
 	}
 
 	updateEventName(event) {
@@ -64,21 +77,8 @@ class EditEvent extends Component {
 		});
 	}
 
-	// TIME PICKER?
-	// updateStartTime(event) {
-	// 	this.setState({
-	// 		startTime: event.target.value
-	// 	});
-	// }
-
-	// // END TIME
-	// updateEndTime(event) {
-	// 	this.setState({
-	// 		endTime: event.target.value
-	// 	});
-	// }
-
 	updateStartTime(dateString, { dateMoment, timestamp }) {
+		console.log(this.state.startTime);
 		console.log('update start time');
 		console.log(dateMoment);
 		this.setState({
@@ -161,8 +161,7 @@ class EditEvent extends Component {
 		  			<input type="text" className="form-control" value={this.state.eventName} onChange={this.updateEventName}></input> <br/>
 
 		  			<span>Time* </span> 
-		  			<DateField
-					    	   defaultValue={this.state.startTime}
+		  			<DateField forceValidDate
 					    	   dateFormat="YYYY-MM-DD HH:mm:ss"
 					    	   onChange={this.updateStartTime}>
 					    <TransitionView>
@@ -171,7 +170,6 @@ class EditEvent extends Component {
 					</DateField>
 		  			<span> - </span>
 		  			<DateField forceValidDate
-					    	   defaultValue={this.state.endTime}
 					    	   dateFormat="YYYY-MM-DD HH:mm:ss"
 					    	   onChange={this.updateStartTime}>
 					    <TransitionView>
@@ -193,12 +191,16 @@ class EditEvent extends Component {
 		  			<input type="text" className="form-control" value={this.state.locationDescription} onChange={this.updateLocationDescription}></input> <br/>
 
 		  			<span>Host* </span> 
-		  			<input type="text" className="form-control" value={this.state.host} onChange={this.updateHost}></input> <br/>
+		  			<select className="create-event-input-option" value={this.state.host} onChange={this.updateHost}>
+                    	<option value={this.props.user}>{this.props.user}</option>
+                        {this.state.groups.map(function(group){
+                            return (<option key={group._id} value={group.name}>{group.name}</option>)
+                        })}
+                    </select>
 		  		</div>
 		  		<span className='input-group-btn'>
                     <button type='button' className='btn btn-default' onClick={this.updateEvent}>Save</button>
                     <button type='button' className='btn btn-default' onClick={this.backToMyEvents}>Cancel</button>
-
                 </span>
 	  		</div>
 	  	)

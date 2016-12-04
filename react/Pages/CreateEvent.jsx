@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { withRouter, browserHistory } from 'react-router';
 import { MenuItem, DropdownButton } from 'react-bootstrap';
 import eventServices from '../../services/eventServices';
+import groupServices from '../../services/groupServices';
 import { DateField, TransitionView, Calendar } from 'react-date-picker'
 import 'react-date-picker/index.css';
 
@@ -28,11 +29,22 @@ class CreateEvent extends Component {
 			location: '',
 			locationDescription: '',
 			host: '',
-			creator: ''
+			creator: '',
+			groups: []
 		}
 	};
 
+	componentWillMount() {
+		groupServices.getGroupsWithMember(this.props.user)
+			.then((resp) => {
+				if(resp.success) {
+					this.setState( { groups: resp.content.foundGroups });
+				}
+			});		
+	}
+
 	updateEventName(event) {
+		console.log(this.state.groups);
 		this.setState({
 			eventName: event.target.value
 		});
@@ -206,7 +218,12 @@ class CreateEvent extends Component {
 
 		  			<div className="create-event-input">
 			  			<span className="create-event-input-label">Host* </span> 
-			  			<input type="text" className="form-control create-event-input-option" value={this.host} onChange={this.updateHost}></input> <br/>
+                        <select className="create-event-input-option" value={this.state.host} onChange={this.updateHost}>
+                        	<option value={this.props.user}>{this.props.user}</option>
+                            {this.state.groups.map(function(group){
+                                return (<option value={group.name}>{group.name}</option>)
+                            })}
+                        </select>
 		  			</div>
 		  		</div>
 		  		<span className='input-group-btn'>

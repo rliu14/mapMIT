@@ -53,7 +53,7 @@ class MyGroups extends Component {
 	}
 
 	getMemberGroups() {
-		groupServices.getGroupsWithMember(this.props.user)
+		groupServices.getGroupsWithMemberNotCreator(this.props.user)
 			.then((resp) => {
 				if(resp.success) {
 					this.setState( { memberGroups: resp.content.foundGroups });
