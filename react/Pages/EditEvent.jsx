@@ -3,13 +3,14 @@
 import React, { Component } from 'react';
 import { withRouter, browserHistory } from 'react-router';
 import eventServices from '../../services/eventServices';
+import groupServices from '../../services/groupServices';
 
+import { DateField, TransitionView, Calendar } from 'react-date-picker'
+import 'react-date-picker/index.css';
 
 class EditEvent extends Component {
 	constructor(props) {
 		super(props);
-		this.defaultProps = {
-		}
 		this.updateEventName = this.updateEventName.bind(this);
 		this.updateStartTime = this.updateStartTime.bind(this);
 		this.updateEndTime = this.updateEndTime.bind(this);
@@ -22,13 +23,14 @@ class EditEvent extends Component {
 		this.backToMyEvents = this.backToMyEvents.bind(this);
 		this.state = {
 			eventName: '',
-			startTime: '',
-			endTime: '',
+			startTime: Date.now(),
+			endTime: Date.now(),
 			roomNumber: '',
 			eventDescription: '',
 			location: '',
 			locationDescription: '',
-			host: ''
+			host: '',
+			groups: []
 		}
 	}
 
@@ -38,13 +40,12 @@ class EditEvent extends Component {
 		console.log(eventId);
 		eventServices.getEvent(eventId)
 			.then((resp) => {
-				console.log(resp.content.foundEvent);
 				if(resp.success) {
 					var foundEvent = resp.content.foundEvent;
 					this.setState( { 
 						eventName: foundEvent.name,
-						startTime: foundEvent.startTime,
-						endTime: foundEvent.endTime,
+						startTime: Date.parse(foundEvent.startTime), // TODO blah this doesn't work
+						endTime: Date.parse(foundEvent.endTime), // TODO same here
 						roomNumber: foundEvent.room,
 						eventDescription: foundEvent.description,
 						location: foundEvent.location,
@@ -53,6 +54,12 @@ class EditEvent extends Component {
 					});
 				}
 			});
+		groupServices.getGroupsWithMember(this.props.user)
+			.then((resp) => {
+				if(resp.success) {
+					this.setState( { groups: resp.content.foundGroups });
+				}
+			});		
 	}
 
 	updateEventName(event) {
@@ -61,18 +68,23 @@ class EditEvent extends Component {
 		});
 	}
 
-	// TIME PICKER?
-	updateStartTime(event) {
+	updateStartTime(dateString, { dateMoment, timestamp }) {
+		console.log(this.state.startTime);
+		console.log('update start time');
+		console.log(dateMoment);
 		this.setState({
-			startTime: event.target.value
+			startTime: dateMoment.toDate()
 		});
+		console.log(this.state.startTime);
 	}
 
-	// END TIME
-	updateEndTime(event) {
+	updateEndTime(dateString, { dateMoment, timestamp }) {
+		console.log('update end time');
+		console.log(dateMoment);
 		this.setState({
-			endTime: event.target.value
+			endTime: dateMoment.toDate()
 		});
+		console.log(this.state.endTime);
 	}
 
 	updateRoomNumber(event) {
@@ -140,9 +152,21 @@ class EditEvent extends Component {
 		  			<input type="text" className="form-control" value={this.state.eventName} onChange={this.updateEventName}></input> <br/>
 
 		  			<span>Time* </span> 
-		  			<input type="text" className="form-control" value={this.state.startTime} onChange={this.updateStartTime} placeholder="Start"></input>
+		  			<DateField forceValidDate
+					    	   dateFormat="YYYY-MM-DD HH:mm:ss"
+					    	   onChange={this.updateStartTime}>
+					    <TransitionView>
+					    	<Calendar style={{padding: 10}}/>
+					    </TransitionView>
+					</DateField>
 		  			<span> - </span>
-		  			<input type="text" className="form-control" value={this.state.endTime} onChange={this.updateEndTime} placeholder="End"></input> <br/>
+		  			<DateField forceValidDate
+					    	   dateFormat="YYYY-MM-DD HH:mm:ss"
+					    	   onChange={this.updateStartTime}>
+					    <TransitionView>
+					    	<Calendar style={{padding: 10}}/>
+					    </TransitionView>
+					</DateField>
 
 		  			<span>Room Number</span> 
 		  			<input type="text" className="form-control" value={this.state.roomNumber} onChange={this.updateRoomNumber}></input> <br/>
@@ -158,12 +182,16 @@ class EditEvent extends Component {
 		  			<input type="text" className="form-control" value={this.state.locationDescription} onChange={this.updateLocationDescription}></input> <br/>
 
 		  			<span>Host* </span> 
-		  			<input type="text" className="form-control" value={this.state.host} onChange={this.updateHost}></input> <br/>
+		  			<select className="create-event-input-option" value={this.state.host} onChange={this.updateHost}>
+                    	<option value={this.props.user}>{this.props.user}</option>
+                        {this.state.groups.map(function(group){
+                            return (<option key={group._id} value={group.name}>{group.name}</option>)
+                        })}
+                    </select>
 		  		</div>
 		  		<span className='input-group-btn'>
                     <button type='button' className='btn btn-default' onClick={this.updateEvent}>Save</button>
                     <button type='button' className='btn btn-default' onClick={this.backToMyEvents}>Cancel</button>
-
                 </span>
 	  		</div>
 	  	)

@@ -38,9 +38,20 @@ router.get('/creator/:creator', function(req, res) {
 	});
 });
 
-router.get('/member/:member', function(req, res) {
+router.get('/memberonly/:member', function(req, res) {
 	console.log('route for get by member');
 	Group.getGroupsWithMemberNotCreator(req.params.member, function(err, foundGroups) {
+		if (err) {
+			utils.sendErrorResponse(res, 404, 'No such groups.'); // TODO is this right
+		} else {
+			utils.sendSuccessResponse(res, { foundGroups: foundGroups });
+		};
+	});
+});
+
+router.get('/member/:member', function(req, res) {
+	console.log('route for get by member');
+	Group.getGroupsWithMember(req.params.member, function(err, foundGroups) {
 		if (err) {
 			utils.sendErrorResponse(res, 404, 'No such groups.'); // TODO is this right
 		} else {

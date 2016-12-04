@@ -44,6 +44,14 @@ export default {
         });
     },
 
+    getGroupsWithMemberNotCreator : (member) => {
+        return request({
+            uri : BASE_URL + `/memberonly/${member}`,
+            method : 'GET',
+            json : true
+        });
+    },
+
     getGroupsWithMember : (member) => {
         return request({
             uri : BASE_URL + `/member/${member}`,
