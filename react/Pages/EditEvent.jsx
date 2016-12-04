@@ -11,8 +11,6 @@ import 'react-date-picker/index.css';
 class EditEvent extends Component {
 	constructor(props) {
 		super(props);
-		this.defaultProps = {
-		}
 		this.updateEventName = this.updateEventName.bind(this);
 		this.updateStartTime = this.updateStartTime.bind(this);
 		this.updateEndTime = this.updateEndTime.bind(this);
@@ -42,19 +40,12 @@ class EditEvent extends Component {
 		console.log(eventId);
 		eventServices.getEvent(eventId)
 			.then((resp) => {
-				
 				if(resp.success) {
 					var foundEvent = resp.content.foundEvent;
-					console.log(resp.content.foundEvent);
-				var startTime = Date.parse(foundEvent.startTime);
-				var endTime = Date.parse(foundEvent.endTime);
-				console.log('parsed start time');
-				console.log(startTime);
-				console.log(endTime);
 					this.setState( { 
 						eventName: foundEvent.name,
-						startTime: startTime,
-						endTime: endTime,
+						startTime: Date.parse(foundEvent.startTime), // TODO blah this doesn't work
+						endTime: Date.parse(foundEvent.endTime), // TODO same here
 						roomNumber: foundEvent.room,
 						eventDescription: foundEvent.description,
 						location: foundEvent.location,
