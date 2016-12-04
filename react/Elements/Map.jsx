@@ -9,9 +9,6 @@ class MapMIT extends Component {
             lat: 42.3589,
             lng: -71.0935,
             zoom: 15,
-            popups: [{location: "Maseeh", text: "EVENT", lat: 42.3577, lng: -71.0934}, 
-
-                    {location: "Baker", text: "blahblah", lat: 42.356791, lng: -71.095381}]
         };
         this.sortByLocation = this.sortByLocation.bind(this);
         this.getTextForEvents = this.getTextForEvents.bind(this);

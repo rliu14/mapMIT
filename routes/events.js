@@ -121,7 +121,11 @@ router.get('/creator/:creator', function(req, res) {
     - err: on error, an error message
 */
 router.get('/location/:loc', function(req, res) {
+  console.log('location route');
+  console.log(req.params.loc);
 	Event.findEventsByLocation(req.params.loc, function(err, foundEvents) {
+    console.log('foundEvents');
+    console.log(foundEvents);
 		if(err) {
 			utils.sendErrorResponse(res, 404, 'No such events.');
 		} else {
