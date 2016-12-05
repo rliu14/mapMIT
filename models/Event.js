@@ -15,7 +15,9 @@ var eventSchema = mongoose.Schema({
     location: { type: ObjectId, ref: 'Location', default: null },
     locationDescription: { type: String, default: null },
     host: { type: String, default: null },
-    creator: { type: ObjectId, ref: 'User', default: null }
+    creator: { type: ObjectId, ref: 'User', default: null },
+    isPublic: { type: Boolean, default: true },
+    groupsVisibleTo: [{ type: ObjectId, ref: 'Group'}]
 });
 
 /**

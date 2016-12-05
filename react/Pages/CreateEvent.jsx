@@ -7,6 +7,7 @@ import eventServices from '../../services/eventServices';
 import groupServices from '../../services/groupServices';
 import { DateField, TransitionView, Calendar } from 'react-date-picker'
 import 'react-date-picker/index.css';
+import update from 'react-addons-update';
 
 class CreateEvent extends Component {
 	constructor(props) {
@@ -20,6 +21,9 @@ class CreateEvent extends Component {
 		this.updateLocationDescription = this.updateLocationDescription.bind(this);
 		this.updateHost = this.updateHost.bind(this);
 		this.submitEvent = this.submitEvent.bind(this);
+		this.onPublicChange = this.onPublicChange.bind(this);
+		this.updateGroupSpecificVisibility = this.updateGroupSpecificVisibility.bind(this);
+
 		this.state = {
 			eventName: '',
 			startTime: Date.now(),
@@ -30,7 +34,9 @@ class CreateEvent extends Component {
 			locationDescription: '',
 			host: '',
 			creator: '',
-			groups: []
+			isPublic: true,
+			groups: [],
+			groupSpecificVisibility: {}
 		}
 	};
 
@@ -39,12 +45,17 @@ class CreateEvent extends Component {
 			.then((resp) => {
 				if(resp.success) {
 					this.setState( { groups: resp.content.foundGroups });
+					var groupVisibilityDict = resp.content.foundGroups.reduce(function(dict, group) {
+						dict[group._id] = false;
+						return dict;
+					}, {});
+					this.setState( { groupSpecificVisibility: groupVisibilityDict });
 				}
-			});		
+			});	
 	}
 
 	updateEventName(event) {
-		console.log(this.state.groups);
+		console.log(this.state.groupSpecificVisibility);
 		this.setState({
 			eventName: event.target.value
 		});
@@ -95,6 +106,23 @@ class CreateEvent extends Component {
 		});
 	}
 
+	onPublicChange(event) {
+		var targetVal = event.target.value === 'true';
+		if (this.state.isPublic !== targetVal) {
+			this.setState({isPublic: !this.state.isPublic});
+		}
+	}
+
+	updateGroupSpecificVisibility(groupId, event) {
+		console.log(event.target.value);
+		var newVisibility = event.target.value == 'false';
+		var newDict = update(this.state.groupSpecificVisibility, {$merge: {[groupId]: newVisibility}});
+		console.log(newDict);
+		this.setState({
+			groupSpecificVisibility: newDict
+		});
+	}
+
 	// creates event in the event database
 	submitEvent() {
 		// call the createEvent service to create an event with content
@@ -107,21 +135,11 @@ class CreateEvent extends Component {
 			location: this.state.location, 
 			locationDescription: this.state.locationDescription,
 			host: this.state.host,
-			creator: this.props.user
+			creator: this.props.user,
+			isPublic: this.state.isPublic
 		}
 		eventServices.createEvent(content)
 			.then((resp) => {
-				this.setState = {
-					eventName: '',
-					startTime: '',
-					endTime: '',
-					room: '',
-					eventDescription: '',
-					location: '',
-					locationDescription: '',
-					host: '',
-					creator: ''
-				};
 				browserHistory.push('/myEvents');
 			})
 	}
@@ -225,6 +243,24 @@ class CreateEvent extends Component {
                             })}
                         </select>
 		  			</div>
+
+		  			<div className="create-event-input">
+			  			<span className="create-event-input-label">Privacy* </span> 
+			  			<div className="create-event-input-option">
+                            <input type="radio" value={true} checked={this.state.isPublic} onChange={this.onPublicChange}/>
+                                Public<br/>
+                            <input type="radio" value={false} checked={!this.state.isPublic} onChange={this.onPublicChange}/>
+                                Group-specific<br/>
+                            {this.state.groups.map(function(group){
+                                return (
+                                	<div>
+                                		<input type="checkbox" key={group._id} value={this.state.groupSpecificVisibility[group._id]} checked={this.state.groupSpecificVisibility[group._id]} onChange={this.updateGroupSpecificVisibility.bind(this, group._id)}/>
+                                		{group.name}
+                                	</div>
+                                )
+                            }, this)}
+		                </div>
+	                </div>
 		  		</div>
 		  		<span className='input-group-btn'>
                     <button type='button' className='btn btn-default' onClick={this.submitEvent}>
