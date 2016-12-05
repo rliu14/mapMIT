@@ -72,6 +72,20 @@ router.put('/update/:eventId', function(req, res) {
 	});
 });
 
+router.get('/filter/:locFilter/:timeFilter/:timeOption', function(req, res) {
+  console.log('filter route');
+  // console.log(req.body);
+  Event.filterEvents(req.params.locFilter, req.params.timeFilter, req.params.timeOption, function(err, filteredEvents) {
+    console.log('filtered events from route');
+    console.log(filteredEvents);
+    if (err) {
+      utils.sendErrorResponse(res, 400, err.msg); 
+    } else {
+      utils.sendSuccessResponse(res, {filteredEvents: filteredEvents});
+    };
+  });
+});
+
 /*
   GET /events/:eventID
   Request body:
@@ -153,19 +167,7 @@ router.get('/time/:time', function(req, res) {
 	});
 });
 
-router.get('/filter', function(req, res) {
-  console.log('filter route');
-  // console.log(req.params.locFilter + ' ' + req.params.timeFilter + ' ' + req.params.timeOption);
-  Event.filterEvents(req.body.content.locFilter, req.body.content.timeFilter, req.body.content.timeOption, function(err, filteredEvents) {
-    console.log('filtered events from route');
-    console.log(filteredEvents);
-    if (err) {
-      utils.sendErrorResponse(res, 400, err.msg); 
-    } else {
-      utils.sendSuccessResponse(res, {filteredEvents: filteredEvents});
-    };
-  });
-});
+
 
 /*
   DELETE /events/:eventID

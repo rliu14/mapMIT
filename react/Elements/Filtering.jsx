@@ -51,12 +51,12 @@ class Filtering extends Component {
 
     onApplyFilter() {
         console.log('hello params ' + this.state.location + ' ' + this.state.time + ' ' + this.state.timeOption);
-        var content = {
-            locFilter: this.state.location,
-            timeFilter: this.state.time,
-            timeOption: this.state.timeOption
-        };
-        eventServices.getFilteredEvents(content)
+        // var content = {
+        //     locFilter: this.state.location,
+        //     timeFilter: this.state.time,
+        //     timeOption: this.state.timeOption
+        // };
+        eventServices.getFilteredEvents(this.state.location, this.state.time, this.state.timeOption)
             .then((resp) => {
                 console.log('THE RESP FILTERED EVENTS');
                 console.log(resp.content.filteredEvents);
