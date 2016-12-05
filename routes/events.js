@@ -153,6 +153,20 @@ router.get('/time/:time', function(req, res) {
 	});
 });
 
+router.get('/filter', function(req, res) {
+  console.log('filter route');
+  // console.log(req.params.locFilter + ' ' + req.params.timeFilter + ' ' + req.params.timeOption);
+  Event.filterEvents(req.body.content.locFilter, req.body.content.timeFilter, req.body.content.timeOption, function(err, filteredEvents) {
+    console.log('filtered events from route');
+    console.log(filteredEvents);
+    if (err) {
+      utils.sendErrorResponse(res, 400, err.msg); 
+    } else {
+      utils.sendSuccessResponse(res, {filteredEvents: filteredEvents});
+    };
+  });
+});
+
 /*
   DELETE /events/:eventID
   Request body:

@@ -10,7 +10,7 @@ class Filtering extends Component {
         this.state = {
             isPublic: false,
             checkedGroupIds: [],
-            timeOption: '',
+            timeOption: 'none',
             time: Date.now(),
             location: 'None'
         };
@@ -50,57 +50,60 @@ class Filtering extends Component {
     }
 
     onApplyFilter() {
-        // var locationEvents, timeEvents;
-        console.log("apply filter");
-        // APPLY LOCATION FILTER
-        eventServices.getEventsByLocation(this.state.location)
+        console.log('hello params ' + this.state.location + ' ' + this.state.time + ' ' + this.state.timeOption);
+        var content = {
+            locFilter: this.state.location,
+            timeFilter: this.state.time,
+            timeOption: this.state.timeOption
+        };
+        eventServices.getFilteredEvents(content)
             .then((resp) => {
+                console.log('THE RESP FILTERED EVENTS');
+                console.log(resp.content.filteredEvents);
                 this.setState({
-                    location: ''
+                    location: 'None',
+                    time: Date.now()
                 });
-                var locationEvents = resp.content.foundEvents;
-                console.log('location events');
-                console.log(locationEvents);
-                
-                // APPLY TIME FILTER
-                if (this.state.timeOption != 'none') {
-                    console.log('state time');
-                    console.log(this.state.time);
-                    eventServices.getEventsByTime(this.state.time)
-                        .then((resp) => {
-                            this.setState({
-                                time: Date.now()
-                            }) ;
-                            var timeEvents = resp.content.events;
-                            console.log('filtered time events');
-                            console.log(timeEvents);
-                            var filteredEvents = [];
-                            locationEvents.forEach(function(loc) {
-                                timeEvents.forEach(function(time) {
-                                    if (loc._id == time._id) {
-                                        filteredEvents.push(loc);
-                                    };
-                                });
-                            });
-                            console.log('filtered events');
-                            console.log(filteredEvents);
-                            this.props.onUpdate(filteredEvents);
-                        });
-                };
+                this.props.onUpdate(resp.content.filteredEvents);
             });
-
-        
-
-        // console.log('time option');
-        // console.log(this.state.timeOption);
-        // console.log(this.state.time);
-        // console.log('location and time events');
-        // console.log(locationEvents);
-        // console.log(timeEvents);
-        // var filteredEvents = locationEvents.filter(function(e) {
-        //     return timeEvents.indexOf(e) != -1;
-        // });
-        // this.props.onUpdate(filteredEvents);
+        // var locationEvents, timeEvents;
+        // console.log("apply filter");
+        // // APPLY LOCATION FILTER
+        // eventServices.getEventsByLocation(this.state.location)
+        //     .then((resp) => {
+        //         this.setState({
+        //             location: ''
+        //         });
+        //         var locationEvents = resp.content.foundEvents;
+        //         console.log('location events');
+        //         console.log(locationEvents);
+                
+        //         // APPLY TIME FILTER
+        //         if (this.state.timeOption != 'none') {
+        //             console.log('state time');
+        //             console.log(this.state.time);
+        //             eventServices.getEventsByTime(this.state.time)
+        //                 .then((resp) => {
+        //                     this.setState({
+        //                         time: Date.now()
+        //                     }) ;
+        //                     var timeEvents = resp.content.events;
+        //                     console.log('filtered time events');
+        //                     console.log(timeEvents);
+        //                     var filteredEvents = [];
+        //                     locationEvents.forEach(function(loc) {
+        //                         timeEvents.forEach(function(time) {
+        //                             if (loc._id == time._id) {
+        //                                 filteredEvents.push(loc);
+        //                             };
+        //                         });
+        //                     });
+        //                     console.log('filtered events');
+        //                     console.log(filteredEvents);
+        //                     this.props.onUpdate(filteredEvents);
+        //                 });
+        //         };
+        //     });
     }
   
   render () {

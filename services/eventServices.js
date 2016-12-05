@@ -66,5 +66,17 @@ export default {
             json : true
         });
     },
+
+    getFilteredEvents : (content) => {
+        console.log('get filtered events service');
+        return request({
+            uri : BASE_URL + `/filter`,
+            method : 'GET',
+            body : {
+                content : content
+            },
+            json : true
+        });
+    },
 };
 
