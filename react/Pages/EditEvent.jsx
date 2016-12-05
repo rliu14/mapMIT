@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { withRouter, browserHistory } from 'react-router';
 import eventServices from '../../services/eventServices';
 import groupServices from '../../services/groupServices';
-
+import LocationPicker from '../Elements/LocationPicker.jsx';
 import { DateField, TransitionView, Calendar } from 'react-date-picker'
 import 'react-date-picker/index.css';
 
@@ -124,7 +124,7 @@ class EditEvent extends Component {
 			endTime: this.state.endTime,
 			room: this.state.roomNumber,
 			description: this.state.eventDescription,
-			// location: this.state.location, TODO bring this back somehow
+			location: this.state.location, //TODO bring this back somehow
 			locationDescription: this.state.locationDescription,
 			host: this.state.host,
 			creator: this.state.user 
@@ -175,8 +175,9 @@ class EditEvent extends Component {
 		  			<input type="text" className="form-control" value={this.state.eventDescription} onChange={this.updateEventDescription}></input> <br/>
 
 		  			<span>Select Location* </span> 
-		  			<input type="text" className="form-control" value={this.state.location} onChange={this.updateLocation} placeholder="TEMP"></input> <br/>
-
+					<div className="create-event-input-option">
+		  				<LocationPicker onUpdate={this.updateLocation}/>
+				    </div>
 
 		  			<span>Location Description </span> 
 		  			<input type="text" className="form-control" value={this.state.locationDescription} onChange={this.updateLocationDescription}></input> <br/>

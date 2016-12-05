@@ -7,9 +7,8 @@ import { DateField, TransitionView, Calendar } from 'react-date-picker'
 class LocationPicker extends Component {
     constructor(props){ 
         super(props);
-        this.state = {
-            location: 'None'
-        };
+        console.log('this props location');
+        console.log(this.props.location);
 
         this.updateLocation = this.updateLocation.bind(this);
         this.getLocations = this.getLocations.bind(this);
@@ -26,9 +25,6 @@ class LocationPicker extends Component {
     }
 
     updateLocation(event) {
-        this.setState({
-            location: event.target.value
-        });
         this.props.onUpdate(event.target.value);
     }
 
