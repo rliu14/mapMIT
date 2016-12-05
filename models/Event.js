@@ -162,32 +162,44 @@ eventSchema.statics.findEventsByTime = function(time, cb) {
     });
 };
 
-eventSchema.statics.filterEvents = function(locFilter, timeFilter, timeOption, cb) {
-    console.log("HELLOOO");
-    var dict = {};
-    if (locFilter != 'None') {
-        Loc.findLocation(locFilter, function(err, location) {
+/**
+ * Filters for events in the events database.
+ * @param {Object} content The information to filter for,
+ *      content is in the format - {
+ *          startTime: {Date},
+ *          endTime: {Date},
+ *          location: {Location}, 
+ *      }
+ * @param {Function} cb The callback function to execute, of the
+ *      format cb(err).
+ */
+eventSchema.statics.filterEvents = function(content, cb) {
+    var Event = this;
+    if ('location' in content) {
+        Loc.findLocation(content.location, function(err, location) {
             if (err) {
                 cb({ msg: err });
             } else {
-                dict['location'] = location;
+                content['location'] = location;
             };
+
+            Event.find(content, function(err, filteredEvents) {
+                if (err) {
+                    cb({ msg: err });
+                } else {
+                    cb(err, filteredEvents);
+                };
+            }).populate('location');
         });
+    } else {   
+        this.find(content, function(err, filteredEvents) {
+            if (err) {
+                cb({ msg: err });
+            } else {
+                cb(err, filteredEvents);
+            };
+        }).populate('location');
     };
-    if (timeOption != 'none') {
-        dict['startTime'] = {$lt: timeFilter};
-        dict['endTime'] = {$gt: timeFilter};
-    };    
-    console.log('THE PARAMS ' + locFilter + ' ' + timeFilter + ' ' + timeOption);
-    console.log('THE DICT');
-    console.log(dict);
-    this.find(dict, function(err, filteredEvents) {
-        if (err) {
-            cb({ msg: err });
-        } else {
-            cb(err, filteredEvents);
-        };
-    });
 };
 
 /**

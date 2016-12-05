@@ -72,10 +72,22 @@ router.put('/update/:eventId', function(req, res) {
 	});
 });
 
-router.get('/filter/:locFilter/:timeFilter/:timeOption', function(req, res) {
+/*
+  PUT /events/filter
+  Request body:
+    - content - in the format,
+    {
+          startTime: {Date},
+          endTime: {Date},
+          location: {Location},    
+    }
+  Response:
+    - success: true if event filtering succeeded; false otherwise
+    - err: on error, an error message
+*/
+router.put('/filter', function(req, res) {
   console.log('filter route');
-  // console.log(req.body);
-  Event.filterEvents(req.params.locFilter, req.params.timeFilter, req.params.timeOption, function(err, filteredEvents) {
+  Event.filterEvents(req.body.content, function(err, filteredEvents) {
     console.log('filtered events from route');
     console.log(filteredEvents);
     if (err) {

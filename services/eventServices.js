@@ -67,15 +67,14 @@ export default {
         });
     },
 
-    getFilteredEvents : (locFilter, timeFilter, timeOption) => {
+    getFilteredEvents : (content) => {
         console.log('get filtered events service');
-        // console.log(content);
         return request({
-            uri : BASE_URL + `/filter/${locFilter}/${timeFilter}/${timeOption}`,
-            method : 'GET',
-            // body : {
-            //     content : content
-            // },
+            uri : BASE_URL + `/filter`,
+            method : 'PUT',
+            body : {
+                content : content
+            },
             json : true
         });
     },

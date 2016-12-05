@@ -53,15 +53,17 @@ class Filtering extends Component {
     }
 
     onApplyFilter() {
-        console.log('hello params ' + this.state.location + ' ' + this.state.time + ' ' + this.state.timeOption);
-        // var content = {
-        //     locFilter: this.state.location,
-        //     timeFilter: this.state.time,
-        //     timeOption: this.state.timeOption
-        // };
-        eventServices.getFilteredEvents(this.state.location, this.state.time, this.state.timeOption)
+        var content = {};
+        if (this.state.location != 'None') {
+            content['location'] = this.state.location;
+        };
+        if (this.state.timeOption != 'none') {
+            content['startTime'] = {$lt: this.state.time};
+            content['endTime'] = {$gt: this.state.time};
+        };
+
+        eventServices.getFilteredEvents(content)
             .then((resp) => {
-                console.log('THE RESP FILTERED EVENTS');
                 console.log(resp.content.filteredEvents);
                 this.setState({
                     location: 'None',
@@ -69,44 +71,6 @@ class Filtering extends Component {
                 });
                 this.props.onUpdate(resp.content.filteredEvents);
             });
-        // var locationEvents, timeEvents;
-        // console.log("apply filter");
-        // // APPLY LOCATION FILTER
-        // eventServices.getEventsByLocation(this.state.location)
-        //     .then((resp) => {
-        //         this.setState({
-        //             location: ''
-        //         });
-        //         var locationEvents = resp.content.foundEvents;
-        //         console.log('location events');
-        //         console.log(locationEvents);
-                
-        //         // APPLY TIME FILTER
-        //         if (this.state.timeOption != 'none') {
-        //             console.log('state time');
-        //             console.log(this.state.time);
-        //             eventServices.getEventsByTime(this.state.time)
-        //                 .then((resp) => {
-        //                     this.setState({
-        //                         time: Date.now()
-        //                     }) ;
-        //                     var timeEvents = resp.content.events;
-        //                     console.log('filtered time events');
-        //                     console.log(timeEvents);
-        //                     var filteredEvents = [];
-        //                     locationEvents.forEach(function(loc) {
-        //                         timeEvents.forEach(function(time) {
-        //                             if (loc._id == time._id) {
-        //                                 filteredEvents.push(loc);
-        //                             };
-        //                         });
-        //                     });
-        //                     console.log('filtered events');
-        //                     console.log(filteredEvents);
-        //                     this.props.onUpdate(filteredEvents);
-        //                 });
-        //         };
-        //     });
     }
   
   render () {
