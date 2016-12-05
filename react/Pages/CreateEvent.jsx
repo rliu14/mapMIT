@@ -23,7 +23,6 @@ class CreateEvent extends Component {
 		this.submitEvent = this.submitEvent.bind(this);
 		this.onPublicChange = this.onPublicChange.bind(this);
 		this.updateGroupSpecificVisibility = this.updateGroupSpecificVisibility.bind(this);
-
 		this.state = {
 			eventName: '',
 			startTime: Date.now(),
@@ -114,10 +113,8 @@ class CreateEvent extends Component {
 	}
 
 	updateGroupSpecificVisibility(groupId, event) {
-		console.log(event.target.value);
 		var newVisibility = event.target.value == 'false';
 		var newDict = update(this.state.groupSpecificVisibility, {$merge: {[groupId]: newVisibility}});
-		console.log(newDict);
 		this.setState({
 			groupSpecificVisibility: newDict
 		});
@@ -126,6 +123,9 @@ class CreateEvent extends Component {
 	// creates event in the event database
 	submitEvent() {
 		// call the createEvent service to create an event with content
+		var groupsVisibleTo = this.state.groups.filter(function(group) {
+			return this.state.groupSpecificVisibility[group._id];
+		}, this);
 		var content =  {
 			name: this.state.eventName,
 			startTime: this.state.startTime,
@@ -136,7 +136,8 @@ class CreateEvent extends Component {
 			locationDescription: this.state.locationDescription,
 			host: this.state.host,
 			creator: this.props.user,
-			isPublic: this.state.isPublic
+			isPublic: this.state.isPublic,
+			groupsVisibleTo: groupsVisibleTo
 		}
 		eventServices.createEvent(content)
 			.then((resp) => {
