@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 import { withRouter, browserHistory } from 'react-router';
 import { MenuItem, DropdownButton } from 'react-bootstrap';
+import LocationPicker from '../Elements/LocationPicker.jsx';
 import eventServices from '../../services/eventServices';
 import groupServices from '../../services/groupServices';
 import { DateField, TransitionView, Calendar } from 'react-date-picker'
@@ -86,10 +87,9 @@ class CreateEvent extends Component {
 		});
 	}
 
-	// NEED LOCATION DROPDOWN 
-	updateLocation(eventKey) {
+	updateLocation(event) {
 		this.setState({
-			location: eventKey
+			location: event
 		});
 	}
 
@@ -172,7 +172,7 @@ class CreateEvent extends Component {
 				  			<span> - </span>
 				  			<DateField forceValidDate
 							    	   defaultValue={this.state.endTime}
-							    	   dateFormat="MM-DD-YYYY HH:mm a"
+							    	   dateFormat="MM-DD-YYYY hh:mm a"
 							    	   onChange={this.updateEndTime}>
 							    <TransitionView>
 							    	<Calendar style={{padding: 10}}/>
@@ -194,39 +194,7 @@ class CreateEvent extends Component {
 		  			<div className="create-event-input">
 			  			<span className="create-event-input-label">Select Location* </span> 
 			  			<div className="create-event-input-option">
-				  			<DropdownButton title='Select' onSelect={this.updateLocation}>
-						    	<MenuItem eventKey="Building 1">Building 1</MenuItem>
-						    	<MenuItem eventKey="Building 2">Building 2</MenuItem>
-						    	<MenuItem eventKey="Building 3">Building 3</MenuItem>
-						    	<MenuItem eventKey="Building 4">Building 4</MenuItem>
-						    	<MenuItem eventKey="Building 5">Building 5</MenuItem>
-						    	<MenuItem eventKey="Building 6">Building 6</MenuItem>
-						    	<MenuItem eventKey="Building 7">Building 7</MenuItem>
-						    	<MenuItem eventKey="Building 10">Building 10</MenuItem>
-						    	<MenuItem eventKey="Building 13">Building 13</MenuItem>
-						    	<MenuItem eventKey="Building 14">Building 14</MenuItem>
-						    	<MenuItem eventKey="Building 18">Building 18</MenuItem>
-						    	<MenuItem eventKey="Building 34">Building 34</MenuItem>
-						    	<MenuItem eventKey="Building 36">Building 36</MenuItem>
-						    	<MenuItem eventKey="Building 38">Building 38</MenuItem>
-						    	<MenuItem eventKey="Building 56">Building 56</MenuItem>
-						    	<MenuItem eventKey="Building 66">Building 66</MenuItem>
-						    	<MenuItem eventKey="Green Building">Green Building</MenuItem>
-						    	<MenuItem eventKey="Stata Center">Stata Center</MenuItem>
-						    	<MenuItem eventKey="Maseeh Hall">Maseeh Hall</MenuItem>
-						    	<MenuItem eventKey="McCormick Hall">McCormick Hall</MenuItem>
-						    	<MenuItem eventKey="Baker House">Baker House</MenuItem>
-						    	<MenuItem eventKey="Burton Connor">Burton Connor</MenuItem>
-						    	<MenuItem eventKey="Macgregor House">Macgregor House</MenuItem>
-						    	<MenuItem eventKey="New House">New House</MenuItem>
-						    	<MenuItem eventKey="Next House">Next House</MenuItem>
-						    	<MenuItem eventKey="Simmons House">Simmons House</MenuItem>
-						    	<MenuItem eventKey="Tennis Courts">Tennis Courts</MenuItem>
-						    	<MenuItem eventKey="Z Center">Z Center</MenuItem>
-						    	<MenuItem eventKey="Kresge Auditorium">Kresge Auditorium</MenuItem>
-						    	<MenuItem eventKey="Kresge Barbecue Pits">Kresge Barbecue Pits</MenuItem>
-						    	<MenuItem eventKey="Stratton Student Center">Stratton Student Center</MenuItem>
-						    </DropdownButton>
+			  				<LocationPicker onUpdate={this.updateLocation}/>
 					    </div>
 					</div>
 
