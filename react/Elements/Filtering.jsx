@@ -32,8 +32,9 @@ class Filtering extends Component {
     }
 
     handleOptionChange(event) {
+        console.log('handle option change')
         this.setState({
-            timeOption: event.target.value
+            timeOption: event.target.value,
         });
     }
 
@@ -44,8 +45,10 @@ class Filtering extends Component {
     }
 
     updateTime(dateString, { dateMoment, timestamp }) {
+        console.log('update time');
         this.setState({
-            time: dateMoment.toDate()
+            time: dateMoment.toDate(),
+            timeOption: 'at'
         });
     }
 
@@ -138,15 +141,15 @@ class Filtering extends Component {
                         <label>
                             <input type="radio" value="at" checked={this.state.timeOption === 'at'} onChange={this.handleOptionChange} />
                                 Happening At
-                                <DateField forceValidDate
-                                    defaultValue={"2016-05-30 15:23:34"}
-                                    dateFormat="YYYY-MM-DD hh:mm:ss"
-                                    onChange={this.updateTime}>
-                                    <TransitionView>
-                                        <Calendar style={{padding: 10}}/>
-                                    </TransitionView>
-                                </DateField>
                         </label>
+                        <DateField forceValidDate
+                                defaultValue={this.state.time}
+                                dateFormat="MM-DD-YY hh:mm a"
+                                onChange={this.updateTime}>
+                                <TransitionView>
+                                    <Calendar style={{padding: 10}}/>
+                                </TransitionView>
+                        </DateField>
                     </div>
 
                 <h3>Location</h3>

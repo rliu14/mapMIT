@@ -55,7 +55,6 @@ class CreateEvent extends Component {
 	}
 
 	updateEventName(event) {
-		console.log(this.state.groupSpecificVisibility);
 		this.setState({
 			eventName: event.target.value
 		});
@@ -65,14 +64,12 @@ class CreateEvent extends Component {
 		this.setState({
 			startTime: dateMoment.toDate()
 		});
-		console.log(this.state.startTime);
 	}
 
 	updateEndTime(dateString, { dateMoment, timestamp }) {
 		this.setState({
 			endTime: dateMoment.toDate()
 		});
-		console.log(this.state.endTime);
 	}
 
 	updateRoom(event) {
@@ -145,7 +142,6 @@ class CreateEvent extends Component {
 			})
 	}
 
-
 	render() {
 	  	return ( 
 	  		<div>
@@ -163,7 +159,7 @@ class CreateEvent extends Component {
 			  			<div className="create-event-input-option">
 				  			<DateField forceValidDate
 							    	   defaultValue={this.state.startTime}
-							    	   dateFormat="MM-DD-YYYY hh:mm a"
+							    	   dateFormat="MM-DD-YY hh:mm a"
 							    	   onChange={this.updateStartTime}>
 							    <TransitionView>
 							    	<Calendar style={{padding: 10}}/>
@@ -172,7 +168,7 @@ class CreateEvent extends Component {
 				  			<span> - </span>
 				  			<DateField forceValidDate
 							    	   defaultValue={this.state.endTime}
-							    	   dateFormat="MM-DD-YYYY hh:mm a"
+							    	   dateFormat="MM-DD-YY hh:mm a"
 							    	   onChange={this.updateEndTime}>
 							    <TransitionView>
 							    	<Calendar style={{padding: 10}}/>
@@ -231,6 +227,7 @@ class CreateEvent extends Component {
 		                </div>
 	                </div>
 		  		</div>
+
 		  		<span className='input-group-btn'>
                     <button type='button' className='btn btn-default' onClick={this.submitEvent}>
                         Create
