@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import eventServices from '../../services/eventServices';
+import groupServices from '../../services/groupServices';
 import LocationPicker from './LocationPicker.jsx';
 import { DateField, TransitionView, Calendar } from 'react-date-picker'
 
@@ -12,7 +13,8 @@ class Filtering extends Component {
             checkedGroupIds: [],
             timeOption: 'none',
             time: Date.now(),
-            location: 'None'
+            location: 'None',
+            memberGroups: ['a','b'],
         };
 
         this.onPublicChange = this.onPublicChange.bind(this);
@@ -21,6 +23,7 @@ class Filtering extends Component {
         this.updateLocation = this.updateLocation.bind(this);
         this.updateTime = this.updateTime.bind(this);
         this.onApplyFilter = this.onApplyFilter.bind(this);
+        this.getAllGroups = this.getAllGroups.bind(this);
     }
 
     onPublicChange() {
@@ -50,6 +53,23 @@ class Filtering extends Component {
             time: dateMoment.toDate(),
             timeOption: 'at'
         });
+    }
+
+    getAllGroups() {
+        if (this.props.user == undefined) {
+            this.setState({memberGroups: []});
+            return;
+        }
+        groupServices.getGroupsWithMember(this.props.user)
+            .then((resp) => {
+                this.setState({
+                    memberGroups: resp.content.foundGroups
+                });
+            });
+    }
+
+    componentWillMount() {
+        // this.getAllGroups();
     }
 
     onApplyFilter() {
@@ -84,12 +104,25 @@ class Filtering extends Component {
                                 Public
                         </label>
                     </div>
-                    <div className="checkbox">
+                    {this.state.memberGroups.length != 0 &&
+                        <form>
+                            <label> Group
+                                <select value={this.selectedGroup} onChange={this.onGroupEventChange}>
+                                    {this.state.memberGroups.map(function(group, index, array){
+                                        return (<option key={index} value={group}>{group}</option>)
+                                    })}
+                                </select>
+                            </label>
+                        </form>
+                    }
+                   
+                    {/*<div className="checkbox">
                         <label>
                             <input type="checkbox" value='ID OF GROUP' checked={this.state.isPublic} onChange={this.onPublicChange}/>
                                 Group-specific
+
                         </label>
-                    </div>
+                    </div>*/}
 
                 <h3>Time</h3>
                     <div className="radio">
