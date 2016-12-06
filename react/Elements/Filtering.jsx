@@ -10,11 +10,12 @@ class Filtering extends Component {
         super(props);
         this.state = {
             isPublic: false,
-            checkedGroupIds: [],
+            checkedGroupIds: new Set(),
             timeOption: 'none',
             time: Date.now(),
             location: 'None',
-            memberGroups: ['a','b'],
+            groupsLoaded: false,
+            memberGroups: []
         };
 
         this.onPublicChange = this.onPublicChange.bind(this);
@@ -31,7 +32,18 @@ class Filtering extends Component {
     }
 
     onGroupEventChange(event) {
-        var groupId = event.target.value;
+        var newGroup = event.target.value;
+        if (event.target.checked) {
+            this.setState((prevState) => {
+                prevState.checkedGroupIds.add(newGroup);
+                return prevState;
+            });
+        } else {
+            this.setState((prevState) => {
+                prevState.checkedGroupIds.delete(newGroup);
+                return prevState;
+            });
+        }
     }
 
     handleOptionChange(event) {
@@ -63,13 +75,14 @@ class Filtering extends Component {
         groupServices.getGroupsWithMember(this.props.user)
             .then((resp) => {
                 this.setState({
-                    memberGroups: resp.content.foundGroups
+                    memberGroups: resp.content.foundGroups,
+                    groupsLoaded: true
                 });
             });
     }
 
-    componentWillMount() {
-        // this.getAllGroups();
+    componentDidMount() {
+        this.getAllGroups();
     }
 
     onApplyFilter() {
@@ -104,25 +117,22 @@ class Filtering extends Component {
                                 Public
                         </label>
                     </div>
-                    {this.state.memberGroups.length != 0 &&
-                        <form>
-                            <label> Group
-                                <select value={this.selectedGroup} onChange={this.onGroupEventChange}>
-                                    {this.state.memberGroups.map(function(group, index, array){
-                                        return (<option key={index} value={group}>{group}</option>)
-                                    })}
-                                </select>
-                            </label>
-                        </form>
-                    }
-                   
-                    {/*<div className="checkbox">
-                        <label>
-                            <input type="checkbox" value='ID OF GROUP' checked={this.state.isPublic} onChange={this.onPublicChange}/>
-                                Group-specific
 
-                        </label>
-                    </div>*/}
+                    {this.state.memberGroups.length != 0 && this.state.groupsLoaded &&
+                        <div>
+                        {this.state.memberGroups.map(function(group) {
+                            return (
+                                    <div key={group._id}>
+                                        <label>
+                                            <input type="checkbox" value={group._id} onChange={this.onGroupEventChange}/>
+                                                {group.name}
+                                        </label>
+                                    </div>
+                                )
+                            }, this)
+                        }
+                        </div>
+                    }
 
                 <h3>Time</h3>
                     <div className="radio">

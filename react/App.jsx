@@ -32,10 +32,7 @@ class App extends Component {
         Services.user.login(username, password)
             .then((res) => {
                 if (res.success){
-                    this.setState((prevState) => {
-                        prevState.user = res.content.user;
-                        return prevState;
-                    });
+                    this.setState({user: res.content.user});
                     this.props.router.push('/');
                 }
             }).catch((err) => {

@@ -46,7 +46,7 @@ class Homepage extends Component {
       	return ( 
             <div id="homepage-container">
                 <div id="homepage-left">
-                    <Filtering onUpdate={this.onFilter}/>
+                    <Filtering onUpdate={this.onFilter} user={this.props.user}/>
                 </div>
                 <div id="homepage-right">
                     <MapMIT events = {this.state.events}/>
