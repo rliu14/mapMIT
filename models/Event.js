@@ -175,6 +175,18 @@ eventSchema.statics.findEventsByTime = function(time, cb) {
  */
 eventSchema.statics.filterEvents = function(content, cb) {
     var Event = this;
+
+    var findEvents = function(content) {
+        if ('public' in content && 'group')
+        Event.find(content, function(err, filteredEvents) {
+                if (err) {
+                    cb({ msg: err });
+                } else {
+                    cb(err, filteredEvents);
+                };
+            }).populate('location');
+    }
+
     if ('location' in content) {
         Loc.findLocation(content.location, function(err, location) {
             if (err) {
@@ -183,22 +195,10 @@ eventSchema.statics.filterEvents = function(content, cb) {
                 content['location'] = location;
             };
 
-            Event.find(content, function(err, filteredEvents) {
-                if (err) {
-                    cb({ msg: err });
-                } else {
-                    cb(err, filteredEvents);
-                };
-            }).populate('location');
+            findEvents(content);
         });
-    } else {   
-        this.find(content, function(err, filteredEvents) {
-            if (err) {
-                cb({ msg: err });
-            } else {
-                cb(err, filteredEvents);
-            };
-        }).populate('location');
+    } else {
+        findEvents(content);
     };
 };
 

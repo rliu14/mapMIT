@@ -15,7 +15,8 @@ class Filtering extends Component {
             time: Date.now(),
             location: 'None',
             groupsLoaded: false,
-            memberGroups: []
+            memberGroups: [],
+            typeOfEvent: "all"
         };
 
         this.onPublicChange = this.onPublicChange.bind(this);
@@ -25,6 +26,7 @@ class Filtering extends Component {
         this.updateTime = this.updateTime.bind(this);
         this.onApplyFilter = this.onApplyFilter.bind(this);
         this.getAllGroups = this.getAllGroups.bind(this);
+        this.handleTypeChange = this.handleTypeChange.bind(this);
     }
 
     onPublicChange() {
@@ -53,6 +55,12 @@ class Filtering extends Component {
         });
     }
 
+    handleTypeChange(event) {
+        this.setState({
+            typeOfEvent: event.target.value,
+        });
+    }
+
     updateLocation(location) {
         this.setState({
             location: location
@@ -69,7 +77,6 @@ class Filtering extends Component {
 
     getAllGroups() {
         if (this.props.user == undefined) {
-            this.setState({memberGroups: []});
             return;
         }
         groupServices.getGroupsWithMember(this.props.user)
@@ -94,15 +101,21 @@ class Filtering extends Component {
             content['startTime'] = {$lt: this.state.time};
             content['endTime'] = {$gt: this.state.time};
         };
-        
-        content['public'] = this.state.isPublic;
-        content['groupIds'] = Array.from(this.state.checkedGroupIds);
+
+        // we only allow users to select a subset of
+        // groups if they are only looking for group events
+        if (this.state.typeOfEvent == 'public') {
+            content['isPublic'] = true;
+        } else if (this.state.typeOfEvent == 'group') {
+            content['groupsVisibleTo'] = { $in: Array.from(this.state.checkedGroupIds) };
+        }
+
+        console.log("content:", content.location);
 
         eventServices.getFilteredEvents(content)
             .then((resp) => {
                 console.log(resp.content.filteredEvents);
                 this.setState({
-                    location: 'None',
                     time: Date.now()
                 });
                 this.props.onUpdate(resp.content.filteredEvents);
@@ -114,26 +127,40 @@ class Filtering extends Component {
         <div id="filter">
             <h1>Filter</h1>
                 <h3>Event Type</h3>
-                    <div className="checkbox">
+                    <div className="radio">
                         <label>
-                            <input type="checkbox" checked={this.state.isPublic} onChange={this.onPublicChange}/>
+                            <input type="radio" value='all' checked={this.state.typeOfEvent === 'all'} onChange={this.handleTypeChange} />
+                                All
+                        </label>
+                    </div>
+                    <div className="radio">
+                        <label>
+                            <input type="radio" value='public' checked={this.state.typeOfEvent === 'public'} onChange={this.handleTypeChange} />
                                 Public
                         </label>
                     </div>
+                    { this.state.groupsLoaded && 
+                        <div className="radio">
+                            <label>
+                                <input type="radio" value='group' checked={this.state.typeOfEvent === 'group'} onChange={this.handleTypeChange} />
+                                    Group Events
+                            </label>
 
-                    {this.state.memberGroups.length != 0 && this.state.groupsLoaded &&
-                        <div>
-                        {this.state.memberGroups.map(function(group) {
-                            return (
-                                    <div key={group._id}>
-                                        <label>
-                                            <input type="checkbox" value={group._id} onChange={this.onGroupEventChange}/>
-                                            {group.name}
-                                        </label>
-                                    </div>
-                                )
-                            }, this)
-                        }
+                            {this.state.memberGroups.length != 0 &&
+                                <div>
+                                {this.state.memberGroups.map(function(group) {
+                                    return (
+                                            <div key={group._id}>
+                                                <label>
+                                                    <input type="checkbox" value={group._id} onChange={this.onGroupEventChange}/>
+                                                    {group.name}
+                                                </label>
+                                            </div>
+                                        )
+                                    }, this)
+                                }
+                                </div>
+                            }
                         </div>
                     }
 
