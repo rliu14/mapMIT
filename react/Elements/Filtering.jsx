@@ -94,6 +94,9 @@ class Filtering extends Component {
             content['startTime'] = {$lt: this.state.time};
             content['endTime'] = {$gt: this.state.time};
         };
+        
+        content['public'] = this.state.isPublic;
+        content['groupIds'] = Array.from(this.state.checkedGroupIds);
 
         eventServices.getFilteredEvents(content)
             .then((resp) => {
@@ -125,7 +128,7 @@ class Filtering extends Component {
                                     <div key={group._id}>
                                         <label>
                                             <input type="checkbox" value={group._id} onChange={this.onGroupEventChange}/>
-                                                {group.name}
+                                            {group.name}
                                         </label>
                                     </div>
                                 )
