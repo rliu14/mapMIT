@@ -7,7 +7,7 @@ class Login extends Component {
 		// this.defaultProps = {
 		// }
 		this.state = {
-			loginUser : '',
+			loginEmail : '',
 			loginPass : ''
 		};
 		this.updateFormVal = this.updateFormVal.bind(this);
@@ -24,7 +24,7 @@ class Login extends Component {
 	}
 
 	loginUser() {
-		this.props.loginUser(this.state.loginUser, this.state.loginPass);
+		this.props.loginUser(this.state.loginEmail, this.state.loginPass);
 	}
 
 	render() {
@@ -36,9 +36,9 @@ class Login extends Component {
                 </div>
                 <div className = 'form-group'>
                     <input className = 'form-control'
-                        name = 'loginUser'
-                        placeholder = 'Username'
-                        value = {this.state.loginUser}
+                        name = 'loginEmail'
+                        placeholder = 'Email'
+                        value = {this.state.loginEmail}
                         onChange = {this.updateFormVal}
                     />
                 </div>

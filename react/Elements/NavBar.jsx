@@ -14,6 +14,9 @@ class NavBar extends Component {
 	}
 
 	render() {
+
+		console.log("props currentUser", this.props.currentUser);
+		console.log("props", this.props);
 		var currentUserItem = (this.props.currentUser === undefined || this.props.currentUser === 'Not Logged In') ? null : (
 			<p>Welcome, {this.props.currentUser}</p>
 		);

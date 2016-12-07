@@ -3,15 +3,15 @@ var bcrypt = require('bcrypt');
 var nev = require('email-verification')(mongoose);
 
 var userSchema = new mongoose.Schema({
-	username: String,
 	email: String,
 	password: String
 });
 
-userSchema.statics.findUser = function(username, callback) {
-	this.findOne({ username : username }, function(err, result) {
+userSchema.statics.findUser = function(email, callback) {
+	this.findOne({ email : email }, function(err, result) {
 		if (err) callback({ msg : err });
 		if (result !== null) {
+			console.log('Finding user...', result);
 			callback(null, result);
 		} else {
 			callback({ msg : 'No such user!' });
@@ -30,15 +30,16 @@ userSchema.statics.findUser = function(username, callback) {
 // 	});
 // };
 
-userSchema.statics.createUser = function(username, email, password, callback) {
-	if (username.match('^[a-z0-9_-]{3,16}$') && typeof password === 'string') {
-		this.find({ username : username }, function(err, result) {
+userSchema.statics.createUser = function(email, password, callback) {
+	console.log("creating a new user...");
+	var items = email.split('@');
+	if (items[1] === 'mit.edu' && typeof password === 'string') {
+		this.find({ email : email }, function(err, result) {
 			if (err) callback(err);
 			else if (result.length === 0) {
 				var salt = bcrypt.genSaltSync(10);
 				var hash = bcrypt.hashSync(password, salt);
 				var user = new User({
-					username: username,
 					email: email,
 					password: hash,
 				});
@@ -55,17 +56,17 @@ userSchema.statics.createUser = function(username, email, password, callback) {
 		});
 	} else {
 		if (callback) {
-			callback({ msg : 'Invalid username/password.' });
+			callback({ msg : 'Invalid email/password.' });
 		}
 	}
 };
 
-userSchema.statics.authUser = function(username, password, callback) {
-	this.find({ username : username }, function(err, result) {
+userSchema.statics.authUser = function(email, password, callback) {
+	this.find({ email : email }, function(err, result) {
 		if (err) callback(err);
 		else if (result.length > 0) {
 			if (bcrypt.compareSync(password, result[0].password)) {
-				callback(null, { username : username });
+				callback(null, { email : email });
 			} else {
 				callback({ msg : 'Login failed.' });
 			}

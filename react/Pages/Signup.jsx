@@ -7,7 +7,6 @@ class Signup extends Component {
 		// this.defaultProps = {
 		// }
 		this.state = {
-			registerUser : '',
 			registerEmail : '',
 			registerPass : ''
 		};
@@ -25,7 +24,8 @@ class Signup extends Component {
 	}
 
 	registerUser() {
-		this.props.registerUser(this.state.registerUser, this.state.registerEmail, this.state.registerPass);
+        console.log("REGISTERING FROM SIGNUP....");
+		this.props.registerUser(this.state.registerEmail, this.state.registerPass);
 	}
 
 	render() {
@@ -34,14 +34,6 @@ class Signup extends Component {
 	  		<div className = 'container'>
                 <div className = 'signup-title'>
                     Register a MapMIT Account
-                </div>
-                <div className = 'form-group'>
-                    <input className = 'form-control'
-                        name = 'registerUser'
-                        placeholder = 'Username'
-                        value = {this.state.registerUser}
-                        onChange = {this.updateFormVal}
-                    />
                 </div>
                 <div className = 'form-group'>
                     <input className = 'form-control'

@@ -15,6 +15,8 @@ class App extends Component {
         this.loginUser = this.loginUser.bind(this);
         this.logout = this.logout.bind(this);
         this.registerUser = this.registerUser.bind(this);
+        this.verifyAccount = this.verifyAccount.bind(this);
+
     }
 
     componentWillMount() {
@@ -28,8 +30,8 @@ class App extends Component {
         });
     }
 
-    loginUser(username, password){
-        Services.user.login(username, password)
+    loginUser(email, password){
+        Services.user.login(email, password)
             .then((res) => {
                 if (res.success){
                     this.setState({user: res.content.user});
@@ -52,16 +54,36 @@ class App extends Component {
         });
     }
 
-    registerUser(username, email, password){
-        Services.user.register(username, email, password).then((res) => {
-            console.log(username);
+    registerUser(email, password){
+        console.log("appjsx email: ", email);
+        console.log("appjsx password: ", password);
+        Services.user.register(email, password).then((res) => {
+            console.log("INSIDE THE REGISTRATION SERVICE CALL...");
             console.log(email);
             console.log(password);
             console.log(res);
             if (res.success){
-                this.loginUser(username, password);
+                this.loginUser(email, password);
             } else {
                 console.log("Error on register user: ",res.err);
+            }
+        });
+    }
+
+    verifyAccount(URL){
+        Services.user.verifyAccount(URL).then((res) => {
+            console.log(res.success);
+            if (res.success) {
+                console.log("what does this response object look like???");
+                console.log(res);
+                console.log(res.info.accepted[0]);
+                // console.log(res.content.user);
+                // this.setState({user: res.content.user});
+                console.log("successful verification of account!!!", res.success);
+                this.setState({ user : res.info.accepted[0] });
+                this.props.router.push('/');
+            } else {
+                console.log("Error on verification of user: ", res.err);
             }
         });
     }
@@ -81,7 +103,8 @@ class App extends Component {
                         events : this.state.tweets,
                         loginUser : this.loginUser,
                         registerUser : this.registerUser,
-                        logout : this.logout
+                        logout : this.logout,
+                        verifyAccount : this.verifyAccount
                     })}
                 </div>
             </div>
