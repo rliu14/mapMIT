@@ -9,17 +9,15 @@ class Filtering extends Component {
     constructor(props){ 
         super(props);
         this.state = {
-            isPublic: false,
-            checkedGroupIds: new Set(),
-            timeOption: 'none',
+            timeOption: 'now',
             time: Date.now(),
             location: 'None',
             groupsLoaded: false,
             memberGroups: [],
+            checkedGroupIds: new Set(),
             typeOfEvent: "all"
         };
 
-        this.onPublicChange = this.onPublicChange.bind(this);
         this.onGroupEventChange = this.onGroupEventChange.bind(this);
         this.handleOptionChange = this.handleOptionChange.bind(this);
         this.updateLocation = this.updateLocation.bind(this);
@@ -27,10 +25,6 @@ class Filtering extends Component {
         this.onApplyFilter = this.onApplyFilter.bind(this);
         this.getAllGroups = this.getAllGroups.bind(this);
         this.handleTypeChange = this.handleTypeChange.bind(this);
-    }
-
-    onPublicChange() {
-        this.setState({isPublic: !this.state.isPublic});
     }
 
     onGroupEventChange(event) {
@@ -56,8 +50,13 @@ class Filtering extends Component {
     }
 
     handleTypeChange(event) {
-        this.setState({
-            typeOfEvent: event.target.value,
+        var newValue = event.target.value
+        this.setState(prevState => {
+            if (newValue != 'group') {
+                prevState.checkedGroupIds = new Set();
+            }
+            prevState.typeOfEvent = newValue
+            return prevState;
         });
     }
 
@@ -94,7 +93,7 @@ class Filtering extends Component {
 
     onApplyFilter() {
         var content = {};
-        if (this.state.location != 'None') {
+        if (this.state.location != 'Any') {
             content['location'] = this.state.location;
         };
         if (this.state.timeOption != 'none') {
@@ -128,7 +127,7 @@ class Filtering extends Component {
                     <div className="radio">
                         <label>
                             <input type="radio" value='all' checked={this.state.typeOfEvent === 'all'} onChange={this.handleTypeChange} />
-                                All
+                                Any
                         </label>
                     </div>
                     <div className="radio">
@@ -150,8 +149,20 @@ class Filtering extends Component {
                                     return (
                                             <div key={group._id}>
                                                 <label>
-                                                    <input type="checkbox" value={group._id} onChange={this.onGroupEventChange}/>
-                                                    {group.name}
+                                                    {this.state.typeOfEvent != 'group' && 
+                                                        <div>
+                                                            <input type="checkbox" value={group._id} onChange={this.onGroupEventChange} disabled/>
+                                                                {group.name}
+                                                        </div>
+                                                    }
+
+                                                    {this.state.typeOfEvent == 'group' &&
+                                                        <div> 
+                                                            <input type="checkbox" value={group._id} onChange={this.onGroupEventChange} />
+                                                                {group.name}
+                                                        </div>
+                                                    }
+
                                                 </label>
                                             </div>
                                         )
@@ -166,7 +177,7 @@ class Filtering extends Component {
                     <div className="radio">
                         <label>
                             <input type="radio" value='none' checked={this.state.timeOption === 'none'} onChange={this.handleOptionChange} />
-                                None
+                                Any
                         </label>
                     </div>
                     <div className="radio">
@@ -179,7 +190,7 @@ class Filtering extends Component {
                         <label>
                             <input type="radio" value="at" checked={this.state.timeOption === 'at'} onChange={this.handleOptionChange} />
                                 Happening At
-                        </label>
+                        </label> <br/>
                         <DateField forceValidDate
                                 defaultValue={this.state.time}
                                 dateFormat="MM-DD-YY hh:mm a"
