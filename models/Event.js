@@ -224,25 +224,39 @@ eventSchema.statics.filterEvents = function(content, cb) {
  *          event that was just updated.
  */
 eventSchema.statics.findAndUpdateEvent = function(eventID, content, cb) {
+    var Event = this;
     this.findById(eventID, function(err, foundEvent) {
         if (err) {
             cb({ msg: err });
         } else {
-            foundEvent.name = content.name;
-            foundEvent.description = content.description;
-            foundEvent.startTime = content.startTime;
-            foundEvent.endTime = content.endTime;
-            foundEvent.room = content.room;
-            // this.location = content.location; // TODO somehow add back in
-            foundEvent.locationDescription = content.locationDescription;
-            foundEvent.host = content.host;
-            foundEvent.save(function(err, updatedEvent) {
-                if(err) {
+            var location = content.location;
+            Loc.findLocation(location, function(err, foundLocation) {
+                if (err) {
                     cb({ msg: err });
                 } else {
-                    cb(err, updatedEvent);
+                    foundEvent.location = foundLocation;
+                    foundEvent.name = content.name;
+                    foundEvent.description = content.description;
+                    foundEvent.startTime = content.startTime;
+                    foundEvent.endTime = content.endTime;
+                    foundEvent.room = content.room;
+                    foundEvent.locationDescription = content.locationDescription;
+                    foundEvent.host = content.host;
+                    foundEvent.isPublic = content.isPublic;
+                    foundEvent.groupsVisibleTo = content.groupsVisibleTo;
+                    foundEvent.save(function(err, updatedEvent) {
+                        if(err) {
+                            cb({ msg: err });
+                        } else {
+                            cb(err, updatedEvent);
+                        };
+                    });                    
                 };
             });
+
+
+
+
 
         };
     });

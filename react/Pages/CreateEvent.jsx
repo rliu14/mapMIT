@@ -97,9 +97,9 @@ class CreateEvent extends Component {
 		});
 	}
 
-	updateLocation(event) {
+	updateLocation(location) {
 		this.setState({
-			location: event
+			location: location
 		});
 	}
 
@@ -117,25 +117,11 @@ class CreateEvent extends Component {
 
 	onPublicChange(event) {
 		var targetVal = event.target.value === 'true';
-		if (this.state.isPublic !== targetVal) {
-			this.setState({isPublic: !this.state.isPublic});
-		}
+		this.setState({isPublic: targetVal});
 	}
-
-	// updateGroupSpecificVisibility(groupId, event) {
-	// 	var newVisibility = event.target.value == 'false';
-	// 	var newDict = update(this.state.groupSpecificVisibility, {$merge: {[groupId]: newVisibility}});
-	// 	this.setState({
-	// 		groupSpecificVisibility: newDict
-	// 	});
-	// }
 
 	// creates event in the event database
 	submitEvent() {
-		// call the createEvent service to create an event with content
-		// var groupsVisibleTo = this.state.memberGroups.filter(function(group) {
-		// 	return this.state.groupSpecificVisibility[group._id];
-		// }, this);
 		var content =  {
 			name: this.state.eventName,
 			startTime: this.state.startTime,
@@ -235,22 +221,19 @@ class CreateEvent extends Component {
 	                                {this.state.memberGroups.map(function(group) {
 	                                    return (
 	                                            <div key={group._id}>
-	                                                <label>
-	                                                    {this.state.isPublic && 
-	                                                        <div>
-	                                                            <input type="checkbox" value={group._id} onChange={this.onGroupEventChange} disabled/>
-	                                                                {group.name}
-	                                                        </div>
-	                                                    }
+                                                    {this.state.isPublic && 
+                                                        <div>
+                                                            <input type="checkbox" value={group._id} onChange={this.onGroupEventChange} disabled/>
+                                                                {group.name}
+                                                        </div>
+                                                    }
 
-	                                                    {!this.state.isPublic &&
-	                                                        <div> 
-	                                                            <input type="checkbox" value={group._id} onChange={this.onGroupEventChange} />
-	                                                                {group.name}
-	                                                        </div>
-	                                                    }
-
-	                                                </label>
+                                                    {!this.state.isPublic &&
+                                                        <div> 
+                                                            <input type="checkbox" value={group._id} onChange={this.onGroupEventChange} />
+                                                                {group.name}
+                                                        </div>
+                                                    }
 	                                            </div>
 	                                        )
 	                                    }, this)

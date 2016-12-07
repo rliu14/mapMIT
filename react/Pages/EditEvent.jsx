@@ -21,6 +21,9 @@ class EditEvent extends Component {
 		this.updateHost = this.updateHost.bind(this);
 		this.updateEvent = this.updateEvent.bind(this);
 		this.backToMyEvents = this.backToMyEvents.bind(this);
+        this.onGroupEventChange = this.onGroupEventChange.bind(this);
+        this.onPublicChange = this.onPublicChange.bind(this);
+
 		this.state = {
 			isLoaded: false,
 			eventName: '',
@@ -31,7 +34,9 @@ class EditEvent extends Component {
 			location: '',
 			locationDescription: '',
 			host: '',
-			groups: []
+			memberGroups: [],
+			isPublic: false,
+			checkedGroupIds: new Set()
 		}
 	}
 
@@ -43,27 +48,25 @@ class EditEvent extends Component {
 			.then((resp) => {
 				if(resp.success) {
 					var foundEvent = resp.content.foundEvent;
-					console.log('found event');
-					console.log(foundEvent);
-					console.log('found event location');
-					console.log(foundEvent.location.name);
 					this.setState( { 
 						eventName: foundEvent.name,
 						startTime: Date.parse(foundEvent.startTime), // TODO blah this doesn't work
 						endTime: Date.parse(foundEvent.endTime), // TODO same here
 						roomNumber: foundEvent.room,
 						eventDescription: foundEvent.description,
-						location: foundEvent.location.name,
+						location: foundEvent.location,
 						locationDescription: foundEvent.locationDescription,
 						host: foundEvent.host,
-						isLoaded: true			
+						isPublic: foundEvent.isPublic,
+						isLoaded: true,
+						checkedGroupIds: new Set(foundEvent.groupsVisibleTo)
 					});
 				}
 			});
 		groupServices.getGroupsWithMember(this.props.user)
 			.then((resp) => {
 				if(resp.success) {
-					this.setState( { groups: resp.content.foundGroups });
+					this.setState( { memberGroups: resp.content.foundGroups });
 				}
 			});		
 	}
@@ -100,9 +103,10 @@ class EditEvent extends Component {
 		});
 	}
 
-	updateLocation(event) {
+	updateLocation(location) {
+		console.log(this.state.location);
 		this.setState({
-			location: event.target.value
+			location: location
 		});
 	}
 
@@ -118,6 +122,27 @@ class EditEvent extends Component {
 		});
 	}
 
+	onPublicChange(event) {
+		var targetVal = event.target.value === 'true';
+		this.setState({isPublic: targetVal});
+	}
+
+	onGroupEventChange(event) {
+		console.log(this.state.checkedGroupIds);
+        var newGroup = event.target.value;
+        if (event.target.checked) {
+            this.setState((prevState) => {
+                prevState.checkedGroupIds.add(newGroup);
+                return prevState;
+            });
+        } else {
+            this.setState((prevState) => {
+                prevState.checkedGroupIds.delete(newGroup);
+                return prevState;
+            });
+        }
+    }
+
 	updateEvent() {
 		var content = {
 			name: this.state.eventName,
@@ -128,7 +153,9 @@ class EditEvent extends Component {
 			location: this.state.location, //TODO bring this back somehow
 			locationDescription: this.state.locationDescription,
 			host: this.state.host,
-			creator: this.state.user 
+			creator: this.state.user,
+			isPublic: this.state.isPublic,
+			groupsVisibleTo: Array.from(this.state.checkedGroupIds)
 		}
 		eventServices.updateEvent(this.props.params.eventId, content)
 			.then((resp) => {
@@ -179,7 +206,7 @@ class EditEvent extends Component {
 
 		  			<span>Select Location* </span> 
 					<div className="create-event-input-option">
-		  				<LocationPicker onUpdate={this.updateLocation} location={this.state.location}/>
+		  				<LocationPicker onUpdate={this.updateLocation} location={this.state.location.name}/>
 				    </div>
 
 		  			<span>Location Description </span> 
@@ -188,10 +215,44 @@ class EditEvent extends Component {
 		  			<span>Host* </span> 
 		  			<select className="create-event-input-option" value={this.state.host} onChange={this.updateHost}>
                     	<option value={this.props.user}>{this.props.user}</option>
-                        {this.state.groups.map(function(group){
+                        {this.state.memberGroups.map(function(group){
                             return (<option key={group._id} value={group.name}>{group.name}</option>)
                         })}
                     </select>
+
+                	<span>Privacy* </span> 
+		  			<div className="create-event-input-option">
+                        <input type="radio" value={true} checked={this.state.isPublic} onChange={this.onPublicChange}/>
+                            Public<br/>
+                        {this.state.memberGroups.length != 0 &&
+                        	<div className="group-radio-container">
+                            	<input type="radio" value={false} checked={!this.state.isPublic} onChange={this.onPublicChange}/>
+                                Group-specific<br/>
+                                <div>
+                                {this.state.memberGroups.map(function(group) {
+                                    return (
+                                            <div key={group._id}>
+                                                {this.state.isPublic && 
+                                                    <div>
+                                                        <input type="checkbox" value={group._id} defaultChecked={this.state.checkedGroupIds.has(group._id)} onChange={this.onGroupEventChange} disabled/>
+                                                            {group.name}
+                                                    </div>
+                                                }
+
+                                                {!this.state.isPublic &&
+                                                    <div> 
+                                                        <input type="checkbox" value={group._id} defaultChecked={this.state.checkedGroupIds.has(group._id)} onChange={this.onGroupEventChange} />
+                                                            {group.name}
+                                                    </div>
+                                                }
+                                            </div>
+                                        )
+                                    }, this)
+                                }
+                                </div>
+                            </div>
+                        }
+	                </div>
 		  		</div>
 		  		}
 
