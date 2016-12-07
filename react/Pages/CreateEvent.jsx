@@ -28,8 +28,8 @@ class CreateEvent extends Component {
 		// this.updateGroupSpecificVisibility = this.updateGroupSpecificVisibility.bind(this);
 		this.state = {
 			eventName: '',
-			startTime: Date.now(),
-			endTime: Date.now(),
+			startTime: new Date(),
+			endTime: new Date(),
 			room: '',
 			eventDescription: '',
 			location: '',

@@ -180,7 +180,7 @@ class EditEvent extends Component {
 		  			<input type="text" className="form-control" value={this.state.eventName} onChange={this.updateEventName}></input> <br/>
 
 		  			<span>Time* </span> 
-		  			<DateField forceValidDate
+		  			{/*<DateField forceValidDate
 							   defaultValue={this.state.startTime}
 					    	   dateFormat="YYYY-MM-DD HH:mm:ss"
 					    	   onChange={this.updateStartTime}>
@@ -196,7 +196,10 @@ class EditEvent extends Component {
 					    <TransitionView>
 					    	<Calendar style={{padding: 10}}/>
 					    </TransitionView>
-					</DateField> <br/>
+					</DateField> <br/> */}
+					<form>
+                            <input type="datetime-local" onChange={this.updateTime}/>
+                    </form>
 
 		  			<span>Room Number</span> 
 		  			<input type="text" className="form-control" value={this.state.roomNumber} onChange={this.updateRoomNumber}></input> <br/>

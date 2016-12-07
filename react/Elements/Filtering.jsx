@@ -3,7 +3,8 @@ import { render } from 'react-dom';
 import eventServices from '../../services/eventServices';
 import groupServices from '../../services/groupServices';
 import LocationPicker from './LocationPicker.jsx';
-import { DateField, TransitionView, Calendar } from 'react-date-picker'
+import DateTimePicker from './DateTimePicker.jsx';
+import { DateField, TransitionView, Calendar, MonthView } from 'react-date-picker'
 
 class Filtering extends Component {
     constructor(props){ 
@@ -44,6 +45,7 @@ class Filtering extends Component {
 
     handleOptionChange(event) {
         console.log('handle option change')
+        this.updateTime(event);
         this.setState({
             timeOption: event.target.value,
         });
@@ -66,10 +68,16 @@ class Filtering extends Component {
         });
     }
 
-    updateTime(dateString, { dateMoment, timestamp }) {
-        console.log('update time');
+    // updateTime(dateString, { dateMoment, timestamp }) {
+    updateTime(time) {
+        if (time == "") {
+            return;
+        }
+        var date = new Date(time);
+        console.log("HERE", time);
         this.setState({
-            time: dateMoment.toDate(),
+            time: date.getTime(),
+            // time: dateMoment.toDate(),
             timeOption: 'at'
         });
     }
@@ -91,14 +99,14 @@ class Filtering extends Component {
         this.getAllGroups();
     }
 
+
     onApplyFilter() {
         var content = {};
         if (this.state.location != 'Any') {
             content['location'] = this.state.location;
         };
-        if (this.state.timeOption != 'none') {
-            console.log('state time');
-            console.log(this.state.time);
+        if (this.state.timeOption !== 'none') {
+            console.log("about to filter", this.state.time);
             content['startTime'] = {$lt: this.state.time};
             content['endTime'] = {$gt: this.state.time};
         };
@@ -120,97 +128,102 @@ class Filtering extends Component {
                 this.props.onUpdate(resp.content.filteredEvents);
             });
     }
+
   
-  render () {
-    return (
-        <div id="filter">
-            <h1>Filter</h1>
-                <h3>Event Type</h3>
-                    <div className="radio">
-                        <label>
-                            <input type="radio" value='all' checked={this.state.typeOfEvent === 'all'} onChange={this.handleTypeChange} />
-                                Any
-                        </label>
-                    </div>
-                    <div className="radio">
-                        <label>
-                            <input type="radio" value='public' checked={this.state.typeOfEvent === 'public'} onChange={this.handleTypeChange} />
-                                Public
-                        </label>
-                    </div>
-                    { this.state.groupsLoaded && 
+    render () {
+        return (
+            <div id="filter">
+                <h1>Filter</h1>
+                    <h3>Event Type</h3>
                         <div className="radio">
                             <label>
-                                <input type="radio" value='group' checked={this.state.typeOfEvent === 'group'} onChange={this.handleTypeChange} />
-                                    Group Events
+                                <input type="radio" value='all' checked={this.state.typeOfEvent === 'all'} onChange={this.handleTypeChange} />
+                                    Any
                             </label>
-
-                            {this.state.memberGroups.length != 0 &&
-                                <div>
-                                {this.state.memberGroups.map(function(group) {
-                                    return (
-                                            <div key={group._id}>
-                                                <label>
-                                                    {this.state.typeOfEvent != 'group' && 
-                                                        <div>
-                                                            <input type="checkbox" value={group._id} onChange={this.onGroupEventChange} disabled/>
-                                                                {group.name}
-                                                        </div>
-                                                    }
-
-                                                    {this.state.typeOfEvent == 'group' &&
-                                                        <div> 
-                                                            <input type="checkbox" value={group._id} onChange={this.onGroupEventChange} />
-                                                                {group.name}
-                                                        </div>
-                                                    }
-
-                                                </label>
-                                            </div>
-                                        )
-                                    }, this)
-                                }
-                                </div>
-                            }
                         </div>
-                    }
+                        <div className="radio">
+                            <label>
+                                <input type="radio" value='public' checked={this.state.typeOfEvent === 'public'} onChange={this.handleTypeChange} />
+                                    Public
+                            </label>
+                        </div>
+                        { this.state.groupsLoaded && 
+                            <div className="radio">
+                                <label>
+                                    <input type="radio" value='group' checked={this.state.typeOfEvent === 'group'} onChange={this.handleTypeChange} />
+                                        Group Events
+                                </label>
 
-                <h3>Time</h3>
-                    <div className="radio">
-                        <label>
-                            <input type="radio" value='none' checked={this.state.timeOption === 'none'} onChange={this.handleOptionChange} />
-                                Any
-                        </label>
-                    </div>
-                    <div className="radio">
-                        <label>
-                            <input type="radio" value='now' checked={this.state.timeOption === 'now'} onChange={this.handleOptionChange} />
-                                Happening Now
-                        </label>
-                    </div>
-                    <div className="radio">
-                        <label>
-                            <input type="radio" value="at" checked={this.state.timeOption === 'at'} onChange={this.handleOptionChange} />
-                                Happening At
-                        </label> <br/>
-                        <DateField forceValidDate
-                                defaultValue={this.state.time}
-                                dateFormat="MM-DD-YY hh:mm a"
-                                onChange={this.updateTime}>
-                                <TransitionView>
-                                    <Calendar style={{padding: 10}}/>
-                                </TransitionView>
-                        </DateField>
-                    </div>
+                                {this.state.memberGroups.length != 0 &&
+                                    <div>
+                                    {this.state.memberGroups.map(function(group) {
+                                        return (
+                                                <div key={group._id}>
+                                                    <label>
+                                                        {this.state.typeOfEvent != 'group' && 
+                                                            <div>
+                                                                <input type="checkbox" value={group._id} onChange={this.onGroupEventChange} disabled/>
+                                                                    {group.name}
+                                                            </div>
+                                                        }
 
-                <h3>Location</h3>
-                <div>
-                    <LocationPicker onUpdate={this.updateLocation}/>
-                </div>
-        <button type='button' className='btn btn-default' onClick={this.onApplyFilter}>Apply</button>
-      </div>
-    )
-  }
+                                                        {this.state.typeOfEvent == 'group' &&
+                                                            <div> 
+                                                                <input type="checkbox" value={group._id} onChange={this.onGroupEventChange} />
+                                                                    {group.name}
+                                                            </div>
+                                                        }
+
+                                                    </label>
+                                                </div>
+                                            )
+                                        }, this)
+                                    }
+                                    </div>
+                                }
+                            </div>
+                        }
+
+                    <h3>Time</h3>
+                        <div className="radio">
+                            <label>
+                                <input type="radio" value='none' checked={this.state.timeOption === 'none'} onChange={this.handleOptionChange} />
+                                    Any
+                            </label>
+                        </div>
+                        <div className="radio">
+                            <label>
+                                <input type="radio" value='now' checked={this.state.timeOption === 'now'} onChange={this.handleOptionChange} />
+                                    Happening Now
+                            </label>
+                        </div>
+                        <div className="radio">
+                            <label>
+                                <input type="radio" value="at" checked={this.state.timeOption === 'at'} onChange={this.handleOptionChange} />
+                                    Happening At
+                            </label> <br/>
+                            <DateTimePicker defaultTime={this.state.time} onChange={this.updateTime}/>
+                            {/*<form>
+                                <input type="datetime-local" defaultValue={now.toLocaleString()} onChange={this.updateTime}/>
+                            </form> */}
+                            {/*<DateField forceValidDate
+                                    defaultValue={this.state.time}
+                                    dateFormat="MM-DD-YY hh:mm a"
+                                    onChange={this.updateTime}>
+                                    <TransitionView>
+                                        <MonthView style={{padding: 10}}/>
+                                    </TransitionView>
+                            </DateField>*/}
+                        </div>
+
+                    <h3>Location</h3>
+                    <div>
+                        <LocationPicker onUpdate={this.updateLocation}/>
+                    </div>
+                <button type='button' className='btn btn-default' onClick={this.onApplyFilter}>Apply</button>
+            </div>
+        )
+    }
 }
 
 export default Filtering;
