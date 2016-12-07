@@ -11,7 +11,7 @@ class Filtering extends Component {
         this.state = {
             timeOption: 'now',
             time: Date.now(),
-            location: 'None',
+            location: 'Any',
             groupsLoaded: false,
             memberGroups: [],
             checkedGroupIds: new Set(),

@@ -98,6 +98,7 @@ class CreateEvent extends Component {
 	}
 
 	updateLocation(location) {
+		console.log(this.state.location);
 		this.setState({
 			location: location
 		});

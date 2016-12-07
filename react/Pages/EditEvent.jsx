@@ -54,7 +54,7 @@ class EditEvent extends Component {
 						endTime: Date.parse(foundEvent.endTime), // TODO same here
 						roomNumber: foundEvent.room,
 						eventDescription: foundEvent.description,
-						location: foundEvent.location,
+						location: foundEvent.location.name,
 						locationDescription: foundEvent.locationDescription,
 						host: foundEvent.host,
 						isPublic: foundEvent.isPublic,
@@ -206,7 +206,7 @@ class EditEvent extends Component {
 
 		  			<span>Select Location* </span> 
 					<div className="create-event-input-option">
-		  				<LocationPicker onUpdate={this.updateLocation} location={this.state.location.name}/>
+		  				<LocationPicker onUpdate={this.updateLocation} location={this.state.location}/>
 				    </div>
 
 		  			<span>Location Description </span> 
