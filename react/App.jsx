@@ -52,12 +52,16 @@ class App extends Component {
         });
     }
 
-    registerUser(username, password){
-        Services.user.register(username, password).then((res) => {
+    registerUser(username, email, password){
+        Services.user.register(username, email, password).then((res) => {
+            console.log(username);
+            console.log(email);
+            console.log(password);
+            console.log(res);
             if (res.success){
                 this.loginUser(username, password);
             } else {
-                console.log("Error on register user: ",res.err)
+                console.log("Error on register user: ",res.err);
             }
         });
     }

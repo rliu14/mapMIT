@@ -1,8 +1,10 @@
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt');
+var nev = require('email-verification')(mongoose);
 
 var userSchema = new mongoose.Schema({
 	username: String,
+	email: String,
 	password: String
 });
 
@@ -28,7 +30,7 @@ userSchema.statics.findUser = function(username, callback) {
 // 	});
 // };
 
-userSchema.statics.createUser = function(username, password, callback) {
+userSchema.statics.createUser = function(username, email, password, callback) {
 	if (username.match('^[a-z0-9_-]{3,16}$') && typeof password === 'string') {
 		this.find({ username : username }, function(err, result) {
 			if (err) callback(err);
@@ -37,14 +39,18 @@ userSchema.statics.createUser = function(username, password, callback) {
 				var hash = bcrypt.hashSync(password, salt);
 				var user = new User({
 					username: username,
+					email: email,
 					password: hash,
 				});
-				user.save(function(err, result) {
-					if (err) callback(err);
-					else callback(null, { user: user, username : username });
-				});
+
+				callback(null, {user: user});
+
+				// user.save(function(err, result) {
+				// 	if (err) callback(err);
+				// 	else callback(null, { user: user, username : username });
+				// });
 			} else {
-				callback({ msg : 'User already exists.' });
+				callback({ taken : 'User already exists.' });
 			}
 		});
 	} else {
