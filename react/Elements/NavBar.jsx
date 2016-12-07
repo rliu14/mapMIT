@@ -34,6 +34,7 @@ class NavBar extends Component {
 		return (
 			<nav className = 'navbar'>
 				<div className = 'container'>
+					<img src={require('../../public/img/logo.png')}/>
 					<ul>
 						<div id="home-link">
 							<li>

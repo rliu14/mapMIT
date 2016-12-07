@@ -36,7 +36,12 @@ module.exports = {
             },
             { test : /\.css$/, loader : 'css-loader' },
             { test: /\.(svg|ttf|woff|eot|woff2)(\?.*)?$/, loader: 'file' },
-            { test : /\.json$/, loader: 'json'}
+            { test : /\.json$/, loader: 'json'},
+            { test: /\.(jpe?g|png|gif|svg)$/i, loaders: [
+                  'file?hash=sha512&digest=hex&name=[hash].[ext]',
+                  'image-webpack?bypassOnDebug&optimizationLevel=7&interlaced=false'
+                ]
+            }
         ]
     }, node: {
         console: true,
