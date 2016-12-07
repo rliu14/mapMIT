@@ -68,7 +68,6 @@ class Filtering extends Component {
         });
     }
 
-    // updateTime(dateString, { dateMoment, timestamp }) {
     updateTime(time) {
         if (time == "") {
             return;
@@ -77,7 +76,6 @@ class Filtering extends Component {
         console.log("HERE", time);
         this.setState({
             time: date.getTime(),
-            // time: dateMoment.toDate(),
             timeOption: 'at'
         });
     }
@@ -203,17 +201,6 @@ class Filtering extends Component {
                                     Happening At
                             </label> <br/>
                             <DateTimePicker defaultTime={this.state.time} onChange={this.updateTime}/>
-                            {/*<form>
-                                <input type="datetime-local" defaultValue={now.toLocaleString()} onChange={this.updateTime}/>
-                            </form> */}
-                            {/*<DateField forceValidDate
-                                    defaultValue={this.state.time}
-                                    dateFormat="MM-DD-YY hh:mm a"
-                                    onChange={this.updateTime}>
-                                    <TransitionView>
-                                        <MonthView style={{padding: 10}}/>
-                                    </TransitionView>
-                            </DateField>*/}
                         </div>
 
                     <h3>Location</h3>

@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { withRouter, browserHistory } from 'react-router';
 import { MenuItem, DropdownButton } from 'react-bootstrap';
 import LocationPicker from '../Elements/LocationPicker.jsx';
+import DateTimePicker from '../Elements/DateTimePicker.jsx';
 import eventServices from '../../services/eventServices';
 import groupServices from '../../services/groupServices';
 import { DateField, TransitionView, Calendar } from 'react-date-picker'
@@ -28,8 +29,8 @@ class CreateEvent extends Component {
 		// this.updateGroupSpecificVisibility = this.updateGroupSpecificVisibility.bind(this);
 		this.state = {
 			eventName: '',
-			startTime: new Date(),
-			endTime: new Date(),
+			startTime: Date.now(),
+			endTime: Date.now(),
 			room: '',
 			eventDescription: '',
 			location: '',
@@ -73,15 +74,17 @@ class CreateEvent extends Component {
 		});
 	}
 
-	updateStartTime(dateString, { dateMoment, timestamp }) {
+	updateStartTime(time) {
+		var date = new Date(time);
 		this.setState({
-			startTime: dateMoment.toDate()
+			startTime: date.getTime()
 		});
 	}
 
-	updateEndTime(dateString, { dateMoment, timestamp }) {
+	updateEndTime(time) {
+		var date = new Date(time);
 		this.setState({
-			endTime: dateMoment.toDate()
+			endTime: date.getTime()
 		});
 	}
 
@@ -155,25 +158,11 @@ class CreateEvent extends Component {
 		  			</div>
 		  		
 		  			<div className="create-event-input">
-			  			<span className="create-event-input-label">Time* </span> 
+			  			<span className="create-event-input-label">Time* </span>
 			  			<div className="create-event-input-option">
-				  			<DateField forceValidDate
-							    	   defaultValue={this.state.startTime}
-							    	   dateFormat="MM-DD-YY hh:mm a"
-							    	   onChange={this.updateStartTime}>
-							    <TransitionView>
-							    	<Calendar style={{padding: 10}}/>
-							    </TransitionView>
-							</DateField>
+			  			    <DateTimePicker defaultTime={this.state.time} onChange={this.updateStartTime}/>
 				  			<span> - </span>
-				  			<DateField forceValidDate
-							    	   defaultValue={this.state.endTime}
-							    	   dateFormat="MM-DD-YY hh:mm a"
-							    	   onChange={this.updateEndTime}>
-							    <TransitionView>
-							    	<Calendar style={{padding: 10}}/>
-							    </TransitionView>
-							</DateField><br/>
+				  			<DateTimePicker defaultTime={this.state.time} onChange={this.updateEndTime}/>
 						</div>
 					</div>
 
