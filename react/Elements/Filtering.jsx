@@ -12,6 +12,7 @@ class Filtering extends Component {
         this.state = {
             timeOption: 'now',
             time: Date.now(),
+            datePickerTime: Date.now(),
             location: 'Any',
             groupsLoaded: false,
             memberGroups: [],
@@ -45,9 +46,13 @@ class Filtering extends Component {
 
     handleOptionChange(event) {
         console.log('handle option change')
-        this.updateTime(event);
-        this.setState({
-            timeOption: event.target.value,
+        var timeType = event.target.value;
+        this.setState(prevState => {
+            prevState.timeOption = timeType;
+            if (timeType == "now") {
+                prevState.time = Date.now();
+            }
+            return prevState;
         });
     }
 
@@ -73,9 +78,8 @@ class Filtering extends Component {
             return;
         }
         var date = new Date(time);
-        console.log("HERE", time);
         this.setState({
-            time: date.getTime(),
+            datePickerTime: date.getTime(),
             timeOption: 'at'
         });
     }
@@ -103,10 +107,15 @@ class Filtering extends Component {
         if (this.state.location != 'Any') {
             content['location'] = this.state.location;
         };
-        if (this.state.timeOption !== 'none') {
+        if (this.state.timeOption != 'any') {
             console.log("about to filter", this.state.time);
-            content['startTime'] = {$lt: this.state.time};
-            content['endTime'] = {$gt: this.state.time};
+            if (this.state.timeOption == 'now') {
+                content['startTime'] = {$lt: this.state.time};
+                content['endTime'] = {$gt: this.state.time};
+            } else {
+                content['startTime'] = {$lt: this.state.datePickerTime};
+                content['endTime'] = {$gt: this.state.datePickerTime};               
+            }
         };
 
         // we only allow users to select a subset of
@@ -185,7 +194,7 @@ class Filtering extends Component {
                     <h3>Time</h3>
                         <div className="radio">
                             <label>
-                                <input type="radio" value='none' checked={this.state.timeOption === 'none'} onChange={this.handleOptionChange} />
+                                <input type="radio" value='any' checked={this.state.timeOption === 'any'} onChange={this.handleOptionChange} />
                                     Any
                             </label>
                         </div>
