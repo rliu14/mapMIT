@@ -177,7 +177,6 @@ eventSchema.statics.filterEvents = function(content, cb) {
     var Event = this;
 
     var findEvents = function(content) {
-        if ('public' in content && 'group')
         Event.find(content, function(err, filteredEvents) {
                 if (err) {
                     cb({ msg: err });

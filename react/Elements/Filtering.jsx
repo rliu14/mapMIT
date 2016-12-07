@@ -110,8 +110,6 @@ class Filtering extends Component {
             content['groupsVisibleTo'] = { $in: Array.from(this.state.checkedGroupIds) };
         }
 
-        console.log("content:", content.location);
-
         eventServices.getFilteredEvents(content)
             .then((resp) => {
                 console.log(resp.content.filteredEvents);
