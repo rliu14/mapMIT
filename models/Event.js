@@ -38,6 +38,8 @@ var eventSchema = mongoose.Schema({
  *      format cb(err).
  */
 eventSchema.statics.createEvent = function(content, cb) {
+    console.log('create event');
+    console.log(content);
     var username = content.creator;
     var location = content.location;
     var Event = this;

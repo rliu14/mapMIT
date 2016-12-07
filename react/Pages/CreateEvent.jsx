@@ -23,7 +23,9 @@ class CreateEvent extends Component {
 		this.updateHost = this.updateHost.bind(this);
 		this.submitEvent = this.submitEvent.bind(this);
 		this.onPublicChange = this.onPublicChange.bind(this);
-		this.updateGroupSpecificVisibility = this.updateGroupSpecificVisibility.bind(this);
+        this.onGroupEventChange = this.onGroupEventChange.bind(this);
+
+		// this.updateGroupSpecificVisibility = this.updateGroupSpecificVisibility.bind(this);
 		this.state = {
 			eventName: '',
 			startTime: Date.now(),
@@ -35,24 +37,35 @@ class CreateEvent extends Component {
 			host: '',
 			creator: '',
 			isPublic: true,
-			groups: [],
-			groupSpecificVisibility: {}
+			memberGroups: [],
+            checkedGroupIds: new Set()
 		}
 	};
 
-	componentWillMount() {
+	componentDidMount() {
 		groupServices.getGroupsWithMember(this.props.user)
 			.then((resp) => {
 				if(resp.success) {
-					this.setState( { groups: resp.content.foundGroups });
-					var groupVisibilityDict = resp.content.foundGroups.reduce(function(dict, group) {
-						dict[group._id] = false;
-						return dict;
-					}, {});
-					this.setState( { groupSpecificVisibility: groupVisibilityDict });
+					this.setState( { memberGroups: resp.content.foundGroups });
 				}
 			});	
 	}
+
+	onGroupEventChange(event) {
+		console.log(this.state.checkedGroupIds);
+        var newGroup = event.target.value;
+        if (event.target.checked) {
+            this.setState((prevState) => {
+                prevState.checkedGroupIds.add(newGroup);
+                return prevState;
+            });
+        } else {
+            this.setState((prevState) => {
+                prevState.checkedGroupIds.delete(newGroup);
+                return prevState;
+            });
+        }
+    }
 
 	updateEventName(event) {
 		this.setState({
@@ -109,20 +122,20 @@ class CreateEvent extends Component {
 		}
 	}
 
-	updateGroupSpecificVisibility(groupId, event) {
-		var newVisibility = event.target.value == 'false';
-		var newDict = update(this.state.groupSpecificVisibility, {$merge: {[groupId]: newVisibility}});
-		this.setState({
-			groupSpecificVisibility: newDict
-		});
-	}
+	// updateGroupSpecificVisibility(groupId, event) {
+	// 	var newVisibility = event.target.value == 'false';
+	// 	var newDict = update(this.state.groupSpecificVisibility, {$merge: {[groupId]: newVisibility}});
+	// 	this.setState({
+	// 		groupSpecificVisibility: newDict
+	// 	});
+	// }
 
 	// creates event in the event database
 	submitEvent() {
 		// call the createEvent service to create an event with content
-		var groupsVisibleTo = this.state.groups.filter(function(group) {
-			return this.state.groupSpecificVisibility[group._id];
-		}, this);
+		// var groupsVisibleTo = this.state.memberGroups.filter(function(group) {
+		// 	return this.state.groupSpecificVisibility[group._id];
+		// }, this);
 		var content =  {
 			name: this.state.eventName,
 			startTime: this.state.startTime,
@@ -134,7 +147,7 @@ class CreateEvent extends Component {
 			host: this.state.host,
 			creator: this.props.user,
 			isPublic: this.state.isPublic,
-			groupsVisibleTo: groupsVisibleTo
+			groupsVisibleTo: Array.from(this.state.checkedGroupIds)
 		}
 		eventServices.createEvent(content)
 			.then((resp) => {
@@ -203,7 +216,7 @@ class CreateEvent extends Component {
 			  			<span className="create-event-input-label">Host* </span> 
                         <select className="create-event-input-option" value={this.state.host} onChange={this.updateHost}>
                         	<option value={this.props.user}>{this.props.user}</option>
-                            {this.state.groups.map(function(group){
+                            {this.state.memberGroups.map(function(group){
                                 return (<option value={group.name}>{group.name}</option>)
                             })}
                         </select>
@@ -214,16 +227,37 @@ class CreateEvent extends Component {
 			  			<div className="create-event-input-option">
                             <input type="radio" value={true} checked={this.state.isPublic} onChange={this.onPublicChange}/>
                                 Public<br/>
-                            <input type="radio" value={false} checked={!this.state.isPublic} onChange={this.onPublicChange}/>
-                                Group-specific<br/>
-                            {this.state.groups.map(function(group){
-                                return (
-                                	<div>
-                                		<input type="checkbox" key={group._id} value={this.state.groupSpecificVisibility[group._id]} checked={this.state.groupSpecificVisibility[group._id]} onChange={this.updateGroupSpecificVisibility.bind(this, group._id)}/>
-                                		{group.name}
-                                	</div>
-                                )
-                            }, this)}
+                            {this.state.memberGroups.length != 0 &&
+                            	<div className="group-radio-container">
+	                            	<input type="radio" value={false} checked={!this.state.isPublic} onChange={this.onPublicChange}/>
+	                                Group-specific<br/>
+	                                <div>
+	                                {this.state.memberGroups.map(function(group) {
+	                                    return (
+	                                            <div key={group._id}>
+	                                                <label>
+	                                                    {this.state.isPublic && 
+	                                                        <div>
+	                                                            <input type="checkbox" value={group._id} onChange={this.onGroupEventChange} disabled/>
+	                                                                {group.name}
+	                                                        </div>
+	                                                    }
+
+	                                                    {!this.state.isPublic &&
+	                                                        <div> 
+	                                                            <input type="checkbox" value={group._id} onChange={this.onGroupEventChange} />
+	                                                                {group.name}
+	                                                        </div>
+	                                                    }
+
+	                                                </label>
+	                                            </div>
+	                                        )
+	                                    }, this)
+	                                }
+	                                </div>
+                                </div>
+                            }
 		                </div>
 	                </div>
 		  		</div>
