@@ -26,7 +26,7 @@ var isValid = function(req, res) {
 
 // register
 router.post('/', function(req, res) {
-	User.createUser(req.body.username, req.body.password, function(err) {
+	User.createUser(req.body.username, req.body.email, req.body.password, function(err) {
 		if (err) {
 			if (err.taken) {
 				utils.sendErrorResponse(res, 400, 'That username is already taken!');
@@ -43,7 +43,10 @@ router.post('/', function(req, res) {
 
 router.post('/login', function(req, res) {
 	if (isValid(req, res)) {
-		User.authUser(req.body.username, req.body.password, function(err, result) {
+		console.log("on login, authorizing...");
+		console.log("username:", req.body.username);
+		console.log("email: ", req.body.email);
+		User.authUser(req.body.username, req.body.email, req.body.password, function(err, result) {
 			if (err) {
 				utils.sendErrorResponse(res, 403, err);
 			} else {
