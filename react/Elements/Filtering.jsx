@@ -97,6 +97,8 @@ class Filtering extends Component {
             content['location'] = this.state.location;
         };
         if (this.state.timeOption != 'none') {
+            console.log('state time');
+            console.log(this.state.time);
             content['startTime'] = {$lt: this.state.time};
             content['endTime'] = {$gt: this.state.time};
         };

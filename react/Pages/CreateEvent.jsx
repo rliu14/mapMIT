@@ -34,7 +34,7 @@ class CreateEvent extends Component {
 			eventDescription: '',
 			location: '',
 			locationDescription: '',
-			host: '',
+			host: this.props.user,
 			creator: '',
 			isPublic: true,
 			memberGroups: [],

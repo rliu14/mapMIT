@@ -77,3 +77,8 @@
 	margin-left: 15px;
 	margin-right: 15px;
 }
+
+.popup-event-name {
+	font-weight: bold;
+	font-style: italic;
+}

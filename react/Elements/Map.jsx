@@ -44,11 +44,21 @@ class MapMIT extends Component {
         return (
             <div className="text">
                 <span>{eventList[0].location.name}</span>
-                {eventDescriptions.map(function(event, index, array){
+                {eventList.map(function(event, index, array){
                     return (
-                        <li key={index.toString()}>{event}</li>
+                        <div>
+                            <span className="popup-event-name" key={index}>
+                                {event.name} 
+                            </span>
+                            <span> ({event.host})</span>
+                            <br/>
+                            <span className="popup-event-body" key={event}>
+                                {event.description} <br/>
+                            </span>
+                        </div>
                     )
                 })}
+             
             </div>
         )
     }
