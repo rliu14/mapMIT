@@ -179,7 +179,7 @@ class EditEvent extends Component {
 
 		  			<span>Select Location* </span> 
 					<div className="create-event-input-option">
-		  				<LocationPicker onUpdate={this.updateLocation}/>
+		  				<LocationPicker onUpdate={this.updateLocation} location={this.state.location}/>
 				    </div>
 
 		  			<span>Location Description </span> 
