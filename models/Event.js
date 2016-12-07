@@ -110,7 +110,7 @@ eventSchema.statics.findEventsByCreator = function(eventCreator, cb) {
  *          event that was just found.
  */
 eventSchema.statics.findEventByID = function(eventID, cb) {
-    this.findById(eventID, function(err, foundEvent) {
+    this.findById(eventID).populate('location').exec(function(err, foundEvent) {
         if (err) {
             cb({ msg: err });
         } else {

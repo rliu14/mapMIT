@@ -22,6 +22,7 @@ class EditEvent extends Component {
 		this.updateEvent = this.updateEvent.bind(this);
 		this.backToMyEvents = this.backToMyEvents.bind(this);
 		this.state = {
+			isLoaded: false,
 			eventName: '',
 			startTime: Date.now(),
 			endTime: Date.now(),
@@ -35,22 +36,27 @@ class EditEvent extends Component {
 	}
 
 	// pre-populates all the input forms with the event's current details
-	componentWillMount() {
+	componentDidMount() {
 		var eventId = this.props.params.eventId;
 		console.log(eventId);
 		eventServices.getEvent(eventId)
 			.then((resp) => {
 				if(resp.success) {
 					var foundEvent = resp.content.foundEvent;
+					console.log('found event');
+					console.log(foundEvent);
+					console.log('found event location');
+					console.log(foundEvent.location.name);
 					this.setState( { 
 						eventName: foundEvent.name,
 						startTime: Date.parse(foundEvent.startTime), // TODO blah this doesn't work
 						endTime: Date.parse(foundEvent.endTime), // TODO same here
 						roomNumber: foundEvent.room,
 						eventDescription: foundEvent.description,
-						location: foundEvent.location,
+						location: foundEvent.location.name,
 						locationDescription: foundEvent.locationDescription,
-						host: foundEvent.host				
+						host: foundEvent.host,
+						isLoaded: true			
 					});
 				}
 			});
@@ -69,9 +75,6 @@ class EditEvent extends Component {
 	}
 
 	updateStartTime(dateString, { dateMoment, timestamp }) {
-		console.log(this.state.startTime);
-		console.log('update start time');
-		console.log(dateMoment);
 		this.setState({
 			startTime: dateMoment.toDate()
 		});
@@ -79,8 +82,6 @@ class EditEvent extends Component {
 	}
 
 	updateEndTime(dateString, { dateMoment, timestamp }) {
-		console.log('update end time');
-		console.log(dateMoment);
 		this.setState({
 			endTime: dateMoment.toDate()
 		});
@@ -145,14 +146,15 @@ class EditEvent extends Component {
 	  		<div>
 		  		<div className="header">
 		  			<h1>Edit Your Event</h1>
-		  		</div>
+		  		</div>		  		
+		  		{this.state.isLoaded &&
 		  		<div className="input-group">
-		  			
 		  			<span>Event Name* </span> 
 		  			<input type="text" className="form-control" value={this.state.eventName} onChange={this.updateEventName}></input> <br/>
 
 		  			<span>Time* </span> 
 		  			<DateField forceValidDate
+							   defaultValue={this.state.startTime}
 					    	   dateFormat="YYYY-MM-DD HH:mm:ss"
 					    	   onChange={this.updateStartTime}>
 					    <TransitionView>
@@ -161,12 +163,13 @@ class EditEvent extends Component {
 					</DateField>
 		  			<span> - </span>
 		  			<DateField forceValidDate
+							   defaultValue={this.state.endTime}
 					    	   dateFormat="YYYY-MM-DD HH:mm:ss"
 					    	   onChange={this.updateStartTime}>
 					    <TransitionView>
 					    	<Calendar style={{padding: 10}}/>
 					    </TransitionView>
-					</DateField>
+					</DateField> <br/>
 
 		  			<span>Room Number</span> 
 		  			<input type="text" className="form-control" value={this.state.roomNumber} onChange={this.updateRoomNumber}></input> <br/>
@@ -190,6 +193,8 @@ class EditEvent extends Component {
                         })}
                     </select>
 		  		</div>
+		  		}
+
 		  		<span className='input-group-btn'>
                     <button type='button' className='btn btn-default' onClick={this.updateEvent}>Save</button>
                     <button type='button' className='btn btn-default' onClick={this.backToMyEvents}>Cancel</button>
