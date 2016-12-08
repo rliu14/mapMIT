@@ -84,23 +84,29 @@
 }
 
 .logo-img {
-	width: 25%;
-	height: 25%;
+	width: 80%;
 }
 
 .username-password-container, .login-signup-btn {
-	width: 25%;
+	width: 80%;
 }
 
-.login-signup-btn {
-	background-color: #5DBCD2;
+.login-signup-btn, .login-signup-btn:hover {
+	background-color: #1fbcd2;
     color: white;
     border-color: white;
-    width: 25%;
+    width: 80%;
+    margin-bottom: 5px;
+}
+
+.login-signup-btn:hover {
+	background-color: #06A3B9;
+	font-weight: 500;
 }
 
 .login-signup-container {
 	text-align: center;
+	margin-top: 100px;
 }
 
 .login-register-input {
@@ -110,4 +116,20 @@
 .username-password-container {
 	margin-left: auto;
 	margin-right: auto;
+}
+
+body {
+	background-color: #1fbcd2;
+}
+
+.login-register-panel {
+	width: 40%;
+	margin-left: auto;
+	margin-right: auto;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+.switch-login-register {
+	color: #808080;
 }

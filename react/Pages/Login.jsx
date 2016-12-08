@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router';
+import { IndexLink, Link, withRouter } from 'react-router';
 
 class Login extends Component {
 	constructor(props) {
@@ -29,10 +29,8 @@ class Login extends Component {
 
 	render() {
 	  	return ( 
-	  		// <div>Login!</div>
-
             <div className = 'container login-signup-container'>
-            <div className="panel panel-default">
+            <div className="panel panel-default login-register-panel">
             <div className="panel-body">
             	<img className="logo-img" src={require('../../public/img/logo.png')}/>
 
@@ -56,7 +54,7 @@ class Login extends Component {
 
                 <button className = 'btn btn-default login-signup-btn' onClick = {this.loginUser}> Login </button>
                 <div>
-                	<span>Don't have an account yet? Sign up here.</span>
+                	<span className='switch-login-register'>Don't have an account yet? Sign up <IndexLink to = '/signup' className = 'signup-link'>here</IndexLink>.</span>
                 </div>
             </div>
             </div>
