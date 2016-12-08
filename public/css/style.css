@@ -82,3 +82,32 @@
 	font-weight: bold;
 	font-style: italic;
 }
+
+.logo-img {
+	width: 25%;
+	height: 25%;
+}
+
+.username-password-container, .login-signup-btn {
+	width: 25%;
+}
+
+.login-signup-btn {
+	background-color: #5DBCD2;
+    color: white;
+    border-color: white;
+    width: 25%;
+}
+
+.login-signup-container {
+	text-align: center;
+}
+
+.login-register-input {
+	text-align: center;
+}
+
+.username-password-container {
+	margin-left: auto;
+	margin-right: auto;
+}

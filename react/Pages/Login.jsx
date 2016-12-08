@@ -30,20 +30,22 @@ class Login extends Component {
 	render() {
 	  	return ( 
 	  		// <div>Login!</div>
-            <div className = 'container'>
-                <div className = 'login-title'>
-                    Login
-                </div>
-                <div className = 'form-group'>
-                    <input className = 'form-control'
+
+            <div className = 'container login-signup-container'>
+            <div className="panel panel-default">
+            <div className="panel-body">
+            	<img className="logo-img" src={require('../../public/img/logo.png')}/>
+
+                <div className = 'username-password-container form-group'>
+                    <input className = 'form-control username-password-input'
                         name = 'loginUser'
                         placeholder = 'Username'
                         value = {this.state.loginUser}
                         onChange = {this.updateFormVal}
                     />
                 </div>
-                <div className = 'form-group'>
-                    <input className = 'form-control'
+                <div className = 'username-password-container form-group'>
+                    <input className = 'form-control username-password-input'
                         type = 'password'
                         name = 'loginPass'
                         placeholder = 'Password'
@@ -52,7 +54,12 @@ class Login extends Component {
                     />
                 </div>
 
-                <button className = 'btn btn-default' onClick = {this.loginUser}> Login </button>
+                <button className = 'btn btn-default login-signup-btn' onClick = {this.loginUser}> Login </button>
+                <div>
+                	<span>Don't have an account yet? Sign up here.</span>
+                </div>
+            </div>
+            </div>
             </div>
 	  	)
 	}
