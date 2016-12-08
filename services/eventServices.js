@@ -26,7 +26,6 @@ export default {
     },
 
     deleteEvent : (eventID) => {
-        console.log('delete event service');
         return request({
             uri : BASE_URL + `/${eventID}`,
             method : 'DELETE',
@@ -43,7 +42,6 @@ export default {
     },
 
     getEventsByCreator : (creator) => {
-        console.log("get by creator service");
         return request({
             uri : BASE_URL + `/creator/${creator}`,
             method: 'GET',
@@ -68,7 +66,6 @@ export default {
     },
 
     getFilteredEvents : (content) => {
-        console.log('get filtered events service');
         return request({
             uri : BASE_URL + `/filter`,
             method : 'PUT',

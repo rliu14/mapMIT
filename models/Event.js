@@ -38,8 +38,6 @@ var eventSchema = mongoose.Schema({
  *      format cb(err).
  */
 eventSchema.statics.createEvent = function(content, cb) {
-    console.log('create event');
-    console.log(content);
     var username = content.creator;
     var location = content.location;
     var Event = this;
@@ -139,7 +137,6 @@ eventSchema.statics.findEventsByLocation = function(loc, cb) {
                     cb( { msg: err });
                 } else {
                     // found events with specified location
-
                     cb(err, events);
                 }
             }).populate('location');
@@ -167,10 +164,12 @@ eventSchema.statics.findEventsByTime = function(time, cb) {
 /**
  * Filters for events in the events database.
  * @param {Object} content The information to filter for,
- *      content is in the format - {
+ *      content is in the format (all these keys are optional) - {
  *          startTime: {Date},
  *          endTime: {Date},
  *          location: {Location}, 
+ *          isPublic: {Boolean},
+ *          groupsVisibleTo: {Array}
  *      }
  * @param {Function} cb The callback function to execute, of the
  *      format cb(err).
@@ -253,11 +252,6 @@ eventSchema.statics.findAndUpdateEvent = function(eventID, content, cb) {
                     });                    
                 };
             });
-
-
-
-
-
         };
     });
 

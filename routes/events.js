@@ -86,10 +86,7 @@ router.put('/update/:eventId', function(req, res) {
     - err: on error, an error message
 */
 router.put('/filter', function(req, res) {
-  console.log('filter route');
   Event.filterEvents(req.body.content, function(err, filteredEvents) {
-    console.log('filtered events from route');
-    console.log(filteredEvents);
     if (err) {
       utils.sendErrorResponse(res, 400, err.msg); 
     } else {
@@ -127,7 +124,6 @@ router.get('/:eventID', function(req, res) {
     - err: on error, an error message
 */
 router.get('/creator/:creator', function(req, res) {
-	console.log('route for get by creator');
 	Event.findEventsByCreator(req.params.creator, function(err, foundEvents) {
 		if (err) {
 			utils.sendErrorResponse(res, 404, 'No such events.');
@@ -147,11 +143,7 @@ router.get('/creator/:creator', function(req, res) {
     - err: on error, an error message
 */
 router.get('/location/:loc', function(req, res) {
-  console.log('location route');
-  console.log(req.params.loc);
 	Event.findEventsByLocation(req.params.loc, function(err, foundEvents) {
-    console.log('foundEvents');
-    console.log(foundEvents);
 		if(err) {
 			utils.sendErrorResponse(res, 404, 'No such events.');
 		} else {

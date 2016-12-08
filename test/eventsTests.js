@@ -5,6 +5,7 @@ var mongoose = require("mongoose");
 var Event = require("../models/Event.js");
 var User = require("../models/User.js");
 var Loc = require("../models/Location.js");
+var Group = require("../models/Group.js");
 
 
 describe("App", function() {
@@ -30,8 +31,8 @@ describe("App", function() {
                 Loc.create(content[1], function(err, location2) {
                     Loc.create(content[2], function(err, location3) {
                         // Add dummy users
-                        User.createUser("user_a", "pass", function(err, user) {
-                            User.createUser("user_b", "pass2", function(err, user) {
+                        User.createUser("user_a", "userA@mit.edu", "pass", function(err, userA) {
+                            User.createUser("user_b", "userB@mit.edu", "pass2", function(err, userB) {
                                 done();
                             });
                         });
@@ -192,6 +193,223 @@ describe("App", function() {
                     assert.equal(updatedEvent.name, 'Updated Event');
                     assert.equal(updatedEvent.room, '26-100');
                     done();
+                });
+            });
+        });
+
+        it("should filter events by time", function(done) {
+            var content1 = {
+                    name: 'Event 1',
+                    startTime: new Date('November 17, 2016 03:24:00'),
+                    endTime: new Date('February 17, 2017 03:24:00'),
+                    description: 'test description',
+                    locationDescription: 'test location description',
+                    creator: 'user_a',
+                    location: 'maseeh'
+            };
+            var content2 = {
+                    name: 'Event 2',
+                    startTime: new Date('January 17, 2017 03:24:00'),
+                    endTime: new Date('February 17, 2017 03:24:00'),
+                    description: 'test description',
+                    locationDescription: 'test location description',
+                    creator: 'user_a',
+                    location: 'baker'
+            };
+            var searchDict = {
+                startTime: {$lt: new Date('December 17, 2016 03:24:00')},
+                endTime: {$gt: new Date('December 17, 2016 03:24:00')}
+            };
+
+            Event.createEvent(content1, function(err, event1) {
+                Event.createEvent(content2, function(err, event2) {
+                    Event.filterEvents(searchDict, function(err, filteredEvents) {
+                        assert.equal(filteredEvents.length, 1);
+                        assert.equal(filteredEvents[0].name, 'Event 1');
+                        done();
+                    });
+                });
+            });
+        });
+
+        it("should filter events by location", function(done) {
+            var content1 = {
+                    name: 'Event 1',
+                    startTime: new Date('November 17, 2016 03:24:00'),
+                    endTime: new Date('February 17, 2017 03:24:00'),
+                    description: 'test description',
+                    locationDescription: 'test location description',
+                    creator: 'user_a',
+                    location: 'maseeh'
+            };
+            var content2 = {
+                    name: 'Event 2',
+                    startTime: new Date('January 17, 2017 03:24:00'),
+                    endTime: new Date('February 17, 2017 03:24:00'),
+                    description: 'test description',
+                    locationDescription: 'test location description',
+                    creator: 'user_a',
+                    location: 'baker'
+            };
+            var searchDict = {
+                location: 'maseeh'
+            };
+
+            Event.createEvent(content1, function(err, event1) {
+                Event.createEvent(content2, function(err, event2) {
+                    Event.filterEvents(searchDict, function(err, filteredEvents) {
+                        assert.equal(filteredEvents.length, 1);
+                        assert.equal(filteredEvents[0].name, 'Event 1');
+                        done();
+                    });
+                });
+            });
+        });
+
+        it("should filter events by public events", function(done) {
+            var content1 = {
+                    name: 'Event 1',
+                    startTime: new Date('November 17, 2016 03:24:00'),
+                    endTime: new Date('February 17, 2017 03:24:00'),
+                    description: 'test description',
+                    locationDescription: 'test location description',
+                    creator: 'user_a',
+                    location: 'maseeh',
+                    isPublic: true
+            };
+            var content2 = {
+                    name: 'Event 2',
+                    startTime: new Date('January 17, 2017 03:24:00'),
+                    endTime: new Date('February 17, 2017 03:24:00'),
+                    description: 'test description',
+                    locationDescription: 'test location description',
+                    creator: 'user_a',
+                    location: 'baker',
+                    isPublic: false
+            };
+            var searchDict = {
+                isPublic: true
+            };
+
+            Event.createEvent(content1, function(err, event1) {
+                Event.createEvent(content2, function(err, event2) {
+                    Event.filterEvents(searchDict, function(err, filteredEvents) {
+                        assert.equal(filteredEvents.length, 1);
+                        assert.equal(filteredEvents[0].name, 'Event 1');
+                        done();
+                    });
+                });
+            });
+        });
+
+        it("should filter events by group-specific events", function(done) {
+            Group.createGroup({name: 'User A Group', creator: 'user_a'}, function(err, group) {
+                var content1 = {
+                    name: 'Event 1',
+                    startTime: new Date('November 17, 2016 03:24:00'),
+                    endTime: new Date('February 17, 2017 03:24:00'),
+                    description: 'test description',
+                    locationDescription: 'test location description',
+                    creator: 'user_a',
+                    location: 'maseeh',
+                    isPublic: false,
+                    groupsVisibleTo: [group]
+                };
+                var content2 = {
+                        name: 'Event 2',
+                        startTime: new Date('January 17, 2017 03:24:00'),
+                        endTime: new Date('February 17, 2017 03:24:00'),
+                        description: 'test description',
+                        locationDescription: 'test location description',
+                        creator: 'user_a',
+                        location: 'baker'
+                };
+                var searchDict = {
+                    groupsVisibleTo: [group]
+                };
+
+                Event.createEvent(content1, function(err, event1) {
+                    Event.createEvent(content2, function(err, event2) {
+                        Event.filterEvents(searchDict, function(err, filteredEvents) {
+                            assert.equal(filteredEvents.length, 1);
+                            assert.equal(filteredEvents[0].name, 'Event 1');
+                            done();
+                        });
+                    });
+                });
+            });            
+        });
+
+        it("should filter events by time, location, and public events", function(done) {
+            Group.createGroup({name: 'User A Group', creator: 'user_a'}, function(err, group) {
+                var content1 = {
+                    name: 'Event 1',
+                    startTime: new Date('November 17, 2016 03:24:00'),
+                    endTime: new Date('February 17, 2017 03:24:00'),
+                    description: 'test description',
+                    locationDescription: 'test location description',
+                    creator: 'user_a',
+                    location: 'maseeh',
+                    isPublic: false,
+                    groupsVisibleTo: [group]
+                };
+                var content2 = {
+                        name: 'Event 2',
+                        startTime: new Date('January 17, 2017 03:24:00'),
+                        endTime: new Date('February 17, 2017 03:24:00'),
+                        description: 'test description',
+                        locationDescription: 'test location description',
+                        creator: 'user_a',
+                        location: 'baker',
+                        isPublic: true
+                };
+                var searchDict = {
+                    location: 'baker',
+                    isPublic: true,
+                    startTime: {$lt: new Date('February 10, 2017 03:24:00')},
+                    endTime: {$gt: new Date('December 17, 2016 03:24:00')}
+                };
+
+                Event.createEvent(content1, function(err, event1) {
+                    Event.createEvent(content2, function(err, event2) {
+                        Event.filterEvents(searchDict, function(err, filteredEvents) {
+                            assert.equal(filteredEvents.length, 1);
+                            assert.equal(filteredEvents[0].name, 'Event 2');
+                            done();
+                        });
+                    });
+                });
+            }); 
+        });
+
+        it("should filter for all events", function(done) {
+            var content1 = {
+                    name: 'Event 1',
+                    startTime: new Date('November 17, 2016 03:24:00'),
+                    endTime: new Date('February 17, 2017 03:24:00'),
+                    description: 'test description',
+                    locationDescription: 'test location description',
+                    creator: 'user_a',
+                    location: 'maseeh',
+                    isPublic: true
+            };
+            var content2 = {
+                    name: 'Event 2',
+                    startTime: new Date('January 17, 2017 03:24:00'),
+                    endTime: new Date('February 17, 2017 03:24:00'),
+                    description: 'test description',
+                    locationDescription: 'test location description',
+                    creator: 'user_a',
+                    location: 'baker',
+                    isPublic: false
+            };
+
+            Event.createEvent(content1, function(err, event1) {
+                Event.createEvent(content2, function(err, event2) {
+                    Event.filterEvents({}, function(err, filteredEvents) {
+                        assert.equal(filteredEvents.length, 2);
+                        done();
+                    });
                 });
             });
         });
