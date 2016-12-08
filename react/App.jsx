@@ -67,11 +67,6 @@ class App extends Component {
     render(){
         return (
             <div id="reactRoot">
-                <NavBar
-                    currentUser = {this.state.user}
-                    logout = {this.logout}
-                    services = {Services}
-                />
                 <div id='page-content'>
                     {React.cloneElement(this.props.children, {
                         services : Services,

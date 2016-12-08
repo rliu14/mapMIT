@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import MapMIT from '../Elements/Map.jsx';
 import Filtering from '../Elements/Filtering.jsx';
 import EventTable from '../Elements/EventTable.jsx';
-
+import NavBar from '../Elements/Navbar.jsx';
 
 import { withRouter } from 'react-router';
 
@@ -38,17 +38,24 @@ class Homepage extends Component {
         var request = this.props.services.mEvent.getEventsByTime(Date.now());
         this.updateEvents(request);
         // this.props.services.mEvent.createEvent({});
+        document.body.classList.remove('blue-background');
     }
 
 	render() {
       	return ( 
-            <div id="homepage-container">
-                <div id="homepage-left">
-                    <Filtering onUpdate={this.onFilter} user={this.props.user}/>
-                </div>
-                <div id="homepage-right">
-                    <MapMIT events = {this.state.events}/>
-                    <EventTable events = {this.state.events}/>
+            <div>
+                <NavBar
+                    currentUser = {this.props.user}
+                    logout = {this.props.logout}
+                />
+                <div id="homepage-container">
+                    <div id="homepage-left">
+                        <Filtering onUpdate={this.onFilter} user={this.props.user}/>
+                    </div>
+                    <div id="homepage-right">
+                        <MapMIT events = {this.state.events}/>
+                        <EventTable events = {this.state.events}/>
+                    </div>
                 </div>
             </div>
       	)

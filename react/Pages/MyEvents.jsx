@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 import { withRouter, browserHistory } from 'react-router';
 import eventServices from '../../services/eventServices';
+import NavBar from '../Elements/Navbar.jsx';
 
 class MyEvents extends Component {
 	constructor(props) {
@@ -28,6 +29,7 @@ class MyEvents extends Component {
 					this.setState( { events: resp.content.foundEvents });
 				}
 			});
+        document.body.classList.remove('blue-background');
 	};
 
 	toCreateNewEvent() {
@@ -64,22 +66,28 @@ class MyEvents extends Component {
 		// });
 	  	return ( 
 	  		<div>
-		  		<div className="header">
-		  			<h1>Your Upcoming Events</h1>
-		  			<div>
-		  					{this.state.events.map(function(mEvent) {
-		  						return (
-		  							<li key={mEvent._id}>
-		  								{mEvent.name}
-		  								<button type='button' className='btn btn-default' onClick={this.toEditEvent.bind(this, mEvent._id)}>Edit</button>
-		  								<button type='button' className='btn btn-default' onClick={this.deleteEvent.bind(this, mEvent._id)}>Cancel Event</button>
-		  							</li>
-		  						)
-		  					}, this)}
-		  				
-		  			</div>
-		  			
-		  			<button type='button' className='btn btn-default' onClick={this.toCreateNewEvent}>Create New Event</button>
+	  			<NavBar
+	                currentUser = {this.props.user}
+	                logout = {this.props.logout}
+	            />
+	            <div>
+			  		<div className="header">
+			  			<h1>Your Upcoming Events</h1>
+			  			<div>
+			  					{this.state.events.map(function(mEvent) {
+			  						return (
+			  							<li key={mEvent._id}>
+			  								{mEvent.name}
+			  								<button type='button' className='btn btn-default' onClick={this.toEditEvent.bind(this, mEvent._id)}>Edit</button>
+			  								<button type='button' className='btn btn-default' onClick={this.deleteEvent.bind(this, mEvent._id)}>Cancel Event</button>
+			  							</li>
+			  						)
+			  					}, this)}
+			  				
+			  			</div>
+			  			
+			  			<button type='button' className='btn btn-default' onClick={this.toCreateNewEvent}>Create New Event</button>
+			  		</div>
 		  		</div>
 		  	</div>
 	  	)

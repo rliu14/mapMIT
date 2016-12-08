@@ -1,6 +1,7 @@
 /* Lead author: Dora */
 
 import React, { Component } from 'react';
+import NavBar from '../Elements/Navbar.jsx';
 import { withRouter, browserHistory } from 'react-router';
 import eventServices from '../../services/eventServices';
 import groupServices from '../../services/groupServices';
@@ -171,96 +172,102 @@ class EditEvent extends Component {
 	render() {
 	  	return ( 
 	  		<div>
-		  		<div className="header">
-		  			<h1>Edit Your Event</h1>
-		  		</div>		  		
-		  		{this.state.isLoaded &&
-		  		<div className="input-group">
-		  			<span>Event Name* </span> 
-		  			<input type="text" className="form-control" value={this.state.eventName} onChange={this.updateEventName}></input> <br/>
+                <NavBar
+                    currentUser = {this.props.user}
+                    logout = {this.props.logout}
+                />
+		  		<div>
+			  		<div className="header">
+			  			<h1>Edit Your Event</h1>
+			  		</div>		  		
+			  		{this.state.isLoaded &&
+			  		<div className="input-group">
+			  			<span>Event Name* </span> 
+			  			<input type="text" className="form-control" value={this.state.eventName} onChange={this.updateEventName}></input> <br/>
 
-		  			<span>Time* </span> 
-		  			<DateField forceValidDate
-							   defaultValue={this.state.startTime}
-					    	   dateFormat="YYYY-MM-DD HH:mm:ss"
-					    	   onChange={this.updateStartTime}>
-					    <TransitionView>
-					    	<Calendar style={{padding: 10}}/>
-					    </TransitionView>
-					</DateField>
-		  			<span> - </span>
-		  			<DateField forceValidDate
-							   defaultValue={this.state.endTime}
-					    	   dateFormat="YYYY-MM-DD HH:mm:ss"
-					    	   onChange={this.updateStartTime}>
-					    <TransitionView>
-					    	<Calendar style={{padding: 10}}/>
-					    </TransitionView>
-					</DateField> <br/>
+			  			<span>Time* </span> 
+			  			<DateField forceValidDate
+								   defaultValue={this.state.startTime}
+						    	   dateFormat="YYYY-MM-DD HH:mm:ss"
+						    	   onChange={this.updateStartTime}>
+						    <TransitionView>
+						    	<Calendar style={{padding: 10}}/>
+						    </TransitionView>
+						</DateField>
+			  			<span> - </span>
+			  			<DateField forceValidDate
+								   defaultValue={this.state.endTime}
+						    	   dateFormat="YYYY-MM-DD HH:mm:ss"
+						    	   onChange={this.updateStartTime}>
+						    <TransitionView>
+						    	<Calendar style={{padding: 10}}/>
+						    </TransitionView>
+						</DateField> <br/>
 
-		  			<span>Room Number</span> 
-		  			<input type="text" className="form-control" value={this.state.roomNumber} onChange={this.updateRoomNumber}></input> <br/>
+			  			<span>Room Number</span> 
+			  			<input type="text" className="form-control" value={this.state.roomNumber} onChange={this.updateRoomNumber}></input> <br/>
 
-		  			<span>Event Description </span> 
-		  			<input type="text" className="form-control" value={this.state.eventDescription} onChange={this.updateEventDescription}></input> <br/>
+			  			<span>Event Description </span> 
+			  			<input type="text" className="form-control" value={this.state.eventDescription} onChange={this.updateEventDescription}></input> <br/>
 
-		  			<span>Select Location* </span> 
-					<div className="create-event-input-option">
-		  				<LocationPicker onUpdate={this.updateLocation} location={this.state.location}/>
-				    </div>
+			  			<span>Select Location* </span> 
+						<div className="create-event-input-option">
+			  				<LocationPicker onUpdate={this.updateLocation} location={this.state.location}/>
+					    </div>
 
-		  			<span>Location Description </span> 
-		  			<input type="text" className="form-control" value={this.state.locationDescription} onChange={this.updateLocationDescription}></input> <br/>
+			  			<span>Location Description </span> 
+			  			<input type="text" className="form-control" value={this.state.locationDescription} onChange={this.updateLocationDescription}></input> <br/>
 
-		  			<span>Host* </span> 
-		  			<select className="create-event-input-option" value={this.state.host} onChange={this.updateHost}>
-                    	<option value={this.props.user}>{this.props.user}</option>
-                        {this.state.memberGroups.map(function(group){
-                            return (<option key={group._id} value={group.name}>{group.name}</option>)
-                        })}
-                    </select>
+			  			<span>Host* </span> 
+			  			<select className="create-event-input-option" value={this.state.host} onChange={this.updateHost}>
+	                    	<option value={this.props.user}>{this.props.user}</option>
+	                        {this.state.memberGroups.map(function(group){
+	                            return (<option key={group._id} value={group.name}>{group.name}</option>)
+	                        })}
+	                    </select>
 
-                	<span>Privacy* </span> 
-		  			<div className="create-event-input-option">
-                        <input type="radio" value={true} checked={this.state.isPublic} onChange={this.onPublicChange}/>
-                            Public<br/>
-                        {this.state.memberGroups.length != 0 &&
-                        	<div className="group-radio-container">
-                            	<input type="radio" value={false} checked={!this.state.isPublic} onChange={this.onPublicChange}/>
-                                Group-specific<br/>
-                                <div>
-                                {this.state.memberGroups.map(function(group) {
-                                    return (
-                                            <div key={group._id}>
-                                                {this.state.isPublic && 
-                                                    <div>
-                                                        <input type="checkbox" value={group._id} defaultChecked={this.state.checkedGroupIds.has(group._id)} onChange={this.onGroupEventChange} disabled/>
-                                                            {group.name}
-                                                    </div>
-                                                }
+	                	<span>Privacy* </span> 
+			  			<div className="create-event-input-option">
+	                        <input type="radio" value={true} checked={this.state.isPublic} onChange={this.onPublicChange}/>
+	                            Public<br/>
+	                        {this.state.memberGroups.length != 0 &&
+	                        	<div className="group-radio-container">
+	                            	<input type="radio" value={false} checked={!this.state.isPublic} onChange={this.onPublicChange}/>
+	                                Group-specific<br/>
+	                                <div>
+	                                {this.state.memberGroups.map(function(group) {
+	                                    return (
+	                                            <div key={group._id}>
+	                                                {this.state.isPublic && 
+	                                                    <div>
+	                                                        <input type="checkbox" value={group._id} defaultChecked={this.state.checkedGroupIds.has(group._id)} onChange={this.onGroupEventChange} disabled/>
+	                                                            {group.name}
+	                                                    </div>
+	                                                }
 
-                                                {!this.state.isPublic &&
-                                                    <div> 
-                                                        <input type="checkbox" value={group._id} defaultChecked={this.state.checkedGroupIds.has(group._id)} onChange={this.onGroupEventChange} />
-                                                            {group.name}
-                                                    </div>
-                                                }
-                                            </div>
-                                        )
-                                    }, this)
-                                }
-                                </div>
-                            </div>
-                        }
-	                </div>
+	                                                {!this.state.isPublic &&
+	                                                    <div> 
+	                                                        <input type="checkbox" value={group._id} defaultChecked={this.state.checkedGroupIds.has(group._id)} onChange={this.onGroupEventChange} />
+	                                                            {group.name}
+	                                                    </div>
+	                                                }
+	                                            </div>
+	                                        )
+	                                    }, this)
+	                                }
+	                                </div>
+	                            </div>
+	                        }
+		                </div>
+			  		</div>
+			  		}
+
+			  		<span className='input-group-btn'>
+	                    <button type='button' className='btn btn-default' onClick={this.updateEvent}>Save</button>
+	                    <button type='button' className='btn btn-default' onClick={this.backToMyEvents}>Cancel</button>
+	                </span>
 		  		</div>
-		  		}
-
-		  		<span className='input-group-btn'>
-                    <button type='button' className='btn btn-default' onClick={this.updateEvent}>Save</button>
-                    <button type='button' className='btn btn-default' onClick={this.backToMyEvents}>Cancel</button>
-                </span>
-	  		</div>
+		  	</div>
 	  	)
 	}
 }

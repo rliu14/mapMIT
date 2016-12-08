@@ -104,7 +104,7 @@
 
 .login-signup-container {
 	text-align: center;
-	margin-top: 100px;
+	margin-top: 150px;
 }
 
 .login-register-input {
@@ -118,7 +118,7 @@
 	margin-right: auto;
 }
 
-body {
+.blue-background {
 	background-color: #1fbcd2;
 }
 

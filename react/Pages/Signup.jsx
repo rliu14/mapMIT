@@ -15,6 +15,10 @@ class Signup extends Component {
 		this.registerUser = this.registerUser.bind(this);
 	}
 
+    componentWillMount() {
+        document.body.classList.add('blue-background');
+    }
+
 	updateFormVal(event) {
 		var updatedField = event.target.name;
 		var updatedValue = event.target.value;

@@ -14,6 +14,10 @@ class Login extends Component {
 		this.loginUser = this.loginUser.bind(this);
 	}
 
+	componentWillMount() {
+		document.body.classList.add('blue-background');
+	}
+
 	updateFormVal(event) {
 		var updatedField = event.target.name;
 		var updatedValue = event.target.value;
