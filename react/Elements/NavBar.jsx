@@ -34,32 +34,31 @@ class NavBar extends Component {
 		return (
 			<nav className = 'navbar'>
 
-			<div id="navbar-left">
-				<div id="home-link" className="navbar-item right-bar">
-					<IndexLink to = '/' className = 'homepage'>Home</IndexLink>
-				</div>
-				<div id="user-events" className="navbar-item right-bar">
-					{ myEventsItem }
-				</div>
-				<div id="user-groups" className="navbar-item">
-					{ myGroupsItem }
+				<div id="navbar-left">
+					<div id="home-link" className="navbar-item right-bar">
+						<IndexLink to = '/' className = 'homepage'>Home</IndexLink>
+					</div>
+					<div id="user-events" className="navbar-item right-bar">
+						{ myEventsItem }
+					</div>
+					<div id="user-groups" className="navbar-item">
+						{ myGroupsItem }
+					</div>	
 				</div>	
-				</div>	
 
-			<div id="navbar-center">
-
-				<div className="navbar-item">
-					<img className="navbar-logo-img" src={require('../../public/img/logo_white.png')}/>
-				</div>
+				<div id="navbar-center">
+					<div className="navbar-item">
+						<img className="navbar-logo-img" src={require('../../public/img/logo_white.png')}/>
+					</div>
 				</div>
 
-<div id="navbar-right">
-				<div id="welcome-user" className="navbar-item">
-					{ currentUserItem }
-				</div>
-				<div id="logout" className="navbar-item">
-					{ logoutItem }
-				</div>
+				<div id="navbar-right">
+					<div id="welcome-user" className="navbar-item">
+						{ currentUserItem }
+					</div>
+					<div id="logout" className="navbar-item">
+						{ logoutItem }
+					</div>
 				</div>
 			</nav>
 		)

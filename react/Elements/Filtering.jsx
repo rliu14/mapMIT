@@ -123,9 +123,10 @@ class Filtering extends Component {
   
   render () {
     return (
-        <div id="filter">
-            <h1>Filter</h1>
-                <h3>Event Type</h3>
+        <div id="filter" className="panel panel-default">
+            <div className="panel-body">
+                <h2 id="filter-header">Filter Events</h2>
+                <h4>Event Type</h4>
                     <div className="radio">
                         <label>
                             <input type="radio" value='all' checked={this.state.typeOfEvent === 'all'} onChange={this.handleTypeChange} />
@@ -175,7 +176,7 @@ class Filtering extends Component {
                         </div>
                     }
 
-                <h3>Time</h3>
+                <h4>Time</h4>
                     <div className="radio">
                         <label>
                             <input type="radio" value='none' checked={this.state.timeOption === 'none'} onChange={this.handleOptionChange} />
@@ -203,12 +204,13 @@ class Filtering extends Component {
                         </DateField>
                     </div>
 
-                <h3>Location</h3>
+                <h4>Location</h4>
                 <div>
                     <LocationPicker onUpdate={this.updateLocation}/>
                 </div>
-        <button type='button' className='btn btn-default' onClick={this.onApplyFilter}>Apply</button>
-      </div>
+                <button type='button' className='btn btn-default' onClick={this.onApplyFilter}>Apply</button>
+            </div>
+        </div>
     )
   }
 }

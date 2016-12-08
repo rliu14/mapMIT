@@ -44,17 +44,17 @@ class Homepage extends Component {
 	render() {
       	return ( 
             <div>
-                <NavBar
-                    currentUser = {this.props.user}
-                    logout = {this.props.logout}
-                />
+                <NavBar currentUser = {this.props.user}
+                        logout = {this.props.logout}/>
                 <div id="homepage-container">
                     <div id="homepage-left">
                         <Filtering onUpdate={this.onFilter} user={this.props.user}/>
                     </div>
-                    <div id="homepage-right">
-                        <MapMIT events = {this.state.events}/>
-                        <EventTable events = {this.state.events}/>
+                    <div className="panel panel-default" id="homepage-right">
+                        <div className="panel-body">
+                            <MapMIT events = {this.state.events}/>
+                            <EventTable events = {this.state.events}/>
+                        </div>
                     </div>
                 </div>
             </div>

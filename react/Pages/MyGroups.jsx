@@ -114,62 +114,73 @@ class MyGroups extends Component {
 	  		<div>
 	  			<NavBar
 	                currentUser = {this.props.user}
-	                logout = {this.props.logout}
-	            />
+	                logout = {this.props.logout} />
 		  		<div>
 			  		<div className="my-groups-column">
-			  			<h2>Groups I Own</h2>
-			  			<div>
-			  				{this.state.creatorGroups.map(function(group) {
-			  					const groupId = group._id;
-		  						return (
-		  							<div key={groupId} className="group-i-own">
-		  								<h4>{group.name}</h4>
-		  								<div className="group-members-section">
-		  									<h5>Members</h5>
-		  									<div className="group-members-list">
-			  								{group.members.map(function(member) {
-			  									return (
-			  										<div className="group-member">
-			  											<span key={member._id}>{member.username}</span>
-			  										</div>
-			  									)
-			  								})}
-			  								</div>
-		  								</div>
-		  								<div className="add-group-member-section">
-			  								<h5>Add a Member</h5>
-								  			<input key={groupId} type="text" className="add-member-input form-control" value={this.state.newMemberInputs[groupId]} onChange={this.updateNewMemberInput.bind(this, groupId)} placeholder="username"></input>
-						                    <button type='button' className='btn btn-default add-member-btn' onClick={this.addMemberToGroup.bind(this, groupId)}>
-						                        Add
-						                    </button>
-						                </div>
-		  							</div>
-				  				)
-				  			}, this)}
-			  			</div>
-			  			<h2>Create a Group</h2>
-			  			<div>
-				  			<input type="text" className="form-control create-group-name-input" value={this.state.groupName} onChange={this.updateGroupName} placeholder="group name"></input>
-		                    <button type='button' className='btn btn-default create-group-btn' onClick={this.createGroup}>
-		                        Create
-		                    </button>
-			  			</div>
+			  			<div className="panel panel-default">
+		            		<div className="panel-body">
+					  			<h2>Groups I Own</h2>
+					  			<div>
+					  				{this.state.creatorGroups.map(function(group) {
+					  					const groupId = group._id;
+				  						return (
+				  							<div key={groupId} className="group-i-own">
+				  								<h4>{group.name}</h4>
+				  								<div className="group-members-section">
+				  									<h5>Members</h5>
+				  									<div className="group-members-list">
+					  								{group.members.map(function(member) {
+					  									return (
+					  										<div className="group-member">
+					  											<span key={member._id}>{member.username}</span>
+					  										</div>
+					  									)
+					  								})}
+					  								</div>
+				  								</div>
+				  								<div className="add-group-member-section">
+					  								<h5>Add a Member</h5>
+										  			<input key={groupId} type="text" className="add-member-input form-control" value={this.state.newMemberInputs[groupId]} onChange={this.updateNewMemberInput.bind(this, groupId)} placeholder="username"></input>
+								                    <button type='button' className='btn btn-default add-member-btn' onClick={this.addMemberToGroup.bind(this, groupId)}>
+								                        Add
+								                    </button>
+								                </div>
+				  							</div>
+						  				)
+						  			}, this)}
+					  			</div>
+					  		</div>
+					  	</div>
+					  	<div className="panel panel-default">
+		            		<div className="panel-body">
+					  			<h2>Create a Group</h2>
+					  			<div>
+						  			<input type="text" className="form-control create-group-name-input" value={this.state.groupName} onChange={this.updateGroupName} placeholder="group name"></input>
+				                    <button type='button' className='btn btn-default create-group-btn' onClick={this.createGroup}>
+				                        Create
+				                    </button>
+					  			</div>
+					  		</div>
+					  	</div>
 				  	</div>
 				  	<div className="my-groups-column">
-			  			<h2>Groups I'm In</h2>
-			  			<div>
-			  				{this.state.memberGroups.map(function(group) {
-		  						return (
-		  							<div key={group._id} className="group-im-in">
-		  								<h4 className="group-im-in-name">{group.name}</h4>
-		  								<button type='button' className='btn btn-default remove-from-group-btn' onClick={this.removeSelfFromGroup.bind(this, group._id)}>
-						                    Remove Myself
-						                </button>
-	  								</div>
-		  						)
-		  					}, this)}
-			  			</div>
+				  		<div className="panel panel-default">
+		            		<div className="panel-body">
+					  			<h2>Groups I'm In</h2>
+					  			<div>
+					  				{this.state.memberGroups.map(function(group) {
+				  						return (
+				  							<div key={group._id} className="group-im-in">
+				  								<h4 className="group-im-in-name">{group.name}</h4>
+				  								<button type='button' className='btn btn-default remove-from-group-btn' onClick={this.removeSelfFromGroup.bind(this, group._id)}>
+								                    Remove Myself
+								                </button>
+			  								</div>
+				  						)
+				  					}, this)}
+					  			</div>
+					  		</div>
+					  	</div>
 				  	</div>
 			  	</div>
 		  	</div>
