@@ -133,3 +133,51 @@
 .switch-login-register {
 	color: #808080;
 }
+
+.navbar-item {
+	display: inline-block;
+	padding-left: 10px;
+	padding-right: 10px;
+	color: white;
+	font-size: 16px;
+}
+
+.navbar-item a {
+	color: white;
+}
+
+.navbar-logo-img {
+	width: 170px;
+}
+
+.navbar {
+	background-color: #1fbcd2;
+    border-bottom: 1px solid #06A3B9;
+    padding-top: 6px;
+    min-height: 55px;
+    margin-bottom: 10px;
+    text-align: center;
+    border-radius: 0;
+font-family: 'Open Sans', sans-serif;
+	font-weight: 300;
+}
+
+.right-bar {
+	border-right: 1px solid white;
+}
+
+#navbar-left {
+	float: left;
+	display: inline-block;
+	margin-top: 8px;
+}
+
+#navbar-right {
+	float: right;
+	display: inline-block;
+	margin-top: 8px;
+}
+
+#navbar-center {
+	display: inline-block;
+}
