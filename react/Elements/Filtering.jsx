@@ -3,7 +3,8 @@ import { render } from 'react-dom';
 import eventServices from '../../services/eventServices';
 import groupServices from '../../services/groupServices';
 import LocationPicker from './LocationPicker.jsx';
-import { DateField, TransitionView, Calendar } from 'react-date-picker'
+import DateTimePicker from './DateTimePicker.jsx';
+import { DateField, TransitionView, Calendar, MonthView } from 'react-date-picker'
 
 class Filtering extends Component {
     constructor(props){ 
@@ -11,6 +12,7 @@ class Filtering extends Component {
         this.state = {
             timeOption: 'now',
             time: Date.now(),
+            datePickerTime: Date.now(),
             location: 'Any',
             groupsLoaded: false,
             memberGroups: [],
@@ -44,8 +46,13 @@ class Filtering extends Component {
 
     handleOptionChange(event) {
         console.log('handle option change')
-        this.setState({
-            timeOption: event.target.value,
+        var timeType = event.target.value;
+        this.setState(prevState => {
+            prevState.timeOption = timeType;
+            if (timeType == "now") {
+                prevState.time = Date.now();
+            }
+            return prevState;
         });
     }
 
@@ -66,10 +73,13 @@ class Filtering extends Component {
         });
     }
 
-    updateTime(dateString, { dateMoment, timestamp }) {
-        console.log('update time');
+    updateTime(time) {
+        if (time == "") {
+            return;
+        }
+        var date = new Date(time);
         this.setState({
-            time: dateMoment.toDate(),
+            datePickerTime: date.getTime(),
             timeOption: 'at'
         });
     }
@@ -91,16 +101,21 @@ class Filtering extends Component {
         this.getAllGroups();
     }
 
+
     onApplyFilter() {
         var content = {};
         if (this.state.location != 'Any') {
             content['location'] = this.state.location;
         };
-        if (this.state.timeOption != 'none') {
-            console.log('state time');
-            console.log(this.state.time);
-            content['startTime'] = {$lt: this.state.time};
-            content['endTime'] = {$gt: this.state.time};
+        if (this.state.timeOption != 'any') {
+            console.log("about to filter", this.state.time);
+            if (this.state.timeOption == 'now') {
+                content['startTime'] = {$lt: this.state.time};
+                content['endTime'] = {$gt: this.state.time};
+            } else {
+                content['startTime'] = {$lt: this.state.datePickerTime};
+                content['endTime'] = {$gt: this.state.datePickerTime};               
+            }
         };
 
         // we only allow users to select a subset of
@@ -120,6 +135,7 @@ class Filtering extends Component {
                 this.props.onUpdate(resp.content.filteredEvents);
             });
     }
+
   
   render () {
     return (
@@ -179,7 +195,7 @@ class Filtering extends Component {
                 <h4>Time</h4>
                     <div className="radio">
                         <label>
-                            <input type="radio" value='none' checked={this.state.timeOption === 'none'} onChange={this.handleOptionChange} />
+                            <input type="radio" value='any' checked={this.state.timeOption === 'any'} onChange={this.handleOptionChange} />
                                 Any
                         </label>
                     </div>
@@ -194,14 +210,7 @@ class Filtering extends Component {
                             <input type="radio" value="at" checked={this.state.timeOption === 'at'} onChange={this.handleOptionChange} />
                                 Happening At
                         </label> <br/>
-                        <DateField forceValidDate
-                                defaultValue={this.state.time}
-                                dateFormat="MM-DD-YY hh:mm a"
-                                onChange={this.updateTime}>
-                                <TransitionView>
-                                    <Calendar style={{padding: 10}}/>
-                                </TransitionView>
-                        </DateField>
+                        <DateTimePicker defaultTime={this.state.datePickerTime} onChange={this.updateTime}/>
                     </div>
 
                 <h4>Location</h4>

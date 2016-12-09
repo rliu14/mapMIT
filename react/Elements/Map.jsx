@@ -46,7 +46,7 @@ class MapMIT extends Component {
                 <span>{eventList[0].location.name}</span>
                 {eventList.map(function(event, index, array){
                     return (
-                        <div>
+                        <div key={index.toString()}>
                             <span className="popup-event-name" key={index}>
                                 {event.name} 
                             </span>

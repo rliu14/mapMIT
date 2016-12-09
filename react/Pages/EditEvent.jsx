@@ -6,6 +6,7 @@ import { withRouter, browserHistory } from 'react-router';
 import eventServices from '../../services/eventServices';
 import groupServices from '../../services/groupServices';
 import LocationPicker from '../Elements/LocationPicker.jsx';
+import DateTimePicker from '../Elements/DateTimePicker.jsx';
 import { DateField, TransitionView, Calendar } from 'react-date-picker'
 import 'react-date-picker/index.css';
 
@@ -49,10 +50,11 @@ class EditEvent extends Component {
 			.then((resp) => {
 				if(resp.success) {
 					var foundEvent = resp.content.foundEvent;
+
 					this.setState( { 
 						eventName: foundEvent.name,
-						startTime: Date.parse(foundEvent.startTime), // TODO blah this doesn't work
-						endTime: Date.parse(foundEvent.endTime), // TODO same here
+						startTime: new Date(foundEvent.startTime).getTime(),
+						endTime: new Date(foundEvent.endTime).getTime(),
 						roomNumber: foundEvent.room,
 						eventDescription: foundEvent.description,
 						location: foundEvent.location.name,
@@ -78,18 +80,18 @@ class EditEvent extends Component {
 		});
 	}
 
-	updateStartTime(dateString, { dateMoment, timestamp }) {
+	updateStartTime(time) {
+		var date = new Date(time);
 		this.setState({
-			startTime: dateMoment.toDate()
+			startTime: date.getTime()
 		});
-		console.log(this.state.startTime);
 	}
 
-	updateEndTime(dateString, { dateMoment, timestamp }) {
+	updateEndTime(time) {
+		var date = new Date(time);
 		this.setState({
-			endTime: dateMoment.toDate()
+			endTime: date.getTime()
 		});
-		console.log(this.state.endTime);
 	}
 
 	updateRoomNumber(event) {
@@ -185,24 +187,10 @@ class EditEvent extends Component {
 			  			<span>Event Name* </span> 
 			  			<input type="text" className="form-control" value={this.state.eventName} onChange={this.updateEventName}></input> <br/>
 
-			  			<span>Time* </span> 
-			  			<DateField forceValidDate
-								   defaultValue={this.state.startTime}
-						    	   dateFormat="YYYY-MM-DD HH:mm:ss"
-						    	   onChange={this.updateStartTime}>
-						    <TransitionView>
-						    	<Calendar style={{padding: 10}}/>
-						    </TransitionView>
-						</DateField>
-			  			<span> - </span>
-			  			<DateField forceValidDate
-								   defaultValue={this.state.endTime}
-						    	   dateFormat="YYYY-MM-DD HH:mm:ss"
-						    	   onChange={this.updateStartTime}>
-						    <TransitionView>
-						    	<Calendar style={{padding: 10}}/>
-						    </TransitionView>
-						</DateField> <br/>
+			  			<span>Time* </span>
+			  			    <DateTimePicker defaultTime={this.state.startTime} onChange={this.updateStartTime}/>
+				  			<span> - </span>
+				  			<DateTimePicker defaultTime={this.state.endTime} onChange={this.updateEndTime}/>
 
 			  			<span>Room Number</span> 
 			  			<input type="text" className="form-control" value={this.state.roomNumber} onChange={this.updateRoomNumber}></input> <br/>

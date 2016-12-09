@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { withRouter, browserHistory } from 'react-router';
 import { MenuItem, DropdownButton } from 'react-bootstrap';
 import LocationPicker from '../Elements/LocationPicker.jsx';
+import DateTimePicker from '../Elements/DateTimePicker.jsx';
 import eventServices from '../../services/eventServices';
 import groupServices from '../../services/groupServices';
 import { DateField, TransitionView, Calendar } from 'react-date-picker'
@@ -74,15 +75,17 @@ class CreateEvent extends Component {
 		});
 	}
 
-	updateStartTime(dateString, { dateMoment, timestamp }) {
+	updateStartTime(time) {
+		var date = new Date(time);
 		this.setState({
-			startTime: dateMoment.toDate()
+			startTime: date.getTime()
 		});
 	}
 
-	updateEndTime(dateString, { dateMoment, timestamp }) {
+	updateEndTime(time) {
+		var date = new Date(time);
 		this.setState({
-			endTime: dateMoment.toDate()
+			endTime: date.getTime()
 		});
 	}
 
@@ -163,7 +166,10 @@ class CreateEvent extends Component {
 			  			<div className="create-event-input">
 				  			<span className="create-event-input-label">Time* </span> 
 				  			<div className="create-event-input-option">
-					  			<DateField forceValidDate
+					  			<DateTimePicker defaultTime={this.state.time} onChange={this.updateStartTime}/>
+				  				<span> - </span>
+				  				<DateTimePicker defaultTime={this.state.time} onChange={this.updateEndTime}/>
+					  			{/*<DateField forceValidDate
 								    	   defaultValue={this.state.startTime}
 								    	   dateFormat="MM-DD-YY hh:mm a"
 								    	   onChange={this.updateStartTime}>
@@ -179,7 +185,7 @@ class CreateEvent extends Component {
 								    <TransitionView>
 								    	<Calendar style={{padding: 10}}/>
 								    </TransitionView>
-								</DateField><br/>
+								</DateField><br/>*/}
 							</div>
 						</div>
 
