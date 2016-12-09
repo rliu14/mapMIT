@@ -40,38 +40,65 @@ add members to groups you have created, and remove yourself from groups that you
 File Authorship
 --------------
 models/Event.js : Dora
+
 models/Group.js : Elysa
+
 models/Location.js : Rena
+
 models/User.js : Casey
 
 react/Elements/DateTimePicker.jsx : Rena
+
 react/Elements/EventTable.jsx : Elysa
+
 react/Elements/Filtering.jsx : Dora & Rena
+
 react/Elements/LocationPicker.jsx : Rena
+
 react/Elements/Map.jsx : Rena
+
 react/Elements/NavBar.jsx : Casey
+
 react/Pages/CreateEvent.jsx : Dora
+
 react/Pages/EditEvent.jsx : Dora
+
 react/Pages/Homepage.jsx : Elysa
+
 react/Pages/Login.jsx : Casey
+
 react/Pages/MyEvents.jsx : Dora
+
 react/Pages/MyGroups.jsx : Elysa
+
 react/Pages/NotFound.jsx : Elysa
+
 react/Pages/Signup.jsx : Casey
+
 react/Pages/VerifyAccount.jsx : Casey
+
 react/App.jsx : Elysa
+
 react/clientRoutes.jsx : Elysa
+
 react/main.js : Elysa
 
 routes/events.js : Dora
+
 routes/groups.js : Elysa
+
 routes/users.js : Casey
 
 services/eventServices.js : Dora
+
 services/groupServices.js : Elysa
+
 services/userServices.js : Casey
 
 test/eventTests.js : Dora
+
 test/groupTests.js : Elysa
+
 test/locationTests.js : Rena
+
 test/userTests.js : Casey
