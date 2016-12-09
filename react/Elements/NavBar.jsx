@@ -1,3 +1,5 @@
+/* Lead author: Casey */
+
 import { Component } from 'react';
 import React from 'react';
 import { IndexLink, Link, withRouter } from 'react-router';
@@ -14,6 +16,9 @@ class NavBar extends Component {
 	}
 
 	render() {
+
+		console.log("props currentUser", this.props.currentUser);
+		console.log("props", this.props);
 		var currentUserItem = (this.props.currentUser === undefined || this.props.currentUser === 'Not Logged In') ? null : (
 			<p>Logged in as: {this.props.currentUser}</p>
 		);

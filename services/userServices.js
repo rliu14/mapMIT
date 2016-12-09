@@ -1,27 +1,37 @@
+/* Lead author: Casey */
+
 const BASE_URL = 'http://localhost:3000/users';
 
 var request = require('request-promise-native');
 
 export default {
-	register : (username, email, password) => {
+	register : (fullname, email, password) => {
 		return request({
 			uri : BASE_URL,
 			method : 'POST',
 			json : true,
 			body : {
-				username : username,
+				fullname : fullname,
 				email : email,
 				password : password
 			}
 		});
 	},
 
-	login : (username, password) => {
+	verifyAccount : (URL) => {
+		return request({
+			uri : BASE_URL + '/email-verification' + `/${URL}`,
+			method : 'GET',
+			json : true
+		})
+	},
+
+	login : (email, password) => {
 		return request({
 			uri : BASE_URL + '/login',
 			method : 'POST',
 			body : {
-				username : username,
+				email : email,
 				password : password
 			},
 			json : true
@@ -36,6 +46,7 @@ export default {
 		});
 	},
 
+	// TODO does this even get used?
 	getCurrentUser: () => {
 		return request({
 			uri : BASE_URL + '/current',

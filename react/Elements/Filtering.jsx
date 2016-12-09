@@ -1,3 +1,5 @@
+/* Lead author: Dora & Rena */
+
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import eventServices from '../../services/eventServices';

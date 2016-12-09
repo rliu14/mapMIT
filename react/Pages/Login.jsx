@@ -1,3 +1,5 @@
+/* Lead author: Casey */
+
 import React, { Component } from 'react';
 import { IndexLink, Link, withRouter } from 'react-router';
 
@@ -7,7 +9,7 @@ class Login extends Component {
 		// this.defaultProps = {
 		// }
 		this.state = {
-			loginUser : '',
+			loginEmail : '',
 			loginPass : ''
 		};
 		this.updateFormVal = this.updateFormVal.bind(this);
@@ -28,7 +30,7 @@ class Login extends Component {
 	}
 
 	loginUser() {
-		this.props.loginUser(this.state.loginUser, this.state.loginPass);
+		this.props.loginUser(this.state.loginEmail, this.state.loginPass);
 	}
 
 	render() {
@@ -40,9 +42,9 @@ class Login extends Component {
 
 		                <div className = 'username-password-container form-group'>
 		                    <input className = 'form-control username-password-input'
-		                        name = 'loginUser'
-		                        placeholder = 'Username'
-		                        value = {this.state.loginUser}
+		                        name = 'loginEmail'
+		                        placeholder = 'Email'
+		                        value = {this.state.loginEmail}
 		                        onChange = {this.updateFormVal}
 		                    />
 		                </div>
@@ -62,6 +64,8 @@ class Login extends Component {
 		                </div>
 		            </div>
 	            </div>
+
+                <button className = 'btn btn-default' onClick = {this.loginUser}> Login </button>
             </div>
 	  	)
 	}

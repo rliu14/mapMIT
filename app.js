@@ -8,12 +8,13 @@ var webpackDevHelper = require('./hotReload.js');
 // Require routes.
 var events = require('./routes/events');
 var groups = require('./routes/groups');
-var locations = require('./routes/locations');
 var users = require('./routes/users');
 
-// TODO Require User model for authentication
+// user model for authentication
+var User = require('./models/User');
 
 var mongoose = require('mongoose');
+
 mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/mapmit');
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -41,7 +42,6 @@ app.use(session({ secret : 'mapmit', resave : true, saveUninitialized : true }))
 // Set up our routes.
 app.use('/events', events);
 app.use('/groups', groups);
-app.use('/locations', locations);
 app.use('/users', users);
 app.get('*', function(req, res){
   res.sendFile(path.join(__dirname, 'public/index.html'))
