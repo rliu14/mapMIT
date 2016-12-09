@@ -1,3 +1,5 @@
+/* Lead author: Casey */
+
 import React, { Component } from 'react';
 import { IndexLink, Link, withRouter } from 'react-router';
 

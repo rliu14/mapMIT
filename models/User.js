@@ -1,3 +1,5 @@
+/* Lead author: Casey */
+
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt');
 var nev = require('email-verification')(mongoose);
