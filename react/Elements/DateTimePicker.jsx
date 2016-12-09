@@ -1,3 +1,5 @@
+/* Lead author: Rena */
+
 // List of locati xsons for location pickers
 import React, { Component } from 'react';
 import { render } from 'react-dom';

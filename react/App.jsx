@@ -1,3 +1,5 @@
+/* Lead author: Elysa */
+
 import Services from '../services';
 import React from 'react';
 import NavBar from './Elements/Navbar.jsx';

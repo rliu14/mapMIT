@@ -1,3 +1,5 @@
+/* Lead author: Elysa */
+
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';

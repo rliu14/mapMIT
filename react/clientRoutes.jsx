@@ -1,3 +1,5 @@
+/* Lead author: Elysa */
+
 import App from './App.jsx';
 import CreateEvent from './Pages/CreateEvent.jsx';
 import EditEvent from './Pages/EditEvent.jsx';
