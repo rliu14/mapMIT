@@ -1,14 +1,15 @@
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt');
+var nev = require('email-verification')(mongoose);
 
 var userSchema = new mongoose.Schema({
-	username: String,
+	fullname: String,
 	email: String,
 	password: String
 });
 
-userSchema.statics.findUser = function(username, callback) {
-	this.findOne({ username : username }, function(err, result) {
+userSchema.statics.findUser = function(email, callback) {
+	this.findOne({ email : email }, function(err, result) {
 		if (err) callback({ msg : err });
 		if (result !== null) {
 			callback(null, result);
@@ -18,46 +19,40 @@ userSchema.statics.findUser = function(username, callback) {
 	});
 };
 
-// userSchema.statics.checkPassword = function(username, password, callback) {
-// 	this.findOne({ username : username }, function(err, result) {
-// 		if (err) callback({ msg: err });
-// 		if (result !== null && password === result.password) {
-// 			callback(null, true);
-// 		} else {
-// 			callback(null, false);
-// 		}
-// 	});
-// };
-
-userSchema.statics.createUser = function(username, email, password, callback) {
-	if (username.match('^[a-z0-9_-]{3,16}$') && typeof password === 'string') {
-		this.find({ username : username }, function(err, result) {
+userSchema.statics.createUser = function(fullname, email, password, callback) {
+	console.log("creating a new user...");
+	var items = email.split('@');
+	if (items[1] === 'mit.edu' && typeof fullname === 'string' && typeof password === 'string') {
+		this.find({ email : email }, function(err, result) {
 			if (err) callback(err);
 			else if (result.length === 0) {
 				var salt = bcrypt.genSaltSync(10);
 				var hash = bcrypt.hashSync(password, salt);
 				var user = new User({
-					username: username,
+					fullname: fullname,
 					email: email,
 					password: hash,
 				});
-				user.save(function(err, result) {
-					if (err) callback(err);
-					else callback(null, { user: user, username : username, email : email });
-				});
+
+				callback(null, {user: user});
+
+				// user.save(function(err, result) {
+				// 	if (err) callback(err);
+				// 	else callback(null, { user: user, username : username });
+				// });
 			} else {
 				callback({ taken : 'User already exists.' });
 			}
 		});
 	} else {
 		if (callback) {
-			callback({ msg : 'Invalid username/password.' });
+			callback({ msg : 'Invalid email/password.' });
 		}
 	}
 };
 
-userSchema.statics.authUser = function(username, email, password, callback) {
-	this.find({ username : username }, function(err, result) {
+userSchema.statics.authUser = function(email, password, callback) {
+	this.find({ email : email }, function(err, result) {
 		if (err) callback(err);
 		else if (result.length > 0) {
 			var items = result[0].email.split('@');
@@ -65,7 +60,7 @@ userSchema.statics.authUser = function(username, email, password, callback) {
 				callback({ msg : 'You must have an MIT email account to proceed.' });
 			}
 			if (bcrypt.compareSync(password, result[0].password)) {
-				callback(null, { username : username });
+				callback(null, { email : email });
 			} else {
 				callback({ msg : 'Login failed.' });
 			}

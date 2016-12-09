@@ -11,9 +11,11 @@ var groups = require('./routes/groups');
 var locations = require('./routes/locations');
 var users = require('./routes/users');
 
-// TODO Require User model for authentication
+// user model for authentication
+var User = require('./models/User');
 
 var mongoose = require('mongoose');
+
 mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/mapmit');
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));

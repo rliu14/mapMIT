@@ -7,7 +7,7 @@ class Signup extends Component {
 		// this.defaultProps = {
 		// }
 		this.state = {
-			registerUser : '',
+			registerName : '',
 			registerEmail : '',
 			registerPass : ''
 		};
@@ -29,7 +29,8 @@ class Signup extends Component {
 	}
 
 	registerUser() {
-		this.props.registerUser(this.state.registerUser, this.state.registerEmail, this.state.registerPass);
+        console.log("REGISTERING FROM SIGNUP....");
+		this.props.registerUser(this.state.registerName, this.state.registerEmail, this.state.registerPass);
 	}
 
 	render() {
@@ -41,9 +42,9 @@ class Signup extends Component {
 
                         <div className = 'username-password-container form-group'>
                             <input className = 'form-control username-password-input'
-                                name = 'registerUser'
-                                placeholder = 'Username'
-                                value = {this.state.registerUser}
+                                name = 'registerName'
+                                placeholder = 'Your Full Name'
+                                value = {this.state.registerName}
                                 onChange = {this.updateFormVal}
                             />
                         </div>

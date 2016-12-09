@@ -7,6 +7,7 @@ import MyEvents from './Pages/MyEvents.jsx';
 import MyGroups from './Pages/MyGroups.jsx';
 import NotFound from './Pages/NotFound.jsx';
 import SignUp from './Pages/Signup.jsx';
+import VerifyAccount from './Pages/VerifyAccount.jsx';
 
 import services from '../services';
 import React from 'react';
@@ -15,17 +16,17 @@ import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 // authCheck will automatically redirect to the signup route
 // if there's no current user.  Example implementation online:
 // https://github.com/ReactTraining/react-router/blob/master/examples/auth-flow/auth.js
-const authCheck = (nextState, replace, callback) => {
-    services.user.getCurrentUser().then((response) => {
-        if (!response.content.loggedIn){
-            replace('/signup');
-        }
-        callback();
-    }).catch((err) => {
-        console.log("Err on getCurrentUser() : ", err);
-        callback();
-    });
-};
+// const authCheck = (nextState, replace, callback) => {
+//     services.user.getCurrentUser().then((response) => {
+//         if (!response.content.loggedIn){
+//             replace('/signin');
+//         }
+//         callback();
+//     }).catch((err) => {
+//         console.log("Err on getCurrentUser() : ", err);
+//         callback();
+//     });
+// };
 
 // TODO add back in auth checking
 export default (
@@ -36,6 +37,8 @@ export default (
                    component={SignUp} />
             <Route path="login"
                    component={Login} />
+            <Route path="email-verification/:URL"
+                   component={VerifyAccount} />
             <Route path="myEvents"
                    component={MyEvents} />
             <Route path="myEvents/edit/:eventId"
