@@ -3,6 +3,7 @@ var bcrypt = require('bcrypt');
 var nev = require('email-verification')(mongoose);
 
 var userSchema = new mongoose.Schema({
+	fullname: String,
 	email: String,
 	password: String
 });
@@ -11,7 +12,6 @@ userSchema.statics.findUser = function(email, callback) {
 	this.findOne({ email : email }, function(err, result) {
 		if (err) callback({ msg : err });
 		if (result !== null) {
-			console.log('Finding user...', result);
 			callback(null, result);
 		} else {
 			callback({ msg : 'No such user!' });
@@ -19,27 +19,17 @@ userSchema.statics.findUser = function(email, callback) {
 	});
 };
 
-// userSchema.statics.checkPassword = function(username, password, callback) {
-// 	this.findOne({ username : username }, function(err, result) {
-// 		if (err) callback({ msg: err });
-// 		if (result !== null && password === result.password) {
-// 			callback(null, true);
-// 		} else {
-// 			callback(null, false);
-// 		}
-// 	});
-// };
-
-userSchema.statics.createUser = function(email, password, callback) {
+userSchema.statics.createUser = function(fullname, email, password, callback) {
 	console.log("creating a new user...");
 	var items = email.split('@');
-	if (items[1] === 'mit.edu' && typeof password === 'string') {
+	if (items[1] === 'mit.edu' && typeof fullname === 'string' && typeof password === 'string') {
 		this.find({ email : email }, function(err, result) {
 			if (err) callback(err);
 			else if (result.length === 0) {
 				var salt = bcrypt.genSaltSync(10);
 				var hash = bcrypt.hashSync(password, salt);
 				var user = new User({
+					fullname: fullname,
 					email: email,
 					password: hash,
 				});

@@ -3,13 +3,14 @@ const BASE_URL = 'http://localhost:3000/users';
 var request = require('request-promise-native');
 
 export default {
-	register : (email, password) => {
+	register : (fullname, email, password) => {
 		return request({
 			uri : BASE_URL,
 			method : 'POST',
 			json : true,
 			body : {
-				username : email,
+				fullname : fullname,
+				email : email,
 				password : password
 			}
 		});
@@ -28,7 +29,7 @@ export default {
 			uri : BASE_URL + '/login',
 			method : 'POST',
 			body : {
-				username : email,
+				email : email,
 				password : password
 			},
 			json : true
@@ -43,6 +44,7 @@ export default {
 		});
 	},
 
+	// TODO does this even get used?
 	getCurrentUser: () => {
 		return request({
 			uri : BASE_URL + '/current',

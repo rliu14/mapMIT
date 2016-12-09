@@ -47,10 +47,10 @@ var isValid = function(req, res) {
 	if (req.currentUser) {
 		utils.sendErrorResponse(res, 403, 'There is already a user logged in.');
 		return false;
-	} else if (!(req.body.username && req.body.password)) {
+	} else if (!(req.body.email && req.body.password)) {
 		console.log("CHECKING if user is valid...");
 		console.log(req.body);
-		utils.sendErrorResponse(res, 400, 'Username or password not provided.');
+		utils.sendErrorResponse(res, 400, 'Email or password not provided.');
 		return false;
 	}
 	return true;
@@ -64,10 +64,11 @@ var isValid = function(req, res) {
 // 		password: req.body.password
 // 	});
 
+// registration route
 router.post('/', function(req, res) {
 	console.log("REQ BODY: ", req.body);
 
-	User.createUser(req.body.username, req.body.password, function(err, user) {
+	User.createUser(req.body.fullname, req.body.email, req.body.password, function(err, user) {
 		if (err) {
 			if (err.taken) {
 				utils.sendErrorResponse(res, 400, 'This email has been taken!');
@@ -120,12 +121,12 @@ router.post('/', function(req, res) {
 
 router.post('/login', function(req, res) {
 	if (isValid(req, res)) {
-		User.authUser(req.body.username, req.body.password, function(err, result) {
+		User.authUser(req.body.email, req.body.password, function(err, result) {
 			if (err) {
 				utils.sendErrorResponse(res, 403, err);
 			} else {
-				req.session.username = req.body.username;
-				utils.sendSuccessResponse(res, { email : req.body.username });
+				req.session.email = req.body.email;
+				utils.sendSuccessResponse(res, { email : req.body.email });
 			}
 		});
 	}

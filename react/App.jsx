@@ -54,11 +54,13 @@ class App extends Component {
         });
     }
 
-    registerUser(email, password){
+    registerUser(fullname, email, password){
+        console.log("appjsx fullname: ", fullname);
         console.log("appjsx email: ", email);
         console.log("appjsx password: ", password);
-        Services.user.register(email, password).then((res) => {
+        Services.user.register(fullname, email, password).then((res) => {
             console.log("INSIDE THE REGISTRATION SERVICE CALL...");
+            console.log(fullname);
             console.log(email);
             console.log(password);
             console.log(res);
