@@ -12,6 +12,8 @@ class Homepage extends Component {
 		this.state = {
             events : []
 		};
+        console.log('homepage');
+        console.log(this.props);
         this.updateEvents = this.updateEvents.bind(this);
         this.onFilter = this.onFilter.bind(this);
 	}
