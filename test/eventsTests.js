@@ -30,8 +30,8 @@ describe("App", function() {
                 Loc.create(content[1], function(err, location2) {
                     Loc.create(content[2], function(err, location3) {
                         // Add dummy users
-                        User.createUser("user_a", "userA@mit.edu", "pass", function(err, userA) {
-                            User.createUser("user_b", "userB@mit.edu", "pass2", function(err, userB) {
+                        User.createUser("User A", "userA@mit.edu", "pass", function(err, userA) {
+                            User.createUser("User B", "userB@mit.edu", "pass2", function(err, userB) {
                                 done();
                             });
                         });
@@ -43,31 +43,31 @@ describe("App", function() {
 
     describe("Event", function() {
         it("should create an event in the database", function(done) {
-       		var content = {
-               	name: 'Test Event',
-               	startTime: Date.now(),
-               	endTime: Date.now(),
-               	room: '32-123',
-               	description: 'test description',
-              	locationDescription: 'test location description',
-                creator: 'user_a',
+            var content = {
+                name: 'Test Event',
+                startTime: new Date(),
+                endTime: new Date(),
+                room: '32-123',
+                description: 'test description',
+                locationDescription: 'test location description',
+                creator: 'userA@mit.edu',
                 location: 'maseeh'
-           	};
-           	Event.createEvent(content, function(err, mEvent) {
-           		assert.equal(mEvent.name, 'Test Event');
-           		done();
-           	});
+            };
+            Event.createEvent(content, function(err, mEvent) {
+                assert.equal(mEvent.name, 'Test Event');
+                done();
+            });
         });
 
         it("should delete an event from the database", function(done) {
             var content = {
                 name: 'Test Event',
-                startTime: Date.now(),
-                endTime: Date.now(),
+                startTime: new Date(),
+                endTime: new Date(),
                 room: '32-123',
                 description: 'test description',
                 locationDescription: 'test location description',
-                creator: 'user_a',
+                creator: 'userA@mit.edu',
                 location: 'maseeh'
             };
             Event.createEvent(content, function(err, mEvent) {
@@ -84,16 +84,16 @@ describe("App", function() {
         it("should find events by the creator", function(done) {
             var content = {
                 name: 'Test Event',
-                startTime: Date.now(),
-                endTime: Date.now(),
+                startTime: new Date(),
+                endTime: new Date(),
                 room: '32-123',
                 description: 'test description',
                 locationDescription: 'test location description',
-                creator: 'user_a',
+                creator: 'userA@mit.edu',
                 location: 'maseeh'
             };
             Event.createEvent(content, function(err, mEvent) {
-                Event.findEventsByCreator('user_a', function(err, events) {
+                Event.findEventsByCreator('userA@mit.edu', function(err, events) {
                     assert.equal(events.length, 1);
                     assert.deepEqual(events[0]._id, mEvent._id);
                     assert.equal(events[0].name, 'Test Event');
@@ -105,12 +105,12 @@ describe("App", function() {
         it("should find an event by an id", function(done) {
             var content = {
                 name: 'Test Event',
-                startTime: Date.now(),
-                endTime: Date.now(),
+                startTime: new Date(),
+                endTime: new Date(),
                 room: '32-123',
                 description: 'test description',
                 locationDescription: 'test location description',
-                creator: 'user_a',
+                creator: 'userA@mit.edu',
                 location: 'maseeh'
             };
             Event.createEvent(content, function(err, mEvent) {
@@ -125,12 +125,12 @@ describe("App", function() {
         it("should find events by location", function(done) {
             var content = {
                 name: 'Test Event',
-                startTime: Date.now(),
-                endTime: Date.now(),
+                startTime: new Date(),
+                endTime: new Date(),
                 room: '32-123',
                 description: 'test description',
                 locationDescription: 'test location description',
-                creator: 'user_a',
+                creator: 'userA@mit.edu',
                 location: 'maseeh'
             };
             Event.createEvent(content, function(err, mEvent) {
@@ -150,7 +150,7 @@ describe("App", function() {
                 room: '32-123',
                 description: 'test description',
                 locationDescription: 'test location description',
-                creator: 'user_a',
+                creator: 'userA@mit.edu',
                 location: 'maseeh'
             };
             Event.createEvent(content, function(err, mEvent) {
@@ -167,24 +167,24 @@ describe("App", function() {
         it("should find a specific event by id, then update that event", function(done) {
             var content = {
                 name: 'Test Event',
-                startTime: Date.now(),
-                endTime: Date.now(),
+                startTime: new Date(),
+                endTime: new Date(),
                 room: '32-123',
                 description: 'test description',
                 locationDescription: 'test location description',
-                creator: 'user_a',
+                creator: 'userA@mit.edu',
                 location: 'maseeh'
             };
             Event.createEvent(content, function(err, mEvent) {
                 var eventID = mEvent._id;
                 var newContent = {
                     name: 'Updated Event',
-                    startTime: Date.now(),
-                    endTime: Date.now(),
+                    startTime: new Date(),
+                    endTime: new Date(),
                     room: '26-100',
                     description: 'test description',
                     locationDescription: 'test location description',
-                    creator: 'user_a',
+                    creator: 'userA@mit.edu',
                     location: 'maseeh'
                 };
                 Event.findAndUpdateEvent(eventID, newContent, function(err, updatedEvent) {
@@ -203,7 +203,7 @@ describe("App", function() {
                     endTime: new Date('February 17, 2017 03:24:00'),
                     description: 'test description',
                     locationDescription: 'test location description',
-                    creator: 'user_a',
+                    creator: 'userA@mit.edu',
                     location: 'maseeh'
             };
             var content2 = {
@@ -212,7 +212,7 @@ describe("App", function() {
                     endTime: new Date('February 17, 2017 03:24:00'),
                     description: 'test description',
                     locationDescription: 'test location description',
-                    creator: 'user_a',
+                    creator: 'userA@mit.edu',
                     location: 'baker'
             };
             var searchDict = {
@@ -238,7 +238,7 @@ describe("App", function() {
                     endTime: new Date('February 17, 2017 03:24:00'),
                     description: 'test description',
                     locationDescription: 'test location description',
-                    creator: 'user_a',
+                    creator: 'userA@mit.edu',
                     location: 'maseeh'
             };
             var content2 = {
@@ -247,7 +247,7 @@ describe("App", function() {
                     endTime: new Date('February 17, 2017 03:24:00'),
                     description: 'test description',
                     locationDescription: 'test location description',
-                    creator: 'user_a',
+                    creator: 'userA@mit.edu',
                     location: 'baker'
             };
             var searchDict = {
@@ -272,7 +272,7 @@ describe("App", function() {
                     endTime: new Date('February 17, 2017 03:24:00'),
                     description: 'test description',
                     locationDescription: 'test location description',
-                    creator: 'user_a',
+                    creator: 'userA@mit.edu',
                     location: 'maseeh',
                     isPublic: true
             };
@@ -282,7 +282,7 @@ describe("App", function() {
                     endTime: new Date('February 17, 2017 03:24:00'),
                     description: 'test description',
                     locationDescription: 'test location description',
-                    creator: 'user_a',
+                    creator: 'userA@mit.edu',
                     location: 'baker',
                     isPublic: false
             };
@@ -309,7 +309,7 @@ describe("App", function() {
                     endTime: new Date('February 17, 2017 03:24:00'),
                     description: 'test description',
                     locationDescription: 'test location description',
-                    creator: 'user_a',
+                    creator: 'userA@mit.edu',
                     location: 'maseeh',
                     isPublic: false,
                     groupsVisibleTo: [group]
@@ -320,7 +320,7 @@ describe("App", function() {
                         endTime: new Date('February 17, 2017 03:24:00'),
                         description: 'test description',
                         locationDescription: 'test location description',
-                        creator: 'user_a',
+                        creator: 'userA@mit.edu',
                         location: 'baker'
                 };
                 var searchDict = {
@@ -347,7 +347,7 @@ describe("App", function() {
                     endTime: new Date('February 17, 2017 03:24:00'),
                     description: 'test description',
                     locationDescription: 'test location description',
-                    creator: 'user_a',
+                    creator: 'userA@mit.edu',
                     location: 'maseeh',
                     isPublic: false,
                     groupsVisibleTo: [group]
@@ -358,7 +358,7 @@ describe("App", function() {
                         endTime: new Date('February 17, 2017 03:24:00'),
                         description: 'test description',
                         locationDescription: 'test location description',
-                        creator: 'user_a',
+                        creator: 'userA@mit.edu',
                         location: 'baker',
                         isPublic: true
                 };
@@ -388,7 +388,7 @@ describe("App", function() {
                     endTime: new Date('February 17, 2017 03:24:00'),
                     description: 'test description',
                     locationDescription: 'test location description',
-                    creator: 'user_a',
+                    creator: 'userA@mit.edu',
                     location: 'maseeh',
                     isPublic: true
             };
@@ -398,7 +398,7 @@ describe("App", function() {
                     endTime: new Date('February 17, 2017 03:24:00'),
                     description: 'test description',
                     locationDescription: 'test location description',
-                    creator: 'user_a',
+                    creator: 'userA@mit.edu',
                     location: 'baker',
                     isPublic: false
             };

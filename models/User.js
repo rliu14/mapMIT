@@ -22,7 +22,7 @@ userSchema.statics.findUser = function(email, callback) {
 };
 
 userSchema.statics.createUser = function(fullname, email, password, callback) {
-	console.log("creating a new user...");
+	// console.log("creating a new user...");
 	var items = email.split('@');
 	if (items[1] === 'mit.edu' && typeof fullname === 'string' && password.match('^[a-zA-z0-9]{5,16}$')) {
 		this.find({ email : email }, function(err, result) {
@@ -30,18 +30,12 @@ userSchema.statics.createUser = function(fullname, email, password, callback) {
 			else if (result.length === 0) {
 				var salt = bcrypt.genSaltSync(10);
 				var hash = bcrypt.hashSync(password, salt);
-				var user = new User({
+				User.create({
 					fullname: fullname,
 					email: email,
 					password: hash,
-				});
+				}, callback);
 
-				callback(null, {user: user});
-
-				// user.save(function(err, result) {
-				// 	if (err) callback(err);
-				// 	else callback(null, { user: user, username : username });
-				// });
 			} else {
 				callback({ taken : 'User already exists.' });
 			}
