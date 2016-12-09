@@ -42,7 +42,6 @@ app.use(session({ secret : 'mapmit', resave : true, saveUninitialized : true }))
 // Set up our routes.
 app.use('/events', events);
 app.use('/groups', groups);
-app.use('/locations', locations);
 app.use('/users', users);
 app.get('*', function(req, res){
   res.sendFile(path.join(__dirname, 'public/index.html'))
