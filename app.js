@@ -8,7 +8,6 @@ var webpackDevHelper = require('./hotReload.js');
 // Require routes.
 var events = require('./routes/events');
 var groups = require('./routes/groups');
-var locations = require('./routes/locations');
 var users = require('./routes/users');
 
 // user model for authentication

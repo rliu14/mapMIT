@@ -7,7 +7,6 @@ var User = require("../models/User.js");
 var Loc = require("../models/Location.js");
 var Group = require("../models/Group.js");
 
-
 describe("App", function() {
     // The mongoose connection object
     var con;
