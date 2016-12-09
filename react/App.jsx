@@ -36,9 +36,6 @@ class App extends Component {
         Services.user.login(email, password)
             .then((res) => {
                 if (res.success){
-                    console.log('res user');
-                    console.log(res.content.user);
-                    console.log(res);
                     this.setState({user: res.content.email});
                     this.props.router.push('/');
                 }

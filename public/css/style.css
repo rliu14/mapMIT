@@ -198,3 +198,7 @@ font-family: 'Open Sans', sans-serif;
 h2 {
 	margin-top: 0;
 }
+
+.panel-heading.panel-default {
+	background-color: #f5f8fa;
+}
