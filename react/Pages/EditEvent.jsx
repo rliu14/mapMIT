@@ -29,8 +29,8 @@ class EditEvent extends Component {
 		this.state = {
 			isLoaded: false,
 			eventName: '',
-			startTime: Date.now(),
-			endTime: Date.now(),
+			startTime: new Date(),
+			endTime: new Date(),
 			roomNumber: '',
 			eventDescription: '',
 			location: '',
@@ -53,8 +53,8 @@ class EditEvent extends Component {
 
 					this.setState( { 
 						eventName: foundEvent.name,
-						startTime: new Date(foundEvent.startTime).getTime(),
-						endTime: new Date(foundEvent.endTime).getTime(),
+						startTime: new Date(foundEvent.startTime),
+						endTime: new Date(foundEvent.endTime),
 						roomNumber: foundEvent.room,
 						eventDescription: foundEvent.description,
 						location: foundEvent.location.name,
@@ -80,17 +80,15 @@ class EditEvent extends Component {
 		});
 	}
 
-	updateStartTime(time) {
-		var date = new Date(time);
+	updateStartTime(startTime) {
 		this.setState({
-			startTime: date.getTime()
+			startTime: startTime,
 		});
 	}
 
-	updateEndTime(time) {
-		var date = new Date(time);
+	updateEndTime(endTime) {
 		this.setState({
-			endTime: date.getTime()
+			endTime: endTime,
 		});
 	}
 

@@ -11,8 +11,7 @@ class Filtering extends Component {
         super(props);
         this.state = {
             timeOption: 'now',
-            time: Date.now(),
-            datePickerTime: Date.now(),
+            datePickerTime: new Date(),
             location: 'Any',
             groupsLoaded: false,
             memberGroups: [],
@@ -50,7 +49,7 @@ class Filtering extends Component {
         this.setState(prevState => {
             prevState.timeOption = timeType;
             if (timeType == "now") {
-                prevState.time = Date.now();
+                prevState.time = new Date();
             }
             return prevState;
         });
@@ -73,13 +72,12 @@ class Filtering extends Component {
         });
     }
 
-    updateTime(time) {
-        if (time == "") {
+    updateTime(date) {
+        if (date == null) {
             return;
         }
-        var date = new Date(time);
         this.setState({
-            datePickerTime: date.getTime(),
+            datePickerTime: date,
             timeOption: 'at'
         });
     }
@@ -108,10 +106,10 @@ class Filtering extends Component {
             content['location'] = this.state.location;
         };
         if (this.state.timeOption != 'any') {
-            console.log("about to filter", this.state.time);
             if (this.state.timeOption == 'now') {
-                content['startTime'] = {$lt: this.state.time};
-                content['endTime'] = {$gt: this.state.time};
+                var now = new Date();
+                content['startTime'] = {$lt: now};
+                content['endTime'] = {$gt: now};
             } else {
                 content['startTime'] = {$lt: this.state.datePickerTime};
                 content['endTime'] = {$gt: this.state.datePickerTime};               
@@ -130,7 +128,6 @@ class Filtering extends Component {
             .then((resp) => {
                 console.log(resp.content.filteredEvents);
                 this.setState({
-                    time: Date.now()
                 });
                 this.props.onUpdate(resp.content.filteredEvents);
             });

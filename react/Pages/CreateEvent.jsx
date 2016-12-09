@@ -30,8 +30,8 @@ class CreateEvent extends Component {
 		// this.updateGroupSpecificVisibility = this.updateGroupSpecificVisibility.bind(this);
 		this.state = {
 			eventName: '',
-			startTime: Date.now(),
-			endTime: Date.now(),
+			startTime: new Date(),
+			endTime: new Date(),
 			room: '',
 			eventDescription: '',
 			location: '',
@@ -75,17 +75,15 @@ class CreateEvent extends Component {
 		});
 	}
 
-	updateStartTime(time) {
-		var date = new Date(time);
+	updateStartTime(startTime) {
 		this.setState({
-			startTime: date.getTime()
+			startTime: startTime
 		});
 	}
 
-	updateEndTime(time) {
-		var date = new Date(time);
+	updateEndTime(endTime) {
 		this.setState({
-			endTime: date.getTime()
+			endTime: endTime,
 		});
 	}
 
@@ -166,26 +164,9 @@ class CreateEvent extends Component {
 			  			<div className="create-event-input">
 				  			<span className="create-event-input-label">Time* </span> 
 				  			<div className="create-event-input-option">
-					  			<DateTimePicker defaultTime={this.state.time} onChange={this.updateStartTime}/>
+					  			<DateTimePicker onChange={this.updateStartTime}/>
 				  				<span> - </span>
-				  				<DateTimePicker defaultTime={this.state.time} onChange={this.updateEndTime}/>
-					  			{/*<DateField forceValidDate
-								    	   defaultValue={this.state.startTime}
-								    	   dateFormat="MM-DD-YY hh:mm a"
-								    	   onChange={this.updateStartTime}>
-								    <TransitionView>
-								    	<Calendar style={{padding: 10}}/>
-								    </TransitionView>
-								</DateField>
-					  			<span> - </span>
-					  			<DateField forceValidDate
-								    	   defaultValue={this.state.endTime}
-								    	   dateFormat="MM-DD-YY hh:mm a"
-								    	   onChange={this.updateEndTime}>
-								    <TransitionView>
-								    	<Calendar style={{padding: 10}}/>
-								    </TransitionView>
-								</DateField><br/>*/}
+				  				<DateTimePicker onChange={this.updateEndTime}/>
 							</div>
 						</div>
 
