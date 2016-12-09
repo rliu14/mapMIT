@@ -40,7 +40,7 @@ class Login extends Component {
 
 		                <div className = 'username-password-container form-group'>
 		                    <input className = 'form-control username-password-input'
-		                        name = 'loginUser'
+		                        name = 'loginEmail'
 		                        placeholder = 'Email'
 		                        value = {this.state.loginEmail}
 		                        onChange = {this.updateFormVal}

@@ -22,7 +22,7 @@ userSchema.statics.findUser = function(email, callback) {
 userSchema.statics.createUser = function(fullname, email, password, callback) {
 	console.log("creating a new user...");
 	var items = email.split('@');
-	if (items[1] === 'mit.edu' && typeof fullname === 'string' && typeof password === 'string') {
+	if (items[1] === 'mit.edu' && typeof fullname === 'string' && password.match('^[a-zA-z0-9]{5,16}$')) {
 		this.find({ email : email }, function(err, result) {
 			if (err) callback(err);
 			else if (result.length === 0) {
