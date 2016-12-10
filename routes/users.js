@@ -162,6 +162,7 @@ router.get('/email-verification/:URL', function(req, res) {
 });
 
 router.put('/logout', function(req, res) {
+	console.log('LOGGING OUT...');
 	req.session.destroy();
 	utils.sendSuccessResponse(res);
 });
