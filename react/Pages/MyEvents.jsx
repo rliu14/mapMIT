@@ -85,16 +85,7 @@ class MyEvents extends Component {
 			  						return (
 									    <Panel header={mEvent.name} eventKey={mEvent._id}>
 									    	<div className="group-members-section">
-												<h5 className="members-header">Members</h5>
-			  									<div className="group-members-list">
-				  								{group.members.map(function(member) {
-				  									return (
-				  										<div className="group-member">
-				  											<span key={member._id}>{member.fullname}</span>
-				  										</div>
-				  									)
-				  								})}
-				  								</div>	
+			  									
 				  							</div>
 				  							<div className="add-group-member-section">
 				  								<button type='button' className='btn btn-default' onClick={this.toEditEvent.bind(this, mEvent._id)}>Edit</button>
