@@ -83,7 +83,7 @@ router.post('/', function(req, res) {
 			// utils.sendSuccessResponse(res);
 			console.log("nev user: ", user);
 			
-			nev.createTempUser(user.user, function(error, existingPersistentUser, newTempUser) {
+			nev.createTempUser(user, function(error, existingPersistentUser, newTempUser) {
 
 				console.log("Error", error);
 				console.log("persistent user", existingPersistentUser);
@@ -162,6 +162,7 @@ router.get('/email-verification/:URL', function(req, res) {
 });
 
 router.put('/logout', function(req, res) {
+	console.log('LOGGING OUT...');
 	req.session.destroy();
 	utils.sendSuccessResponse(res);
 });

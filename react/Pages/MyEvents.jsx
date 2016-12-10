@@ -16,14 +16,13 @@ class MyEvents extends Component {
 		this.toEditEvent = this.toEditEvent.bind(this);
 		this.deleteEvent = this.deleteEvent.bind(this);
 		this.state = {
-			creator: this.props.user, // TODO elysa has a question about this dora
 			events: []
 		}
 	}
 
 	// will get and display all events created by current user
 	componentWillMount() {
-		eventServices.getEventsByCreator(this.state.creator)
+		eventServices.getEventsByCreator(this.props.user)
 			.then((resp) => {
 				console.log('got events');
 				console.log(resp.content.foundEvents);
@@ -44,14 +43,14 @@ class MyEvents extends Component {
   	
   	deleteEvent(eventID) {
   		console.log('HELLO');
-  		eventServices.deleteEvent(eventID)
+  		eventServices.deleteEvent(eventID, this.props.user)
   			.then((resp) => {
   				console.log('the resp');
   				console.log(resp);
   				console.log(resp.success);
   				if(resp.success) {
   					console.log('here');
-  					eventServices.getEventsByCreator(this.state.creator)
+  					eventServices.getEventsByCreator(this.props.user)
 						.then((resp) => {
 							if(resp.success) {
 								console.log('reset state');

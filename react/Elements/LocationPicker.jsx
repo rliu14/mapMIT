@@ -18,13 +18,17 @@ class LocationPicker extends Component {
 
     }
 
-    getLocations() {
-        return ['Any', 'Building 1', 'Building 2', 'Building 3', 'Building 4', 'Building 5',
+    getLocations(optional) {
+        var locations = ['Building 1', 'Building 2', 'Building 3', 'Building 4', 'Building 5',
                 'Building 6', 'Building 7', 'Building 10', 'Building 13', 'Building 14', 'Building 18',
                 'Building 34', 'Building 36', 'Building 38', 'Building 56', 'Building 66', 'Green Building',
-                'Stata Center', 'Maseeh Hall', 'McCormick Hall', 'Baker House', 'Burton Connor', 'Macgregor House',
+                'Stata Center', 'Maseeh Hall', 'McCormick Hall', 'Baker House', 'Burton Conner', 'Macgregor House',
                 'New House', 'Next House', 'Simmons House', 'Tennis Courts', 'Z Center', 'Kresge Auditorium',
                 'Kresge Barbecue Pits', 'Stratton Student Center'];
+        if (optional) {
+            locations.unshift('Any');
+        }
+        return locations;
     }
 
     updateLocation(event) {
@@ -36,7 +40,7 @@ class LocationPicker extends Component {
             <form>
                 <label>
                     <select className="form-control" value={this.props.location} onChange={this.updateLocation}>
-                        {this.getLocations().map(function(location, index, array){
+                        {this.getLocations(this.props.optional).map(function(location, index, array){
                             return (<option key={index} value={location}>{location}</option>)
                         })}
                     </select>

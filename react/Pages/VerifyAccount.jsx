@@ -1,7 +1,7 @@
 /* Lead author: Casey */
 
 import React, { Component } from 'react';
-import { withRouter } from 'react-router';
+import { IndexLink, Link, withRouter } from 'react-router';
 
 class VerifyAccount extends Component {
 	constructor(props) {
@@ -26,7 +26,7 @@ class VerifyAccount extends Component {
 	render() {
 	  	return ( 
 	  		<div className = 'container'>               
-                <p>Congrats! You've verified your account!</p>
+                <p>Congrats! You've verified your account. Login <IndexLink to = '/login' className = 'login-link'>here</IndexLink> to enter MapMIT!</p>
             </div>
 	  	)
 	}
