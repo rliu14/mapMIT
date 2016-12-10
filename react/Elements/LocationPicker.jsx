@@ -4,7 +4,8 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import eventServices from '../../services/eventServices';
-import { DateField, TransitionView, Calendar } from 'react-date-picker'
+import { DateField, TransitionView, Calendar } from 'react-date-picker';
+import { DropdownButton, MenuItem } from 'react-bootstrap';
 
 class LocationPicker extends Component {
     constructor(props){ 
@@ -34,7 +35,7 @@ class LocationPicker extends Component {
 	    return (
             <form>
                 <label>
-                    <select value={this.props.location} onChange={this.updateLocation}>
+                    <select className="form-control" value={this.props.location} onChange={this.updateLocation}>
                         {this.getLocations().map(function(location, index, array){
                             return (<option key={index} value={location}>{location}</option>)
                         })}

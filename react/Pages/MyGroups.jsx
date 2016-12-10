@@ -113,44 +113,21 @@ class MyGroups extends Component {
 	render() {
 	  	return ( 
 	  		<div>
-	  			<NavBar
-	                currentUser = {this.props.user}
-	                logout = {this.props.logout} />
+	  			<NavBar currentUser = {this.props.user}
+	                    logout = {this.props.logout} />
 		  		<div>
 			  		<div className="my-groups-column">
 			  			<div className="panel panel-default">
-		            		<div className="panel-body">
+		            		<div className="panel-body groups-panel-body">
 					  			<h2>Groups I Own</h2>
 					  			<div>
 					  				<Accordion>
 					  				{this.state.creatorGroups.map(function(group) {
 					  					const groupId = group._id;
 				  						return (
-				  							/*<div key={groupId} className="group-i-own">
-				  								<h4>{group.name}</h4>
-				  								<div className="group-members-section">
-				  									<h5>Members</h5>
-				  									<div className="group-members-list">
-					  								{group.members.map(function(member) {
-					  									return (
-					  										<div className="group-member">
-					  											<span key={member._id}>{member.fullname}</span>
-					  										</div>
-					  									)
-					  								})}
-					  								</div>
-				  								</div>
-				  								<div className="add-group-member-section">
-					  								<h5>Add a Member</h5>
-										  			<input key={groupId} type="text" className="add-member-input form-control" value={this.state.newMemberInputs[groupId]} onChange={this.updateNewMemberInput.bind(this, groupId)} placeholder="username"></input>
-								                    <button type='button' className='btn btn-default add-member-btn' onClick={this.addMemberToGroup.bind(this, groupId)}>
-								                        Add
-								                    </button>
-								                </div>
-				  							</div>*/
 										    <Panel header={group.name} eventKey={groupId}>
 										    	<div className="group-members-section">
-													<h5>Members</h5>
+													<h5 className="members-header">Members</h5>
 				  									<div className="group-members-list">
 					  								{group.members.map(function(member) {
 					  									return (
@@ -163,7 +140,7 @@ class MyGroups extends Component {
 					  							</div>
 					  							<div className="add-group-member-section">
 					  								<h5>Add a Member</h5>
-										  			<input key={groupId} type="text" className="add-member-input form-control" value={this.state.newMemberInputs[groupId]} onChange={this.updateNewMemberInput.bind(this, groupId)} placeholder="username"></input>
+										  			<input key={groupId} type="text" className="add-member-input form-control" value={this.state.newMemberInputs[groupId]} onChange={this.updateNewMemberInput.bind(this, groupId)} placeholder="email address"></input>
 								                    <button type='button' className='btn btn-default add-member-btn' onClick={this.addMemberToGroup.bind(this, groupId)}>
 								                        Add
 								                    </button>
@@ -176,7 +153,7 @@ class MyGroups extends Component {
 					  		</div>
 					  	</div>
 					  	<div className="panel panel-default">
-		            		<div className="panel-body">
+		            		<div className="panel-body groups-panel-body">
 					  			<h2>Create a Group</h2>
 					  			<div>
 						  			<input type="text" className="form-control create-group-name-input" value={this.state.groupName} onChange={this.updateGroupName} placeholder="group name"></input>
@@ -189,7 +166,7 @@ class MyGroups extends Component {
 				  	</div>
 				  	<div className="my-groups-column">
 				  		<div className="panel panel-default">
-		            		<div className="panel-body">
+		            		<div className="panel-body groups-panel-body">
 					  			<h2>Groups I'm In</h2>
 					  			<div>
 					  				{this.state.memberGroups.map(function(group) {

@@ -53,7 +53,7 @@ class DateTimePicker extends Component {
  	render () {
 	    return (
             <form>
-                <input className="datepicker" type="datetime-local" defaultValue={ this.getDefaultTime() } onChange={this.updateTime}/>
+                <input className={"datepicker form-control " + this.props.classname} type="datetime-local" defaultValue={ this.getDefaultTime() } onChange={this.updateTime}/>
             </form>
 	    )
 	}

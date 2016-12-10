@@ -4,6 +4,8 @@ import React, { Component } from 'react';
 import { withRouter, browserHistory } from 'react-router';
 import eventServices from '../../services/eventServices';
 import NavBar from '../Elements/Navbar.jsx';
+import { Accordion, Panel } from 'react-bootstrap';
+
 
 class MyEvents extends Component {
 	constructor(props) {
@@ -70,24 +72,41 @@ class MyEvents extends Component {
 	                currentUser = {this.props.user}
 	                logout = {this.props.logout}
 	            />
-	            <div>
-			  		<div className="header">
-			  			<h1>Your Upcoming Events</h1>
-			  			<div>
-			  					{this.state.events.map(function(mEvent) {
+	            <div className="events-container">
+					<div className="events-panel panel panel-default">
+	            		<div className="panel-body events-panel-body">
+				  			<div className="events-header-row">
+				  				<h2 className="my-events-header">My Upcoming Events</h2>
+				  				<button type='button' className='btn btn-default create-event-btn' onClick={this.toCreateNewEvent}>Create New Event</button>
+				  			</div>
+				  			<div>
+				  				<Accordion>
+				  				{this.state.events.map(function(mEvent) {
 			  						return (
-			  							<li key={mEvent._id}>
-			  								{mEvent.name}
-			  								<button type='button' className='btn btn-default' onClick={this.toEditEvent.bind(this, mEvent._id)}>Edit</button>
-			  								<button type='button' className='btn btn-default' onClick={this.deleteEvent.bind(this, mEvent._id)}>Cancel Event</button>
-			  							</li>
-			  						)
-			  					}, this)}
-			  				
-			  			</div>
-			  			
-			  			<button type='button' className='btn btn-default' onClick={this.toCreateNewEvent}>Create New Event</button>
-			  		</div>
+									    <Panel header={mEvent.name} eventKey={mEvent._id}>
+									    	<div className="group-members-section">
+												<h5 className="members-header">Members</h5>
+			  									<div className="group-members-list">
+				  								{group.members.map(function(member) {
+				  									return (
+				  										<div className="group-member">
+				  											<span key={member._id}>{member.fullname}</span>
+				  										</div>
+				  									)
+				  								})}
+				  								</div>	
+				  							</div>
+				  							<div className="add-group-member-section">
+				  								<button type='button' className='btn btn-default' onClick={this.toEditEvent.bind(this, mEvent._id)}>Edit</button>
+	  											<button type='button' className='btn btn-default' onClick={this.deleteEvent.bind(this, mEvent._id)}>Cancel Event</button>
+							                </div>								    
+			  							</Panel>
+					  				)
+					  			}, this)}
+								</Accordion>
+				  			</div>
+				  		</div>
+		  			</div>
 		  		</div>
 		  	</div>
 	  	)

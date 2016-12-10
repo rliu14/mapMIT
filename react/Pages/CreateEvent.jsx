@@ -26,6 +26,7 @@ class CreateEvent extends Component {
 		this.submitEvent = this.submitEvent.bind(this);
 		this.onPublicChange = this.onPublicChange.bind(this);
         this.onGroupEventChange = this.onGroupEventChange.bind(this);
+        this.backToMyEvents = this.backToMyEvents.bind(this);
 
 		// this.updateGroupSpecificVisibility = this.updateGroupSpecificVisibility.bind(this);
 		this.state = {
@@ -144,6 +145,10 @@ class CreateEvent extends Component {
 			})
 	}
 
+	backToMyEvents() {
+		browserHistory.push('/myEvents');
+	}
+
 	render() {
 	  	return ( 
             <div>
@@ -151,99 +156,106 @@ class CreateEvent extends Component {
                     currentUser = {this.props.user}
                     logout = {this.props.logout}
                 />
-		  		<div>
-			  		<div className="header">
-			  			<h2>Create an Event!</h2>
-			  		</div>
-			  		<div className="">
-			  			<div className="create-event-input">
-			  				<span className="create-event-input-label">Event Name* </span> 
-			  				<input type="text" className="form-control create-event-input-option" value={this.state.eventName} onChange={this.updateEventName}></input> <br/>
-			  			</div>
-			  		
-			  			<div className="create-event-input">
-				  			<span className="create-event-input-label">Time* </span> 
-				  			<div className="create-event-input-option">
-					  			<DateTimePicker onChange={this.updateStartTime}/>
-				  				<span> - </span>
-				  				<DateTimePicker onChange={this.updateEndTime}/>
-							</div>
-						</div>
+				<div className="events-container">
+					<div className="events-panel panel panel-default">
+	            		<div className="panel-body events-panel-body">
+				  			<h2 className="create-event-header">Create an Event!</h2>
+				  			<div>
+				  				<div className="create-event-input">
+					  				<span className="create-event-input-label">Event Name* </span> 
+					  				<input type="text" className="form-control create-event-input-option event-name" value={this.state.eventName} onChange={this.updateEventName}></input> <br/>
+					  			</div>
 
-			  			<div className="create-event-input">
-			  				<span className="create-event-input-label">Room</span> 
-			  				<input type="text" className="form-control create-event-input-option" value={this.state.room} onChange={this.updateRoom}></input> <br/>
-			  			</div>
+					  			<div className="create-event-input">
+						  			<span className="create-event-input-label">Host* </span> 
+			                        <select className="create-event-input-option host-dropdown form-control" value={this.state.host} onChange={this.updateHost}>
+			                        	<option value={this.props.user}>{this.props.user}</option>
+			                            {this.state.memberGroups.map(function(group){
+			                                return (<option value={group.name}>{group.name}</option>)
+			                            })}
+			                        </select>
+					  			</div>					  			
 
-			  			<div className="create-event-input">
-			  				<span className="create-event-input-label">Event Description </span> 
-			  				<input type="text" className="form-control create-event-input-option" value={this.eventDescription} onChange={this.updateEventDescription}></input> <br/>
-			  			</div>
+					  			<div className="create-event-input">
+						  			<span className="create-event-input-label">Time* </span> 
+						  			<div className="create-event-input-option">
+							  			<DateTimePicker onChange={this.updateStartTime} classname="event-datetimepicker" />
+						  				<span className="time-row-span"> - </span>
+						  				<DateTimePicker onChange={this.updateEndTime} classname="event-datetimepicker" />
+									</div>
+								</div>					  			
 
-			  			<div className="create-event-input">
-				  			<span className="create-event-input-label">Select Location* </span> 
-				  			<div className="create-event-input-option">
-				  				<LocationPicker onUpdate={this.updateLocation}/>
-						    </div>
-						</div>
+								<div className="create-event-input">
+					  				<span className="create-event-input-label">Event Description </span> 
+					  				<textarea className="form-control create-event-input-option" value={this.eventDescription} onChange={this.updateEventDescription}></textarea> <br/>
+					  			</div>
 
-			  			<div className="create-event-input">
-			  				<span className="create-event-input-label">Location Description </span> 
-			  				<input type="text" className="form-control create-event-input-option" value={this.locationDescription} onChange={this.updateLocationDescription}></input> <br/>
-			  			</div>
+					  			<div className="create-event-input">
+						  			<span className="create-event-input-label">Select Location* </span> 
+						  			<div className="create-event-input-option">
+						  				<LocationPicker onUpdate={this.updateLocation}/>
+								    </div>
+								</div>
 
-			  			<div className="create-event-input">
-				  			<span className="create-event-input-label">Host* </span> 
-	                        <select className="create-event-input-option" value={this.state.host} onChange={this.updateHost}>
-	                        	<option value={this.props.user}>{this.props.user}</option>
-	                            {this.state.memberGroups.map(function(group){
-	                                return (<option value={group.name}>{group.name}</option>)
-	                            })}
-	                        </select>
-			  			</div>
+					  			<div className="create-event-input">
+					  				<span className="create-event-input-label">Room</span> 
+					  				<input type="text" className="form-control create-event-input-option room-option" value={this.state.room} onChange={this.updateRoom}></input> <br/>
+					  			</div>					  			
 
-			  			<div className="create-event-input">
-				  			<span className="create-event-input-label">Privacy* </span> 
-				  			<div className="create-event-input-option">
-	                            <input type="radio" value={true} checked={this.state.isPublic} onChange={this.onPublicChange}/>
-	                                Public<br/>
-	                            {this.state.memberGroups.length != 0 &&
-	                            	<div className="group-radio-container">
-		                            	<input type="radio" value={false} checked={!this.state.isPublic} onChange={this.onPublicChange}/>
-		                                Group-specific<br/>
-		                                <div>
-		                                {this.state.memberGroups.map(function(group) {
-		                                    return (
-		                                            <div key={group._id}>
-	                                                    {this.state.isPublic && 
-	                                                        <div>
-	                                                            <input type="checkbox" value={group._id} onChange={this.onGroupEventChange} disabled/>
-	                                                                {group.name}
-	                                                        </div>
-	                                                    }
+					  			<div className="create-event-input">
+					  				<span className="create-event-input-label">Location Description </span> 
+					  				<textarea type="text" className="form-control create-event-input-option" value={this.locationDescription} onChange={this.updateLocationDescription}></textarea> <br/>
+					  			</div>
 
-	                                                    {!this.state.isPublic &&
-	                                                        <div> 
-	                                                            <input type="checkbox" value={group._id} onChange={this.onGroupEventChange} />
-	                                                                {group.name}
-	                                                        </div>
-	                                                    }
-		                                            </div>
-		                                        )
-		                                    }, this)
-		                                }
-		                                </div>
-	                                </div>
-	                            }
+					  			<div className="create-event-input">
+						  			<span className="create-event-input-label">Privacy* </span> 
+						  			<div className="create-event-input-option">
+			                            <input type="radio" value={true} checked={this.state.isPublic} onChange={this.onPublicChange} className="radio-btn"/>
+			                                Public<br/>
+			                            {this.state.memberGroups.length != 0 &&
+			                            	<div className="group-radio-container">
+				                            	<input type="radio" value={false} checked={!this.state.isPublic} onChange={this.onPublicChange} className="radio-btn"/>
+				                                Group-specific<br/>
+				                                <div>
+				                                {this.state.memberGroups.map(function(group) {
+				                                    return (
+				                                            <div key={group._id}>
+			                                                    {this.state.isPublic && 
+			                                                        <div>
+			                                                            <input type="checkbox" value={group._id} onChange={this.onGroupEventChange} disabled className="checkbox-btn"/>
+			                                                                {group.name}
+			                                                        </div>
+			                                                    }
+
+			                                                    {!this.state.isPublic &&
+			                                                        <div> 
+			                                                            <input type="checkbox" value={group._id} onChange={this.onGroupEventChange} className="checkbox-btn"/>
+			                                                                {group.name}
+			                                                        </div>
+			                                                    }
+				                                            </div>
+				                                        )
+				                                    }, this)
+				                                }
+				                                </div>
+			                                </div>
+			                            }
+					                </div>
+				                </div>
+					  		</div>
+
+					  		<div>
+					  			<div className="event-btn-container">
+						  			<button type='button' className='btn btn-default event-cancel-btn' onClick={this.backToMyEvents}>
+				                        Cancel
+				                    </button>
+				                    <button type='button' className='btn btn-default btn-blue event-submit-btn' onClick={this.submitEvent}>
+				                        Create Event
+				                    </button>
+			                    </div>
 			                </div>
-		                </div>
-			  		</div>
-
-			  		<span className='input-group-btn'>
-	                    <button type='button' className='btn btn-default' onClick={this.submitEvent}>
-	                        Create
-	                    </button>
-	                </span>
+				  		</div>
+		  			</div>
 		  		</div>
 	  		</div>	
 	  	)

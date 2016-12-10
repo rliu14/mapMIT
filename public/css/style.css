@@ -4,10 +4,6 @@
     width: 800px;
 }
 
-#filter {
-
-}	
-
 body {
 	background-color: #f5f8fa;
 }
@@ -73,12 +69,21 @@ body {
 	display: inline-block;
 }
 
+.create-event-input {
+	margin-bottom: 10px;
+}
+
 .create-event-input-label {
-	width: 170px;
+	width: 22%;
+	font-weight: 500;
+    padding-left: 5px;
+    vertical-align: top;
+    text-align: right;
+    padding-right: 15px;
 }
 
 .create-event-input-option {
-	width: 80%;
+	width: 78%;
 }
 
 #homepage-container {
@@ -105,9 +110,14 @@ body {
 	margin-top: 10px;
 }
 
-.login-signup-btn:hover {
+.btn-blue, .btn-blue:hover {
+	background-color: #1fbcd2;
+    color: white;
+    border-color: white;
+}
+
+.login-signup-btn:hover, .btn-blue:hover {
 	background-color: #06A3B9;
-	font-weight: 500;
 }
 
 .login-signup-container {
@@ -167,7 +177,7 @@ body {
     margin-bottom: 15px;
     text-align: center;
     border-radius: 0;
-font-family: 'Open Sans', sans-serif;
+	font-family: 'Open Sans', sans-serif;
 	font-weight: 300;
 }
 
@@ -195,10 +205,85 @@ font-family: 'Open Sans', sans-serif;
 	width: 180px;
 	font-size: 12px;
 }
+
 h2 {
 	margin-top: 0;
 }
 
-.panel-heading.panel-default {
+.panel-default > .panel-heading {
 	background-color: #f5f8fa;
+}
+
+.members-header {
+	margin-top: 0;
+}
+
+.groups-panel-body {
+	margin-bottom: 10px;
+}
+
+.panel-group {
+	margin-bottom: 0;
+}
+
+.events-panel {
+	width: 70%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.my-events-header {
+	display: inline-block;
+}
+
+.create-event-btn {
+	display: inline-block;
+	float: right;
+}
+
+.time-row-span {
+	display: inline-block;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+.event-datetimepicker {
+	font-size: 14px;
+	width: auto;
+}
+
+form {
+	display: inline-block;
+}
+
+.event-btn-container {
+	float: right;
+}
+
+.event-btn-container > .btn {
+	margin-left: 10px;
+}
+
+input.checkbox-btn, input.radio-btn {
+	margin-right: 5px;
+}
+
+input.checkbox-btn {
+	margin-left: 20px;
+}
+
+.event-name {
+	width: 30%;
+}
+
+.host-dropdown {
+	width: 175px;
+}
+
+.room-option {
+	width: 15%;
+}
+
+.create-event-header {
+	margin-bottom: 20px;
 }
