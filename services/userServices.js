@@ -27,6 +27,7 @@ export default {
 	},
 
 	login : (email, password) => {
+		console.log('user service login...');
 		return request({
 			uri : BASE_URL + '/login',
 			method : 'POST',

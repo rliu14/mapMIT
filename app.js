@@ -37,7 +37,20 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(session({ secret : 'mapmit', resave : true, saveUninitialized : true }));
 
-// TODO Authentication middleware
+app.use(function(req, res, next) {
+	if (req.session.email) {
+		User.findUser(req.session.email, function(err, user) {
+			if (user) {
+				req.currentUser = user;
+			} else {
+				req.session.destroy();
+			}
+			next();
+		});
+	} else {
+		next();
+	}
+});
 
 // Set up our routes.
 app.use('/events', events);

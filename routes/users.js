@@ -46,12 +46,11 @@ var requireAuthentication = function(req, res, next) {
 router.post('/logout', requireAuthentication);
 
 var isValid = function(req, res) {
+	console.log('req current user : ', req.currentUser);
 	if (req.currentUser) {
 		utils.sendErrorResponse(res, 403, 'There is already a user logged in.');
 		return false;
 	} else if (!(req.body.email && req.body.password)) {
-		console.log("CHECKING if user is valid...");
-		console.log(req.body);
 		utils.sendErrorResponse(res, 400, 'Email or password not provided.');
 		return false;
 	}
@@ -122,6 +121,8 @@ router.post('/', function(req, res) {
 });
 
 router.post('/login', function(req, res) {
+	console.log('login route REQ: ', req);
+	console.log('login route RES: ', res);
 	if (isValid(req, res)) {
 		User.authUser(req.body.email, req.body.password, function(err, result) {
 			if (err) {
