@@ -18,7 +18,7 @@ export default {
 
     updateEvent : (eventID, content) => {
         return request({
-            uri : BASE_URL + `/update/${eventID}`,
+            uri : BASE_URL + `/${eventID}`,
             method : 'PUT',
             body : {
                 content : content
@@ -37,7 +37,7 @@ export default {
 
     getEvent : (eventID) => {
         return request({
-            uri : BASE_URL + `/${eventID}`,
+            uri : BASE_URL + `/?eventID=${eventID}`,
             method : 'GET',
             json : true
         });
@@ -45,7 +45,7 @@ export default {
 
     getEventsByCreator : (creator) => {
         return request({
-            uri : BASE_URL + `/creator/${creator}`,
+            uri : BASE_URL + `?creator=${creator}`,
             method: 'GET',
             json : true
         });
@@ -53,15 +53,15 @@ export default {
 
     getEventsByLocation : (loc) => {
         return request({
-            uri : BASE_URL + `/location/${loc}`,
-            method : 'GET',
+            uri : BASE_URL + `?loc=${loc}`,
+            method: 'GET',
             json : true
         });
     },
 
     getEventsByTime : (time) => {
         return request({
-            uri : BASE_URL + `/time/${time}`,
+            uri : BASE_URL + `?time=${time}`,
             method: 'GET',
             json : true
         });

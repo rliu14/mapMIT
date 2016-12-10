@@ -214,7 +214,7 @@ class Filtering extends Component {
 
                 <h4>Location</h4>
                 <div>
-                    <LocationPicker onUpdate={this.updateLocation}/>
+                    <LocationPicker onUpdate={this.updateLocation} optional={true}/>
                 </div>
                 <button type='button' className='btn btn-default' onClick={this.onApplyFilter}>Apply</button>
             </div>
