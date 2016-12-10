@@ -158,13 +158,20 @@ router.get('/', function(req, res) {
     - err: on error, an error message
 */
 router.delete('/:eventID', function(req, res) {
-	Event.deleteEvent(req.params.eventID, function(err, deletedEvent) {
-		if(err) {
-			utils.sendErrorResponse(res, 400, err.msg); 
-		} else {
-			utils.sendSuccessResponse(res, {deletedEvent: deletedEvent});
-		};
-	});
+  Event.findEventByID(req.params.eventID, function(err, mEvent) {
+    if (mEvent.creator.email == req.body.currentUser) {
+      Event.deleteEvent(req.params.eventID, function(err, deletedEvent) {
+        if(err) {
+          utils.sendErrorResponse(res, 400, err.msg); 
+        } else {
+          utils.sendSuccessResponse(res, {deletedEvent: deletedEvent});
+        };
+      });
+    } else {
+      utils.sendErrorResponse(res, 400, 'You cannot delete this event.'); 
+    };
+  });
+	
 });
 
 module.exports = router;

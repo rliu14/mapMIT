@@ -27,10 +27,13 @@ export default {
         });
     },
 
-    deleteEvent : (eventID) => {
+    deleteEvent : (eventID, currentUser) => {
         return request({
             uri : BASE_URL + `/${eventID}`,
             method : 'DELETE',
+            body : {
+                currentUser : currentUser
+            },
             json : true
         });
     },
