@@ -287,3 +287,7 @@ input.checkbox-btn {
 .create-event-header {
 	margin-bottom: 20px;
 }
+
+.vertical-align-top {
+	vertical-align: top;
+}

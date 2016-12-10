@@ -141,7 +141,7 @@ class MyGroups extends Component {
 					  							<div className="add-group-member-section">
 					  								<h5>Add a Member</h5>
 										  			<input key={groupId} type="text" className="add-member-input form-control" value={this.state.newMemberInputs[groupId]} onChange={this.updateNewMemberInput.bind(this, groupId)} placeholder="email address"></input>
-								                    <button type='button' className='btn btn-default add-member-btn' onClick={this.addMemberToGroup.bind(this, groupId)}>
+								                    <button type='button' className='btn btn-blue add-member-btn vertical-align-top' onClick={this.addMemberToGroup.bind(this, groupId)}>
 								                        Add
 								                    </button>
 								                </div>								    
@@ -157,7 +157,7 @@ class MyGroups extends Component {
 					  			<h2>Create a Group</h2>
 					  			<div>
 						  			<input type="text" className="form-control create-group-name-input" value={this.state.groupName} onChange={this.updateGroupName} placeholder="group name"></input>
-				                    <button type='button' className='btn btn-default create-group-btn' onClick={this.createGroup}>
+				                    <button type='button' className='btn btn-blue create-group-btn vertical-align-top' onClick={this.createGroup}>
 				                        Create
 				                    </button>
 					  			</div>

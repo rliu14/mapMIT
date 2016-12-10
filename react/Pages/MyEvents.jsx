@@ -77,7 +77,7 @@ class MyEvents extends Component {
 	            		<div className="panel-body events-panel-body">
 				  			<div className="events-header-row">
 				  				<h2 className="my-events-header">My Upcoming Events</h2>
-				  				<button type='button' className='btn btn-default create-event-btn' onClick={this.toCreateNewEvent}>Create New Event</button>
+				  				<button type='button' className='btn btn-blue create-event-btn' onClick={this.toCreateNewEvent}>Create New Event</button>
 				  			</div>
 				  			<div>
 				  				<Accordion>
