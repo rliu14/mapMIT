@@ -6,12 +6,11 @@ import { IndexLink, Link, withRouter } from 'react-router';
 class Signup extends Component {
 	constructor(props) {
 		super(props);
-		// this.defaultProps = {
-		// }
 		this.state = {
 			registerName : '',
 			registerEmail : '',
-			registerPass : ''
+			registerPass : '',
+            message : ''
 		};
 		this.updateFormVal = this.updateFormVal.bind(this);
 		this.registerUser = this.registerUser.bind(this);
@@ -30,9 +29,27 @@ class Signup extends Component {
 		})
 	}
 
+    checkValidInput() {
+        var result = []
+        if (this.state.registerName == '') {
+            result.push('Please enter your full name.');
+        };
+        if (!(this.state.registerEmail.match('@mit.edu'))) {
+            result.push('Please enter your MIT email.')
+        };
+        if (!(this.state.registerPass.match('^[a-zA-z0-9]{5,16}$'))) {
+            result.push('Your password must consist of 5-16 alphanumeric characters.');
+        };
+        return result;
+    }
+
 	registerUser() {
-        console.log("REGISTERING FROM SIGNUP....");
-		this.props.registerUser(this.state.registerName, this.state.registerEmail, this.state.registerPass);
+        var result = this.checkValidInput();
+        if (result.length == 0) {
+            this.props.registerUser(this.state.registerName, this.state.registerEmail, this.state.registerPass);
+        } else {
+            this.setState({ message : result });
+        }
 	}
 
 	render() {
@@ -42,6 +59,7 @@ class Signup extends Component {
                     <div className="panel-body">
                         <img className="logo-img" src={require('../../public/img/logo.png')}/>
 
+                        <span className="validation-message">{this.state.message}</span>
                         <div className = 'username-password-container form-group'>
                             <input className = 'form-control username-password-input'
                                 name = 'registerName'
