@@ -24,8 +24,6 @@ class MyEvents extends Component {
 	componentWillMount() {
 		eventServices.getEventsByCreator(this.props.user)
 			.then((resp) => {
-				console.log('got events');
-				console.log(resp.content.foundEvents);
 				if(resp.success) {
 					this.setState( { events: resp.content.foundEvents });
 				}
@@ -42,18 +40,12 @@ class MyEvents extends Component {
   	}
   	
   	deleteEvent(eventID) {
-  		console.log('HELLO');
   		eventServices.deleteEvent(eventID, this.props.user)
   			.then((resp) => {
-  				console.log('the resp');
-  				console.log(resp);
-  				console.log(resp.success);
   				if(resp.success) {
-  					console.log('here');
   					eventServices.getEventsByCreator(this.props.user)
 						.then((resp) => {
 							if(resp.success) {
-								console.log('reset state');
 								this.setState( { events: resp.content.foundEvents });
 							};
 						});
@@ -62,9 +54,6 @@ class MyEvents extends Component {
   	}
 
 	render() {
-		// var eventsList = events.map(function(mEvent) {
-		// 	return <li>{mEvent}</li>
-		// });
 	  	return ( 
 	  		<div>
 	  			<NavBar

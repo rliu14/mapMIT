@@ -291,3 +291,7 @@ input.checkbox-btn {
 .vertical-align-top {
 	vertical-align: top;
 }
+
+.validation-message {
+	color: red;
+}
