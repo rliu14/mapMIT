@@ -79,16 +79,9 @@ class App extends Component {
 
     verifyAccount(URL){
         Services.user.verifyAccount(URL).then((res) => {
-            console.log(res.success);
             if (res.success) {
-                console.log("what does this response object look like???");
-                console.log(res);
-                console.log(res.info.accepted[0]);
-                // console.log(res.content.user);
-                // this.setState({user: res.content.user});
-                console.log("successful verification of account!!!", res.success);
                 this.setState({ user : res.info.accepted[0] });
-                this.props.router.push('/');
+                // this.props.router.push('/');
             } else {
                 console.log("Error on verification of user: ", res.err);
             }

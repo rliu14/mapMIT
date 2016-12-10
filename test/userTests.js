@@ -2,6 +2,7 @@
 
 var assert = require("assert");
 var mongoose = require("mongoose");
+var bcrypt = require("bcrypt");
 var User = require("../models/User.js");
 
 describe("App", function() {
@@ -84,13 +85,15 @@ describe("App", function() {
 
         // TODO Fix This!!
     	it("should authorize a valid user with the correct password", function(done) {
-            User.createUser('Casey Hong', 'jhong47@mit.edu', 'supersecretpw', function(err, createdUser) {
-                var pw = createdUser.password;
-                User.authUser('jhong47@mit.edu', pw, function(err, authorizedUser) {
-                    assert.notEqual(authorizedUser, undefined);
-                    assert.equal(authorizedUser.email, 'jhong47@mit.edu');
-                    done();
-                })
+            User.createUser('Alyssa P. Hacker', 'aphacker@mit.edu', 'secretpass', function(err, createdUser) {
+                var content = {fullname : createdUser.fullname, email : createdUser.email, password : createdUser.password};
+                User.create(content, function(err, result) {
+                    User.authUser(result.email, 'secretpass', function(err, authorizedUser) {
+                        assert.notEqual(authorizedUser, undefined);
+                        assert.equal(authorizedUser.email, 'aphacker@mit.edu');
+                        done();
+                    });
+                });
             });
     	});
 
