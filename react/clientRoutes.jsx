@@ -18,41 +18,37 @@ import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 // authCheck will automatically redirect to the signup route
 // if there's no current user.  Example implementation online:
 // https://github.com/ReactTraining/react-router/blob/master/examples/auth-flow/auth.js
-const authCheck = (nextState, replace, callback) => {
-    services.user.getCurrentUser().then((response) => {
-        if (!response.content.loggedIn){
-            // replace('/login');
-        }
-        callback();
-    }).catch((err) => {
-        console.log("Err on getCurrentUser() : ", err);
-        callback();
-    });
-};
+
+// const authCheck = (nextState, replace, callback) => {
+//     services.user.getCurrentUser().then((response) => {
+//         if (!response.content.loggedIn){
+//             replace('/login');
+//         }
+//         callback();
+//     }).catch((err) => {
+//         console.log("Err on getCurrentUser() : ", err);
+//         callback();
+//     });
+// };
 
 export default (
     <Router history={browserHistory} >
         <Route path='/' component={App}  >
-            <IndexRoute component={Homepage} 
-                        onEnter={authCheck} />
-            <Route path="signup"
+            <IndexRoute component={Homepage} />
+            <Route path="/signup"
                    component={SignUp} />
-            <Route path="login"
+            <Route path="/login"
                    component={Login} />
-            <Route path="email-verification/:URL"
+            <Route path="/email-verification/:URL"
                    component={VerifyAccount} />
-            <Route path="myEvents"
-                   component={MyEvents} 
-                   onEnter={authCheck} />
-            <Route path="myEvents/edit/:eventId"
-                   component={EditEvent} 
-                   onEnter={authCheck} />
-            <Route path="myEvents/create"
-                   component={CreateEvent} 
-                   onEnter={authCheck} />
-            <Route path="myGroups"
-                   component={MyGroups} 
-                   onEnter={authCheck} />
+            <Route path="/myEvents"
+                   component={MyEvents} />
+            <Route path="/myEvents/edit/:eventId"
+                   component={EditEvent} />
+            <Route path="/myEvents/create"
+                   component={CreateEvent} />
+            <Route path="/myGroups"
+                   component={MyGroups} />
             <Route path="*"
                    component={NotFound} />
         </Route>

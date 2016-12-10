@@ -6,8 +6,6 @@ import { IndexLink, Link, withRouter } from 'react-router';
 class VerifyAccount extends Component {
 	constructor(props) {
 		super(props);
-		// this.defaultProps = {
-		// }
 		this.state = {
 		};
 		this.verifyAccount = this.verifyAccount.bind(this);
@@ -18,8 +16,6 @@ class VerifyAccount extends Component {
 	}
 	
 	verifyAccount() {
-		console.log("Verifying account...");
-		console.log(this.props.params.URL);
 		this.props.verifyAccount(this.props.params.URL); 
 	}
 

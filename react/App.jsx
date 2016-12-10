@@ -33,6 +33,7 @@ class App extends Component {
     }
 
     loginUser(email, password){
+        console.log('Logging in...');
         Services.user.login(email, password)
             .then((res) => {
                 if (res.success){

@@ -67,7 +67,6 @@ class Homepage extends Component {
 	render() {
       	return (
             <div>
-            { this.state.dataLoaded && 
                 <div>
                     <NavBar currentUser = {this.props.user}
                             logout = {this.props.logout}/>
@@ -85,7 +84,6 @@ class Homepage extends Component {
                         </div>
                     </div>
                 </div>
-            }
             </div>
       	)
 	}
