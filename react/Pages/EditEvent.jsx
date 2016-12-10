@@ -25,6 +25,7 @@ class EditEvent extends Component {
 		this.backToMyEvents = this.backToMyEvents.bind(this);
         this.onGroupEventChange = this.onGroupEventChange.bind(this);
         this.onPublicChange = this.onPublicChange.bind(this);
+        this.checkValidEvent = this.checkValidEvent.bind(this);
 
 		this.state = {
 			isLoaded: false,
@@ -38,7 +39,8 @@ class EditEvent extends Component {
 			host: '',
 			memberGroups: [],
 			isPublic: false,
-			checkedGroupIds: new Set()
+			checkedGroupIds: new Set(),
+			message: ''
 		}
 	}
 
@@ -62,7 +64,8 @@ class EditEvent extends Component {
 						host: foundEvent.host,
 						isPublic: foundEvent.isPublic,
 						isLoaded: true,
-						checkedGroupIds: new Set(foundEvent.groupsVisibleTo)
+						checkedGroupIds: new Set(foundEvent.groupsVisibleTo),
+						message: ''
 					});
 				}
 			});
@@ -144,8 +147,25 @@ class EditEvent extends Component {
         }
     }
 
+    checkValidEvent() {
+		var result = []
+		if (this.state.eventName == '') {
+			result.push('Event Name is required. ');
+		};
+		if (this.state.startTime > this.state.endTime) {
+			result.push('The times are invalid. ');
+		};
+		if (!this.state.isPublic && this.state.checkedGroupIds.size==0) {
+			result.push('Please select at least 1 group.');
+		};
+		return result;
+	}
+
+
 	updateEvent() {
-		var content = {
+		var result = this.checkValidEvent();
+		if (result.length == 0) {
+			var content = {
 			name: this.state.eventName,
 			startTime: this.state.startTime,
 			endTime: this.state.endTime,
@@ -157,12 +177,16 @@ class EditEvent extends Component {
 			creator: this.state.user,
 			isPublic: this.state.isPublic,
 			groupsVisibleTo: Array.from(this.state.checkedGroupIds)
+			}
+			eventServices.updateEvent(this.props.params.eventId, content)
+				.then((resp) => {
+					console.log(resp);
+					this.backToMyEvents();
+				})
+		} else {
+			this.setState({ message : result });
 		}
-		eventServices.updateEvent(this.props.params.eventId, content)
-			.then((resp) => {
-				console.log(resp);
-				this.backToMyEvents();
-			})
+		
 	}
 
 	backToMyEvents() {
@@ -179,7 +203,9 @@ class EditEvent extends Component {
 		  		<div>
 			  		<div className="header">
 			  			<h1>Edit Your Event</h1>
-			  		</div>		  		
+			  		</div>		  
+			  		<span className="validation-message">{this.state.message}</span>
+
 			  		{this.state.isLoaded &&
 			  		<div className="input-group">
 			  			<span>Event Name* </span> 
