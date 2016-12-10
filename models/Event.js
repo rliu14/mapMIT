@@ -38,10 +38,10 @@ var eventSchema = mongoose.Schema({
  *      format cb(err).
  */
 eventSchema.statics.createEvent = function(content, cb) {
-    var username = content.creator;
+    var email = content.creator;
     var location = content.location;
     var Event = this;
-    User.findUser(username, function(err, creator) {
+    User.findUser(email, function(err, creator) {
         if (err) {
             cb({ msg: err });
         } else {

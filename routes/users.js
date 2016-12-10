@@ -83,7 +83,7 @@ router.post('/', function(req, res) {
 			// utils.sendSuccessResponse(res);
 			console.log("nev user: ", user);
 			
-			nev.createTempUser(user.user, function(error, existingPersistentUser, newTempUser) {
+			nev.createTempUser(user, function(error, existingPersistentUser, newTempUser) {
 
 				console.log("Error", error);
 				console.log("persistent user", existingPersistentUser);
