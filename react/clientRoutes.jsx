@@ -21,7 +21,7 @@ import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 const authCheck = (nextState, replace, callback) => {
     services.user.getCurrentUser().then((response) => {
         if (!response.content.loggedIn){
-            replace('/login');
+            // replace('/login');
         }
         callback();
     }).catch((err) => {

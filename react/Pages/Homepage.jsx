@@ -21,7 +21,6 @@ class Homepage extends Component {
         this.onFilter = this.onFilter.bind(this);
 	}
 
-
     getAllGroups(callback) {
         if (this.props.user == undefined) {
             return;
@@ -76,10 +75,12 @@ class Homepage extends Component {
                         <div id="homepage-left">
                             <Filtering onUpdate={this.onFilter} groups={this.state.groups}/>
                         </div>
-                        <div className="panel panel-default" id="homepage-right">
-                            <div className="panel-body">
-                                <MapMIT events = {this.state.events}/>
-                                {<EventTable events = {this.state.events}/>}
+                        <div id="homepage-right">
+                            <div className="panel panel-default">
+                                <div className="panel-body">
+                                    <MapMIT events = {this.state.events}/>
+                                    {<EventTable events = {this.state.events}/>}
+                                </div>
                             </div>
                         </div>
                     </div>
