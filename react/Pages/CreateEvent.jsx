@@ -27,6 +27,7 @@ class CreateEvent extends Component {
 		this.onPublicChange = this.onPublicChange.bind(this);
         this.onGroupEventChange = this.onGroupEventChange.bind(this);
         this.backToMyEvents = this.backToMyEvents.bind(this);
+        this.checkValidEvent = this.checkValidEvent.bind(this);
 
 		// this.updateGroupSpecificVisibility = this.updateGroupSpecificVisibility.bind(this);
 		this.state = {
@@ -41,7 +42,8 @@ class CreateEvent extends Component {
 			creator: '',
 			isPublic: true,
 			memberGroups: [],
-            checkedGroupIds: new Set()
+            checkedGroupIds: new Set(),
+            message: ''
 		}
 	};
 
@@ -124,9 +126,25 @@ class CreateEvent extends Component {
 		this.setState({isPublic: targetVal});
 	}
 
+	checkValidEvent() {
+		var result = []
+		if (this.state.eventName == '') {
+			result.push('Event Name is required. ');
+		};
+		if (this.state.startTime > this.state.endTime) {
+			result.push('The times are invalid. ');
+		};
+		if (!this.state.isPublic && this.state.checkedGroupIds.size==0) {
+			result.push('Please select at least 1 group.');
+		};
+		return result;
+	}
+
 	// creates event in the event database
 	submitEvent() {
-		var content =  {
+		var result = this.checkValidEvent();
+		if (result.length == 0) {
+			var content =  {
 			name: this.state.eventName,
 			startTime: this.state.startTime,
 			endTime: this.state.endTime,
@@ -138,11 +156,15 @@ class CreateEvent extends Component {
 			creator: this.props.user,
 			isPublic: this.state.isPublic,
 			groupsVisibleTo: Array.from(this.state.checkedGroupIds)
+			}
+			eventServices.createEvent(content)
+				.then((resp) => {
+					browserHistory.push('/myEvents');
+			});
+		} else {
+			this.setState({ message : result });
+			
 		}
-		eventServices.createEvent(content)
-			.then((resp) => {
-				browserHistory.push('/myEvents');
-			})
 	}
 
 	backToMyEvents() {
@@ -160,7 +182,9 @@ class CreateEvent extends Component {
 					<div className="events-panel panel panel-default">
 	            		<div className="panel-body events-panel-body">
 				  			<h2 className="create-event-header">Create an Event!</h2>
-				  			<div>
+				  			<div>				  					
+				  				<span className="validation-message">{this.state.message}</span>
+
 				  				<div className="create-event-input">
 					  				<span className="create-event-input-label">Event Name* </span> 
 					  				<input type="text" className="form-control create-event-input-option event-name" value={this.state.eventName} onChange={this.updateEventName}></input> <br/>

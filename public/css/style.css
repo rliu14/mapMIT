@@ -314,3 +314,7 @@ input.checkbox-btn {
 .bold {
 	font-weight: bold;
 }
+
+.validation-message {
+	color: red;
+}
