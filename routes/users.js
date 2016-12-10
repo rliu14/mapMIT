@@ -6,11 +6,12 @@ var utils = require('../utils/utils');
 var User = require('../models/User');
 var mongoose = require('mongoose');
 
+/** Configures nev, the email verification module */
 var nev = require('email-verification')(mongoose);
 nev.configure({
 	verificationURL : 'http://localhost:3000/email-verification/${URL}',
 	persistentUserModel : User,
-	expirationTime : 600, 
+	expirationTime : 6000, 
 	transportOptions : {
 		service: 'Gmail',
 		auth: {
@@ -57,15 +58,30 @@ var isValid = function(req, res) {
 	return true;
 };
 
-// register
-// router.post('/', function(req, res) {
-// 	var newUser = User({
-// 		username: req.body.username,
-// 		email: req.body.email,
-// 		password: req.body.password
-// 	});
-
-// registration route
+/**
+ * Registers a new user.
+ * 
+ * Request: POST /users/
+ *
+ * Body:
+ * {
+ * 	fullname: String,
+ * 	email: String,
+ * 	password: String
+ * }
+ *
+ * Response:
+ * On success:
+ * {
+ *  msg: 'An email has been sent to you. Please check it to verify your account.',
+ *  info: info
+ * }
+ *
+ * On username already exists:
+ * {
+ *  msg: You have already signed up and confirmed your account. Please proceed to login.,
+ * }
+ */
 router.post('/', function(req, res) {
 	console.log("REQ BODY: ", req.body);
 
@@ -78,30 +94,18 @@ router.post('/', function(req, res) {
 			} else {
 				utils.sendErrorResponse(res, 500, 'An unknown error has occurred.');
 			}
-		} else {
-			// utils.sendSuccessResponse(res);
-			console.log("nev user: ", user);
-			
+		} else {			
 			nev.createTempUser(user, function(error, existingPersistentUser, newTempUser) {
-
-				console.log("Error", error);
-				console.log("persistent user", existingPersistentUser);
-				console.log("temp user", newTempUser);
 				if (error) {
-					console.log(error);
 					return res.status(404).send('Creating temp user FAILED');
 				}
 				if (existingPersistentUser) {
-					return res.json({ msg : 'You have already signed up and confirmed your account. Did you forget your password?' });
+					return res.json({ msg : 'You have already signed up and confirmed your account. Please proceed to login.' });
 				}
 
 				if (newTempUser) {
 					var URL = newTempUser[nev.options.URLFieldName];
-					console.log("url: ", URL);
-					console.log("getting email for verification email...", newTempUser.email);
 					nev.sendVerificationEmail(newTempUser.email, URL, function(err, info) {
-						console.log("verification email error: ", err);
-						console.log("verification email info: ", info);
 						if (err) {
 							return res.status(404).send('sending verification email FAILED');
 						}
@@ -120,9 +124,24 @@ router.post('/', function(req, res) {
 	});
 });
 
+/**
+ * Logs in a registered user.
+ * 
+ * Request: POST /users/login
+ *
+ * Body:
+ * {
+ * 	email: String,
+ * 	password: String
+ * }
+ *
+ * Response:
+ * On success:
+ * {
+ *  email: email
+ * }
+ */
 router.post('/login', function(req, res) {
-	console.log('login route REQ: ', req);
-	console.log('login route RES: ', res);
 	if (isValid(req, res)) {
 		User.authUser(req.body.email, req.body.password, function(err, result) {
 			if (err) {
@@ -135,16 +154,27 @@ router.post('/login', function(req, res) {
 	}
 });
 
+/**
+ * Verifies a newly registered user.
+ * 
+ * Request: GET /users/email-verification/:URL
+ *
+ * Params:
+ * {
+ * 	URL: String
+ * }
+ *
+ * Response:
+ * On success:
+ * {
+ *  success: true,
+ *	info: info
+ * }
+ */
 router.get('/email-verification/:URL', function(req, res) {
 	var url = req.params.URL;
-	console.log("GET REQUEST in user ROUTE");
-	console.log(url);
 	nev.confirmTempUser(url, function(err, user) {
-		console.log("this is the user when confirming TEMP USER");
-		console.log(user);
 		if (user) {
-			console.log("confirming temp user now...");
-			console.log(user);
 			nev.sendConfirmationEmail(user.email, function(err, info) {
 				if (err) {
 					return res.status(404).send('sending confirmation email FAILED');
@@ -153,21 +183,39 @@ router.get('/email-verification/:URL', function(req, res) {
 					success : true,
 					info : info
 				});
-				// utils.sendSuccessResponse(res, { success : true, info: info });
 			});
-			// utils.sendSuccessResponse(res, { success : true, info : info });
 		} else {
 			return res.status(404).send('confirming temp user FAILED');
 		}
 	});
 });
 
+/**
+ * Logs out the user.
+ * 
+ * Request: PUT /users/logout
+ */
 router.put('/logout', function(req, res) {
-	console.log('LOGGING OUT...');
 	req.session.destroy();
 	utils.sendSuccessResponse(res);
 });
 
+/**
+ * Gets the current user information.
+ * 
+ * Request: GET /users/current
+ *
+ * Response:
+ * If logged in:
+ * {
+ *	loggedIn: true,
+ *	user: email	
+ * }
+ * If not logged in:
+ * {
+ *	loggedIn: false	
+ * }
+ */
 router.get('/current', function(req, res) {
 	if (req.currentUser) {
 		utils.sendSuccessResponse(res, { loggedIn : true, user : req.currentUser.email });
