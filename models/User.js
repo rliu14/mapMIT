@@ -30,12 +30,12 @@ userSchema.statics.createUser = function(fullname, email, password, callback) {
 			else if (result.length === 0) {
 				var salt = bcrypt.genSaltSync(10);
 				var hash = bcrypt.hashSync(password, salt);
-				User.create({
+				var user = new User ({
 					fullname: fullname,
 					email: email,
 					password: hash,
 				}, callback);
-
+				callback(null, user);
 			} else {
 				callback({ taken : 'User already exists.' });
 			}
