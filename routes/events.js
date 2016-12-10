@@ -39,40 +39,6 @@ router.post('/', function(req, res) {
 });
 
 /*
-  PUT /events/update/:eventId
-  Request body:
-    - eventID
-    - content - in the format,
-    {
-          name: {String}
-          startTime: {Date},
-          endTime: {Date},
-          room: {String},
-          description: {String},
-          location: {Location}, 
-          locationDescription: {String},
-          host: {String},
-          creator: {User}      
-    }
-  Response:
-    - success: true if event update succeeded; false otherwise
-    - err: on error, an error message
-*/
-router.put('/update/:eventId', function(req, res) {
-	Event.findAndUpdateEvent(req.params.eventId, req.body.content, function(err, updatedEvent) {
-		if(err) {
-			if(err.msg) {
-				utils.sendErrorResponse(res, 400, err.msg);
-			} else {
-				utils.sendErrorResponse(res, 500, 'An unknown error occurred.');
-			};
-		} else {
-			utils.sendSuccessResponse(res, updatedEvent);
-		};
-	});
-});
-
-/*
   PUT /events/filter
   Request body:
     - content - in the format,
@@ -96,82 +62,91 @@ router.put('/filter', function(req, res) {
 });
 
 /*
-  GET /events/:eventID
+  PUT /events/:eventId
   Request body:
     - eventID
+    - content - in the format,
+    {
+          name: {String}
+          startTime: {Date},
+          endTime: {Date},
+          room: {String},
+          description: {String},
+          location: {Location}, 
+          locationDescription: {String},
+          host: {String},
+          creator: {User}      
+    }
   Response:
-    - success: true if get event succeeded; false otherwise
-    - content: on success, an object with a single field 'foundEvent', the event that was found
+    - success: true if event update succeeded; false otherwise
     - err: on error, an error message
 */
-router.get('/:eventID', function(req, res) {
-	Event.findEventByID(req.params.eventID, function(err, foundEvent) {
+router.put('/:eventId', function(req, res) {
+	Event.findAndUpdateEvent(req.params.eventId, req.body.content, function(err, updatedEvent) {
 		if(err) {
-			utils.sendErrorResponse(res, 404, 'No such event.');
+			if(err.msg) {
+				utils.sendErrorResponse(res, 400, err.msg);
+			} else {
+				utils.sendErrorResponse(res, 500, 'An unknown error occurred.');
+			};
 		} else {
-			utils.sendSuccessResponse(res, { foundEvent: foundEvent });
+			utils.sendSuccessResponse(res, updatedEvent);
 		};
 	});
 });
 
 /*
-  GET /events/creator/:creator
-  Request body:
-    - creator
-  Response:
-    - success: true if get events succeeded; false otherwise
-    - content: on success, an object with a single field 'foundEvents', the events that were found
-    - err: on error, an error message
-*/
-router.get('/creator/:creator', function(req, res) {
-	Event.findEventsByCreator(req.params.creator, function(err, foundEvents) {
-		if (err) {
-			utils.sendErrorResponse(res, 404, 'No such events.');
-		} else {
-			utils.sendSuccessResponse(res, { foundEvents: foundEvents });
-		};
-	});
-});
-
-/*
-  GET /events/location/:loc
-  Request body:
+  GET /events?query=query_string
+  Request queries:
     - loc
+    - creator
+    - time
+    - eventID
   Response:
     - success: true if get events succeeded; false otherwise
     - content: on success, an object with a single field 'foundEvents', the events that were found
     - err: on error, an error message
 */
-router.get('/location/:loc', function(req, res) {
-	Event.findEventsByLocation(req.params.loc, function(err, foundEvents) {
-		if(err) {
-			utils.sendErrorResponse(res, 404, 'No such events.');
-		} else {
-			utils.sendSuccessResponse(res, { foundEvents: foundEvents });
-		}
-	});
+router.get('/', function(req, res) {
+  if (req.query.loc != undefined) {
+    console.log('finding by loc');
+    Event.findEventsByLocation(req.query.loc, function(err, foundEvents) {
+      if(err) {
+        utils.sendErrorResponse(res, 404, 'No such events.');
+      } else {
+        utils.sendSuccessResponse(res, { foundEvents: foundEvents });
+      }
+    });
+  } else if (req.query.creator != undefined) {
+    console.log('finding by creator');
+    Event.findEventsByCreator(req.query.creator, function(err, foundEvents) {
+      if (err) {
+        utils.sendErrorResponse(res, 404, 'No such events.');
+      } else {
+        utils.sendSuccessResponse(res, { foundEvents: foundEvents });
+      };
+    });
+  } else if (req.query.time != undefined) {
+    console.log('finding by time');
+    Event.findEventsByTime(req.query.time, function(err, events) {
+      console.log('events ' + events);
+      if (err) {
+        utils.sendErrorResponse(res, 400, err.msg); 
+      } else {
+        utils.sendSuccessResponse(res, {events: events});
+      }
+    });
+  } else if (req.query.eventID != undefined) {
+    Event.findEventByID(req.query.eventID, function(err, foundEvent) {
+      if(err) {
+        utils.sendErrorResponse(res, 404, 'No such event.');
+      } else {
+        utils.sendSuccessResponse(res, { foundEvent: foundEvent });
+      };
+    });
+  }
+  
 });
-
-/*
-  GET /events/time/:time
-  Request body:
-    - time
-  Response:
-    - success: true if get events succeeded; false otherwise
-    - content: on success, an object with a single field 'events', the events that were found
-    - err: on error, an error message
-*/
-router.get('/time/:time', function(req, res) {
-	Event.findEventsByTime(req.params.time, function(err, events) {
-		if (err) {
-			utils.sendErrorResponse(res, 400, err.msg); 
-		} else {
-			utils.sendSuccessResponse(res, {events: events});
-		}
-	});
-});
-
-
 
 /*
   DELETE /events/:eventID
