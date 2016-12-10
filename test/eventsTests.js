@@ -30,8 +30,10 @@ describe("App", function() {
                 Loc.create(content[1], function(err, location2) {
                     Loc.create(content[2], function(err, location3) {
                         // Add dummy users
-                        User.createUser("User A", "userA@mit.edu", "pass", function(err, userA) {
-                            User.createUser("User B", "userB@mit.edu", "pass2", function(err, userB) {
+                        User.createUser("User A", "userA@mit.edu", "password", function(err, userA) {
+                            assert.equal(err, null);
+                            User.createUser("User B", "userB@mit.edu", "password2", function(err, userB) {
+                                assert.equal(err, null);
                                 done();
                             });
                         });
