@@ -47,9 +47,9 @@ describe("App", function() {
 
     	it("should create a user with all valid inputs", function(done) {
     		User.createUser('Elysa Kohrs', 'ekohrs@mit.edu', 'password123', function(err, createdUser) {
-                assert.notEqual(createdUser.user, undefined);
-    			assert.equal(createdUser.user.fullname, 'Elysa Kohrs');
-    			assert.equal(createdUser.user.email, 'ekohrs@mit.edu');
+                assert.notEqual(createdUser, undefined);
+    			assert.equal(createdUser.fullname, 'Elysa Kohrs');
+    			assert.equal(createdUser.email, 'ekohrs@mit.edu');
     			done();
     		});
     	});
