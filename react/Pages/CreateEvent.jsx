@@ -163,7 +163,6 @@ class CreateEvent extends Component {
 			});
 		} else {
 			this.setState({ message : result });
-			
 		}
 	}
 
