@@ -36,9 +36,6 @@ class App extends Component {
         Services.user.login(email, password)
             .then((res) => {
                 if (res.success){
-                    console.log('res user');
-                    console.log(res.content.user);
-                    console.log(res);
                     this.setState({user: res.content.email});
                     this.props.router.push('/');
                 }
@@ -60,15 +57,7 @@ class App extends Component {
     }
 
     registerUser(fullname, email, password){
-        console.log("appjsx fullname: ", fullname);
-        console.log("appjsx email: ", email);
-        console.log("appjsx password: ", password);
         Services.user.register(fullname, email, password).then((res) => {
-            console.log("INSIDE THE REGISTRATION SERVICE CALL...");
-            console.log(fullname);
-            console.log(email);
-            console.log(password);
-            console.log(res);
             if (res.success){
                 this.loginUser(email, password);
             } else {
@@ -81,7 +70,6 @@ class App extends Component {
         Services.user.verifyAccount(URL).then((res) => {
             if (res.success) {
                 this.setState({ user : res.info.accepted[0] });
-                // this.props.router.push('/');
             } else {
                 console.log("Error on verification of user: ", res.err);
             }
