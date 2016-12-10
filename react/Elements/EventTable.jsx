@@ -16,7 +16,26 @@ class EventTable extends Component {
     
     render () {
         return (
-            <BootstrapTable data={ this.props.events }>
+            <div className="container-fluid">
+                <div className="row">
+                    {this.props.events.map(function(event) {
+                        return ( 
+                            <div key={event._id} className="col-md-4 panel panel-default">
+                                <div className="panel-heading">{event.name}</div>
+                                <div className="panel-body">
+                                    Host: {event.host} <br/>
+                                    Description: {event.description}
+                                    {/*Time: {event.startTime} - {event.endTime}
+                                    Location: {event.location}*/}
+                                </div>
+                            </div>
+                        )
+                    })}
+                </div>
+            </div>
+
+            )
+            {/*<BootstrapTable data={ this.props.events }>
                 <TableHeaderColumn dataField='name' isKey>Event Name</TableHeaderColumn>
                 <TableHeaderColumn dataField='host'>Host</TableHeaderColumn>
                 <TableHeaderColumn dataField='description'>Description</TableHeaderColumn>
@@ -24,7 +43,7 @@ class EventTable extends Component {
                 <TableHeaderColumn dataField='endTime'>End Time</TableHeaderColumn>
                 <TableHeaderColumn dataField='location' dataFormat={showLocationName}>Location</TableHeaderColumn>
             </BootstrapTable>
-        )
+        )*/}
     }
 }
 
