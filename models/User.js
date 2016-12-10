@@ -2,14 +2,20 @@
 
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt');
-var nev = require('email-verification')(mongoose);
 
+/** Schema to represent the User model */
 var userSchema = new mongoose.Schema({
 	fullname: String,
 	email: String,
 	password: String
 });
 
+/**
+ * Finds a user in the database.
+ * @param {String} email
+ * @param {Function} callback The callback function to execute, of the
+ *      format callback(err, result).
+ */
 userSchema.statics.findUser = function(email, callback) {
 	this.findOne({ email : email }, function(err, result) {
 		if (err) callback({ msg : err });
@@ -21,8 +27,16 @@ userSchema.statics.findUser = function(email, callback) {
 	});
 };
 
+/**
+ * Creates a user model. It is important to note that this user is not immediately persisted to the database,
+ *		as the user must go through the email verification process before being added to the database.
+ * @param {String} fullname
+ * @param {String} email
+ * @param {String} password
+ * @param {Function} callback The callback function to execute, of the
+ *      format callback(err, user).
+ */
 userSchema.statics.createUser = function(fullname, email, password, callback) {
-	// console.log("creating a new user...");
 	var items = email.split('@');
 	if (items[1] === 'mit.edu' && typeof fullname === 'string' && password.match('^[a-zA-z0-9]{5,16}$')) {
 		this.find({ email : email }, function(err, result) {
@@ -47,6 +61,13 @@ userSchema.statics.createUser = function(fullname, email, password, callback) {
 	}
 };
 
+/**
+ * Authenticates a user.
+ * @param {String} email
+ * @param {String} password
+ * @param {Function} callback The callback function to execute, of the
+ *      format callback(err, email).
+ */
 userSchema.statics.authUser = function(email, password, callback) {
 	this.find({ email : email }, function(err, result) {
 		if (err) callback(err);
