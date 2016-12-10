@@ -36,7 +36,7 @@ class CreateEvent extends Component {
 			endTime: new Date(),
 			room: '',
 			eventDescription: '',
-			location: '',
+			location: 'Building 1',
 			locationDescription: '',
 			host: this.props.user,
 			creator: '',
