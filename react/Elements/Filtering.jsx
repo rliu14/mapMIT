@@ -15,8 +15,6 @@ class Filtering extends Component {
             timeOption: 'now',
             datePickerTime: new Date(),
             location: 'Any',
-            groupsLoaded: false,
-            memberGroups: [],
             checkedGroupIds: new Set(),
             typeOfEvent: "all"
         };
@@ -26,7 +24,6 @@ class Filtering extends Component {
         this.updateLocation = this.updateLocation.bind(this);
         this.updateTime = this.updateTime.bind(this);
         this.onApplyFilter = this.onApplyFilter.bind(this);
-        this.getAllGroups = this.getAllGroups.bind(this);
         this.handleTypeChange = this.handleTypeChange.bind(this);
     }
 
@@ -84,23 +81,6 @@ class Filtering extends Component {
         });
     }
 
-    getAllGroups() {
-        if (this.props.user == undefined) {
-            return;
-        }
-        groupServices.getGroupsWithMember(this.props.user)
-            .then((resp) => {
-                this.setState({
-                    memberGroups: resp.content.foundGroups,
-                    groupsLoaded: true
-                });
-            });
-    }
-
-    componentDidMount() {
-        this.getAllGroups();
-    }
-
 
     onApplyFilter() {
         var content = {};
@@ -124,8 +104,10 @@ class Filtering extends Component {
             content['isPublic'] = true;
         } else if (this.state.typeOfEvent == 'group') {
             content['groupsVisibleTo'] = { $in: Array.from(this.state.checkedGroupIds) };
+        } else {
+            content['$or'] = [{groupsVisibleTo: { $in: this.props.groups}}, {isPublic: true}];
         }
-
+        console.log("Here are the conditions: ", content);
         eventServices.getFilteredEvents(content)
             .then((resp) => {
                 console.log(resp.content.filteredEvents);
@@ -154,16 +136,16 @@ class Filtering extends Component {
                                 Public
                         </label>
                     </div>
-                    { this.state.groupsLoaded && 
+                    { this.props.groups && 
                         <div className="radio">
                             <label>
                                 <input type="radio" value='group' checked={this.state.typeOfEvent === 'group'} onChange={this.handleTypeChange} />
                                     Group Events
                             </label>
 
-                            {this.state.memberGroups.length != 0 &&
+                            {this.props.groups.length != 0 &&
                                 <div>
-                                {this.state.memberGroups.map(function(group) {
+                                {this.props.groups.map(function(group) {
                                     return (
                                             <div key={group._id}>
                                                 <label>

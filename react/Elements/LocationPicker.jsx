@@ -21,7 +21,7 @@ class LocationPicker extends Component {
         var locations = ['Building 1', 'Building 2', 'Building 3', 'Building 4', 'Building 5',
                 'Building 6', 'Building 7', 'Building 10', 'Building 13', 'Building 14', 'Building 18',
                 'Building 34', 'Building 36', 'Building 38', 'Building 56', 'Building 66', 'Green Building',
-                'Stata Center', 'Maseeh Hall', 'McCormick Hall', 'Baker House', 'Burton Connor', 'Macgregor House',
+                'Stata Center', 'Maseeh Hall', 'McCormick Hall', 'Baker House', 'Burton Conner', 'Macgregor House',
                 'New House', 'Next House', 'Simmons House', 'Tennis Courts', 'Z Center', 'Kresge Auditorium',
                 'Kresge Barbecue Pits', 'Stratton Student Center'];
         if (optional) {
