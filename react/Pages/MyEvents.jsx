@@ -56,7 +56,7 @@ class MyEvents extends Component {
 	render() {
 	  	return ( 
 	  		<div>
-	  			<NavBar currentUser = {this.props.user}
+	  			<NavBar currentUser = {this.props.fullname}
 	                    logout = {this.props.logout} />
 	            <div className="events-container">
 					<div className="events-panel panel panel-default">

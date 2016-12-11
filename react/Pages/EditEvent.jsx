@@ -40,10 +40,10 @@ class EditEvent extends Component {
 	  	return ( 
 	  		<div>
                 <NavBar
-                    currentUser = {this.props.user}
+                    currentUser = {this.props.fullname}
                     logout = {this.props.logout}
                 />
-                <EventEditor onSubmit={this.updateEvent} user={this.props.user} buttonName={"Edit"} eventId={this.props.params.eventId}/>
+                <EventEditor onSubmit={this.updateEvent} user={this.props.user} fullname={this.props.fullname} buttonName={"Edit"} eventId={this.props.params.eventId}/>
 		  	</div>
 	  	)
 	}

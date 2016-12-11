@@ -69,7 +69,7 @@ class Homepage extends Component {
       	return (
             <div>
                 <div>
-                    <NavBar currentUser = {this.props.user}
+                    <NavBar currentUser = {this.props.fullname}
                             logout = {this.props.logout}/>
                     <div id="homepage-container">
                         <div id="homepage-left">

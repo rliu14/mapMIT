@@ -56,10 +56,13 @@ class MapMIT extends Component {
                                 <span className="italic">Time:</span> {this.getTimeString(event.startTime, event.endTime)}
                             </div>
                             <div>
-                                <span className="italic">Location:</span> {event.location.name}
                                 {event.room.length > 0 &&
+                                <span>
+                                    <span className="italic">Location:</span> {event.location.name}
                                     <span>, Room {event.room}</span>
+                                </span>
                                 }
+
                             </div>
                             {event.locationDescription.length > 0 &&
                                 <div>

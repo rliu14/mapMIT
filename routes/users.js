@@ -145,7 +145,8 @@ router.post('/login', function(req, res) {
 				utils.sendErrorResponse(res, 403, err);
 			} else {
 				req.session.email = req.body.email;
-				utils.sendSuccessResponse(res, { email : req.body.email });
+				utils.sendSuccessResponse(res, { email : req.body.email,
+												 fullname : result.fullname });
 			}
 		});
 	}

@@ -15,10 +15,10 @@ var Event = require('../models/Event');
           endTime: {Date},
           room: {String},
           description: {String},
-          location: {Location}, 
+          location: {String}, 
           locationDescription: {String},
           host: {String},
-          creator: {User}      
+          creator: {String} email of the user    
     }
   Response:
     - success: true if event creation succeeded; false otherwise
@@ -45,7 +45,7 @@ router.post('/', function(req, res) {
     {
           startTime: {Date},
           endTime: {Date},
-          location: {Location},    
+          location: {String},    
     }
   Response:
     - success: true if event filtering succeeded; false otherwise
@@ -72,10 +72,10 @@ router.put('/filter', function(req, res) {
           endTime: {Date},
           room: {String},
           description: {String},
-          location: {Location}, 
+          location: {String}, 
           locationDescription: {String},
           host: {String},
-          creator: {User}      
+          creator: {String} email of the user  
     }
   Response:
     - success: true if event update succeeded; false otherwise
@@ -108,8 +108,8 @@ router.put('/:eventId', function(req, res) {
     - err: on error, an error message
 */
 router.get('/', function(req, res) {
+  // Find all events by location query
   if (req.query.loc != undefined) {
-    console.log('finding by loc');
     Event.findEventsByLocation(req.query.loc, function(err, foundEvents) {
       if(err) {
         utils.sendErrorResponse(res, 404, 'No such events.');
@@ -117,8 +117,8 @@ router.get('/', function(req, res) {
         utils.sendSuccessResponse(res, { foundEvents: foundEvents });
       }
     });
+  // Find all events by creator query
   } else if (req.query.creator != undefined) {
-    console.log('finding by creator');
     Event.findEventsByCreator(req.query.creator, function(err, foundEvents) {
       if (err) {
         utils.sendErrorResponse(res, 404, 'No such events.');
@@ -126,16 +126,16 @@ router.get('/', function(req, res) {
         utils.sendSuccessResponse(res, { foundEvents: foundEvents });
       };
     });
+  // Find all events by time query
   } else if (req.query.time != undefined) {
-    console.log('finding by time');
     Event.findEventsByTime(req.query.time, function(err, events) {
-      console.log('events ' + events);
       if (err) {
         utils.sendErrorResponse(res, 400, err.msg); 
       } else {
         utils.sendSuccessResponse(res, {events: events});
       }
     });
+  // Find event by event id query
   } else if (req.query.eventID != undefined) {
     Event.findEventByID(req.query.eventID, function(err, foundEvent) {
       if(err) {
@@ -144,8 +144,7 @@ router.get('/', function(req, res) {
         utils.sendSuccessResponse(res, { foundEvent: foundEvent });
       };
     });
-  }
-  
+  };
 });
 
 /*
@@ -171,7 +170,6 @@ router.delete('/:eventID', function(req, res) {
       utils.sendErrorResponse(res, 400, 'You cannot delete this event.'); 
     };
   });
-	
 });
 
 module.exports = router;
