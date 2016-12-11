@@ -3,7 +3,6 @@
 import React, { Component } from 'react';
 import { withRouter, browserHistory } from 'react-router';
 import groupServices from '../../services/groupServices';
-import update from 'immutability-helper';
 import NavBar from '../Elements/Navbar.jsx';
 import { Accordion, Panel } from 'react-bootstrap';
 
@@ -23,7 +22,8 @@ class MyGroups extends Component {
 			memberGroups: [],
 			groupName: '',
 			newMemberInputs: {},
-			addMemberErrorMsg: ''
+			addMemberErrorMsg: '',
+			newMemberErrorMsgs: {}
 		}
 	}
 
@@ -85,11 +85,11 @@ class MyGroups extends Component {
 	}
 
 	updateNewMemberInput(groupId, event) {
-		var newDict = update(this.state.newMemberInputs, {$merge: {[groupId]: event.target.value}});
-		this.setState({
-			newMemberInputs: newDict
-		});
-		console.log(this.state.newMemberInputs);
+		var input = event.target.value;
+		this.setState((prevState) => {
+            prevState.newMemberInputs[groupId] = input;
+            return prevState;
+        });
 	}
 
 	addMemberToGroup(groupId, event) {
@@ -99,17 +99,21 @@ class MyGroups extends Component {
 				console.log('resp');
 				console.log(resp);
 				this.getCreatorGroups();
-				var newDict = update(this.state.newMemberInputs, {$merge: {[groupId]: ''}});
-				this.setState({
-					newMemberInputs: newDict,
-					addMemberErrorMsg: ''
-				});
+				this.setState((prevState) => {
+                    prevState.newMemberInputs[groupId] = '';
+                    prevState.addMemberErrorMsg[groupId] = '';
+                    return prevState;
+                });
 			}, (err) => {
-				console.log('err.error: ');
-				console.log(err.error.err);
-				this.setState({
-					addMemberErrorMsg: err.error.err
-				});
+				// console.log('err.error: ');
+				// console.log(err.error.err);
+				this.setState((prevState) => {
+                    prevState.newMemberErrorMsgs[groupId] = err.error.err;
+                    return prevState;
+                });
+				// this.setState({
+				// 	addMemberErrorMsg: err.error.err
+				// });
 			});
 	}
 
@@ -155,7 +159,9 @@ class MyGroups extends Component {
 								                    <button type='button' className='btn btn-blue add-member-btn vertical-align-top' onClick={this.addMemberToGroup.bind(this, groupId)}>
 								                        Add
 								                    </button>
-								                    <span className="group-add-member-error-msg">{this.state.addMemberErrorMsg}</span>
+								                    {groupId in this.state.newMemberErrorMsgs &&
+								                    	<span className="group-add-member-error-msg">{this.state.newMemberErrorMsgs[groupId]}</span>
+								                    }
 								                </div>								    
 				  							</Panel>
 						  				)

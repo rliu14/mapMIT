@@ -6,7 +6,6 @@ import eventServices from '../../services/eventServices';
 import groupServices from '../../services/groupServices';
 import LocationPicker from './LocationPicker.jsx';
 import DateTimePicker from './DateTimePicker.jsx';
-import { DateField, TransitionView, Calendar, MonthView } from 'react-date-picker'
 
 class Filtering extends Component {
     constructor(props){ 

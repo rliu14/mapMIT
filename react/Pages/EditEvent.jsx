@@ -5,7 +5,6 @@ import NavBar from '../Elements/Navbar.jsx';
 import EventEditor from '../Elements/EventEditor.jsx';
 import { withRouter, browserHistory } from 'react-router';
 import eventServices from '../../services/eventServices';
-import 'react-date-picker/index.css';
 
 class EditEvent extends Component {
 	constructor(props) {

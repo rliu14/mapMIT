@@ -177,13 +177,13 @@ class EventEditor extends Component {
 		var result = []
 		if (this.state.eventName == '') {
 			result.push('Event Name is required. ');
-		};
+		}
 		if (this.state.startTime > this.state.endTime) {
 			result.push('The times are invalid. ');
-		};
+		}
 		if (!this.state.isPublic && this.state.checkedGroupIds.size==0) {
 			result.push('Please select at least 1 group.');
-		};
+		}
 		return result;
 	}
 
