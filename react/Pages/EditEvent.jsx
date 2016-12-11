@@ -6,6 +6,9 @@ import EventEditor from '../Elements/EventEditor.jsx';
 import { withRouter, browserHistory } from 'react-router';
 import eventServices from '../../services/eventServices';
 
+/**
+* This page allows users to edit an event.
+*/
 class EditEvent extends Component {
 	constructor(props) {
 		super(props);

@@ -6,6 +6,11 @@ import groupServices from '../../services/groupServices';
 import NavBar from '../Elements/Navbar.jsx';
 import { Accordion, Panel } from 'react-bootstrap';
 
+/**
+* This page allows users to view their groups. 
+* Users can also create a new group, view members of a group they own,
+* add users to a group they own, or remove themselves from a group they are a part of.
+*/
 class MyGroups extends Component {
 	constructor(props) {
 		super(props);

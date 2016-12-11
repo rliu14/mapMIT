@@ -6,6 +6,9 @@ import { render } from 'react-dom';
 import eventServices from '../../services/eventServices';
 import { DropdownButton, MenuItem } from 'react-bootstrap';
 
+/**
+* This component allows users to select a certain location on MIT's campus.
+*/
 class LocationPicker extends Component {
     constructor(props){ 
         super(props);

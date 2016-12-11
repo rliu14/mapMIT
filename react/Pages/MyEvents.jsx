@@ -7,7 +7,10 @@ import NavBar from '../Elements/Navbar.jsx';
 import { Accordion, Panel } from 'react-bootstrap';
 import moment from 'moment';
 
-
+/**
+* This page allows the user to view all their events.
+* The user can edit, cancel, or create an event.
+*/
 class MyEvents extends Component {
 	constructor(props) {
 		super(props);

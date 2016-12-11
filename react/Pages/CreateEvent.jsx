@@ -6,6 +6,9 @@ import NavBar from '../Elements/Navbar.jsx';
 import EventEditor from '../Elements/EventEditor.jsx';
 import eventServices from '../../services/eventServices';
 
+/**
+* This page allows users to create a new event.
+*/
 class CreateEvent extends Component {
 	constructor(props) {
 		super(props);

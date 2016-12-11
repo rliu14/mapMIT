@@ -4,6 +4,9 @@ import React, { Component } from 'react';
 import { render } from 'react-dom';
 import moment from 'moment';
 
+/**
+* This component will display all details of events.
+*/
 class EventTable extends Component {
     constructor(props){ 
         super(props);
