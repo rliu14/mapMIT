@@ -10,8 +10,6 @@ import { DropdownButton, MenuItem } from 'react-bootstrap';
 class LocationPicker extends Component {
     constructor(props){ 
         super(props);
-        console.log('this props location');
-        console.log(this.props.location);
 
         this.updateLocation = this.updateLocation.bind(this);
         this.getLocations = this.getLocations.bind(this);
