@@ -5,7 +5,7 @@ import { withRouter, browserHistory } from 'react-router';
 import eventServices from '../../services/eventServices';
 import NavBar from '../Elements/Navbar.jsx';
 import { Accordion, Panel } from 'react-bootstrap';
-var timeUtils = require('../../utils/timeUtils');
+import timeUtils from '../../utils/timeUtils';
 
 /**
 * This page allows the user to view all their events.

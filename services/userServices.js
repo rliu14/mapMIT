@@ -6,6 +6,9 @@ const BASE_URL_USERS = constants.BASE_URL + '/users';
 
 export default {
 	register : (fullname, email, password) => {
+		console.log('user service register...');
+		console.log('BASE URL');
+		console.log(constants.BASE_URL);
 		return request({
 			uri : BASE_URL_USERS,
 			method : 'POST',
@@ -28,6 +31,8 @@ export default {
 
 	login : (email, password) => {
 		console.log('user service login...');
+		console.log('BASE URL');
+		console.log(constants.BASE_URL);
 		return request({
 			uri : BASE_URL_USERS + '/login',
 			method : 'POST',

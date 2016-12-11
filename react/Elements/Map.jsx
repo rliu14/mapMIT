@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
-var timeUtils = require('../../utils/timeUtils');
+import timeUtils from '../../utils/timeUtils';
 
 /**
 * This component displays a map of MIT's campus with popups that correspond to events.

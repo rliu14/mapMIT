@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import { render } from 'react-dom';
-var timeUtils = require('../../utils/timeUtils');
+import timeUtils from '../../utils/timeUtils';
 
 /**
 * This component will display all details of events.
