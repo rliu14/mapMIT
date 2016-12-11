@@ -4,7 +4,6 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import eventServices from '../../services/eventServices';
-import { DateField, TransitionView, Calendar } from 'react-date-picker';
 import { DropdownButton, MenuItem } from 'react-bootstrap';
 
 class LocationPicker extends Component {
