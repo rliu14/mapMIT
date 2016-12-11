@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import MapMIT from '../Elements/Map.jsx';
 import Filtering from '../Elements/Filtering.jsx';
 import EventTable from '../Elements/EventTable.jsx';
-import NavBar from '../Elements/Navbar.jsx';
+import NavBar from '../Elements/NavBar.jsx';
 import eventServices from '../../services/eventServices';
 import groupServices from '../../services/groupServices';
 import { withRouter } from 'react-router';

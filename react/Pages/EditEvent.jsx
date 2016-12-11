@@ -1,7 +1,7 @@
 /* Lead author: Dora */
 
 import React, { Component } from 'react';
-import NavBar from '../Elements/Navbar.jsx';
+import NavBar from '../Elements/NavBar.jsx';
 import EventEditor from '../Elements/EventEditor.jsx';
 import { withRouter, browserHistory } from 'react-router';
 import eventServices from '../../services/eventServices';

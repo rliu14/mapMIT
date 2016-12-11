@@ -5,6 +5,8 @@ client = MongoClient()
 db = client.mapmit
 collection = db.locations
 
+collection.delete_many({});
+
 with open('locations.txt') as f:
     for line in f.readlines():
     	words = line.strip().split(',')
