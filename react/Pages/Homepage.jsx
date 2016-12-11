@@ -57,7 +57,6 @@ class Homepage extends Component {
             var content = { startTime: {$lt: now},
                             endTime: {$gt: now},
                             $or: [{groupsVisibleTo: {$in: x.state.groups} }, {isPublic: true}]};
-            console.log("initial filter", content);
             var request = eventServices.getFilteredEvents(content);
             x.updateEvents(request);
         });
