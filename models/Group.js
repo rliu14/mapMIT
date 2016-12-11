@@ -12,9 +12,9 @@ var groupSchema = mongoose.Schema({
 });
 
 groupSchema.statics.createGroup = function(content, cb) {
-    var username = content.creator;
+    var email = content.creator;
     var Group = this;
-    User.findUser(username, function(err, creator) {
+    User.findUser(email, function(err, creator) {
         if (err) {
             cb({ msg: err });
         } else {
