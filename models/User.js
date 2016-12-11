@@ -77,7 +77,8 @@ userSchema.statics.authUser = function(email, password, callback) {
 				callback({ msg : 'You must have an MIT email account to proceed.' });
 			}
 			if (bcrypt.compareSync(password, result[0].password)) {
-				callback(null, { email : email });
+				callback(null, { email : email,
+								 fullname : result[0].fullname });
 			} else {
 				callback({ msg : 'Login failed.' });
 			}

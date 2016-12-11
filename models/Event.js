@@ -29,10 +29,10 @@ var eventSchema = mongoose.Schema({
  *          endTime: {Date},
  *          room: {String},
  *          description: {String},
- *          location: {Location}, 
+ *          location: {String}, 
  *          locationDescription: {String},
  *          host: {String},
- *          creator: {User}
+ *          creator: {String}
  *      }
  * @param {Function} cb The callback function to execute, of the
  *      format cb(err).
@@ -121,7 +121,7 @@ eventSchema.statics.findEventByID = function(eventID, cb) {
 
 /**
  * Finds events from then events database with a specified location.
- * @param {ObjectId} loc The specified location
+ * @param {String} loc The specified location
  * @param {Function} cb The callback function to execute, of the
  *      format cb(err, events), where events is the
  *          list of events at the specified location.
@@ -167,7 +167,7 @@ eventSchema.statics.findEventsByTime = function(time, cb) {
  *      content is in the format (all these keys are optional) - {
  *          startTime: {Date},
  *          endTime: {Date},
- *          location: {Location}, 
+ *          location: {String}, 
  *          isPublic: {Boolean},
  *          groupsVisibleTo: {Array}
  *      }
@@ -187,6 +187,7 @@ eventSchema.statics.filterEvents = function(content, cb) {
             }).populate('location');
     }
 
+    // assigns location the location object
     if ('location' in content) {
         Loc.findLocation(content.location, function(err, location) {
             if (err) {
@@ -203,7 +204,7 @@ eventSchema.statics.filterEvents = function(content, cb) {
 };
 
 /**
- * Finds an from then events database with a specified id,
+ * Finds an event from then events database with a specified id,
  *      then updates that event.
  * @param {String} eventID The specified event id
  * @param {Object} content The new content to update the event.
@@ -213,10 +214,10 @@ eventSchema.statics.filterEvents = function(content, cb) {
  *          endTime: {Date},
  *          room: {String},
  *          description: {String},
- *          location: {Location}, 
+ *          location: {String}, 
  *          locationDescription: {String},
  *          host: {String},
- *          creator: {User}
+ *          creator: {String}
  *      }
  * @param {Function} cb The callback function to execute, of the
  *      format cb(err, updatedEvent), where updatedEvent is the

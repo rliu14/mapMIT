@@ -197,7 +197,7 @@ class EditEvent extends Component {
 	  	return ( 
 	  		<div>
                 <NavBar
-                    currentUser = {this.props.user}
+                    currentUser = {this.props.fullname}
                     logout = {this.props.logout}
                 />
 		  		<div>
@@ -232,7 +232,7 @@ class EditEvent extends Component {
 
 			  			<span>Host* </span> 
 			  			<select className="create-event-input-option" value={this.state.host} onChange={this.updateHost}>
-	                    	<option value={this.props.user}>{this.props.user}</option>
+	                    	<option value={this.props.fullname}>{this.props.fullname}</option>
 	                        {this.state.memberGroups.map(function(group){
 	                            return (<option key={group._id} value={group.name}>{group.name}</option>)
 	                        })}

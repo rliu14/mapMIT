@@ -57,7 +57,7 @@ class MyEvents extends Component {
 	  	return ( 
 	  		<div>
 	  			<NavBar
-	                currentUser = {this.props.user}
+	                currentUser = {this.props.fullname}
 	                logout = {this.props.logout}
 	            />
 	            <div className="events-container">

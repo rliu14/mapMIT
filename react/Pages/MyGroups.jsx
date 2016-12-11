@@ -113,7 +113,7 @@ class MyGroups extends Component {
 	render() {
 	  	return ( 
 	  		<div>
-	  			<NavBar currentUser = {this.props.user}
+	  			<NavBar currentUser = {this.props.fullname}
 	                    logout = {this.props.logout} />
 		  		<div>
 			  		<div className="my-groups-column">
