@@ -88,7 +88,7 @@ class MapMIT extends Component {
                 <div>
                     <TileLayer attribution="© <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> <strong><a href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a></strong>"
                         url='https://api.mapbox.com/styles/v1/rliu14/ciwl6w4d8001g2pplw4bmn9e3/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmxpdTE0IiwiYSI6ImNpd2w1bGhvZDAwNWEyb3A3MGx0eGllaTUifQ.DxdN9doqqY3DNqxd5Rr14Q'
-                        minZoom=11/>
+                        minZoom={11}/>
                     {Object.keys(events).map(function(locationId, index, array){
                         var popup = events[locationId][0].location;
                         var text = x.getTextForEvents(events[locationId]);
