@@ -5,12 +5,12 @@ var router = express.Router();
 var utils = require('../utils/utils');
 var User = require('../models/User');
 var mongoose = require('mongoose');
-var constants = require('../utils/constants');
+// var constants = require('../utils/constants');
 
 /** Configures nev, the email verification module */
 var nev = require('email-verification')(mongoose);
 nev.configure({
-	verificationURL : constants.BASE_URl + '/email-verification/${URL}',
+	verificationURL : 'http://mapmit.herokuapp.com/email-verification/${URL}',
 	persistentUserModel : User,
 	expirationTime : 6000, 
 	transportOptions : {
