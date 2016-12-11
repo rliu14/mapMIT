@@ -11,6 +11,17 @@ var groupSchema = mongoose.Schema({
     members: [{ type: ObjectId, ref: 'User' }]
 });
 
+/**
+ * Creates a group in the groups collection.
+ * 
+ * @param {Object} content The information needed to create a group,
+ *      content is in the format - {
+ *          name: {String}
+ *          creator: {User} // TODO fix this it's wrong
+ *      }
+ * @param {Function} cb The callback function to execute, of the
+ *      format cb(err, group).
+ */
 groupSchema.statics.createGroup = function(content, cb) {
     var email = content.creator;
     var Group = this;
@@ -25,6 +36,14 @@ groupSchema.statics.createGroup = function(content, cb) {
     });    
 };
 
+/**
+ * Gets groups created by a certain user.
+ * 
+ * @param {String} groupCreator The email address of the desired
+ *      creator of the group
+ * @param {Function} cb The callback function to execute, of the
+ *      format cb(err, groups).
+ */
 groupSchema.statics.getGroupsByCreator = function(groupCreator, cb) {
     var Group = this;
     User.findUser(groupCreator, function(err, user) {
@@ -42,6 +61,15 @@ groupSchema.statics.getGroupsByCreator = function(groupCreator, cb) {
     });
 }
 
+/**
+ * Gets groups created that contain a certain member. Includes groups 
+ * where the given user is the creator of the group.
+ * 
+ * @param {String} groupCreator The email address of the desired
+ *      creator of the group.
+ * @param {Function} cb The callback function to execute, of the
+ *      format cb(err, groups).
+ */
 groupSchema.statics.getGroupsWithMember = function(groupMember, cb) {
     var Group = this;
     User.findUser(groupMember, function(err, user) {
@@ -59,6 +87,15 @@ groupSchema.statics.getGroupsWithMember = function(groupMember, cb) {
     });
 }
 
+/**
+ * Gets groups created that contain a certain member. Includes groups 
+ * where the given user is the creator of the group.
+ * 
+ * @param {String} groupCreator The email address of the desired
+ *      creator of the group.
+ * @param {Function} cb The callback function to execute, of the
+ *      format cb(err, groups).
+ */
 groupSchema.statics.getGroupsWithMemberNotCreator = function(groupMember, cb) {
     var Group = this;
     User.findUser(groupMember, function(err, user) {

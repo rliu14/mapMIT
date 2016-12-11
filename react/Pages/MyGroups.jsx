@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import { withRouter, browserHistory } from 'react-router';
 import groupServices from '../../services/groupServices';
-import update from 'react-addons-update';
+import update from 'immutability-helper';
 import NavBar from '../Elements/Navbar.jsx';
 import { Accordion, Panel } from 'react-bootstrap';
 
@@ -89,6 +89,7 @@ class MyGroups extends Component {
 		this.setState({
 			newMemberInputs: newDict
 		});
+		console.log(this.state.newMemberInputs);
 	}
 
 	addMemberToGroup(groupId, event) {

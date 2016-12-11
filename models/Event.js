@@ -35,7 +35,7 @@ var eventSchema = mongoose.Schema({
  *          creator: {User}
  *      }
  * @param {Function} cb The callback function to execute, of the
- *      format cb(err).
+ *      format cb(err, event).
  */
 eventSchema.statics.createEvent = function(content, cb) {
     var email = content.creator;
