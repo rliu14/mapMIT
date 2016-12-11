@@ -37,7 +37,7 @@ class NavBar extends Component {
 		);
 
 		return (
-			<nav className = 'navbar'>
+			<nav className = 'navbar navbar-fixed-top'>
 
 				<div id="navbar-left">
 					<div id="home-link" className="navbar-item right-bar">
