@@ -77,7 +77,7 @@ groupSchema.statics.getGroupsWithMemberNotCreator = function(groupMember, cb) {
 }
 
 groupSchema.statics.findGroupAndAddMember = function(groupId, newMember, cb) {
-    this.findById(groupId, function(err, group) {
+    this.findById(groupId).exec(function(err, group) {
         if (err) {
             cb({ msg: err });
         } else {
@@ -85,8 +85,16 @@ groupSchema.statics.findGroupAndAddMember = function(groupId, newMember, cb) {
                 if (err) {
                     cb({ msg: err });
                 } else {
-                    group.members.push(user);
-                    group.save(cb);
+                    var added = group.members.addToSet(user);
+                    group.save(function(err, group) {
+                        if (err) {
+                            cb({ msg: err });
+                        } else if (added.length === 0) {
+                            cb({ msg: 'User already in group!' });
+                        } else {
+                            group.populate('members', cb);
+                        }
+                    });
                 };
             });
         };

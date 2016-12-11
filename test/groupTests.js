@@ -7,7 +7,7 @@ var User = require("../models/User.js");
 var Loc = require("../models/Location.js");
 var Group = require("../models/Group.js");
 
-describe("Group", function() {
+describe("App", function() {
     // The mongoose connection object
     var con;
 
@@ -38,22 +38,151 @@ describe("Group", function() {
         });
     });
 
-    describe("Create group", function() {
-        it("should create a group successfully", function(done) {
-            var content = {
-                name: 'Test Group',
-                creator: 'userA@mit.edu'
-            };
-            Group.createGroup(content, function(err, group) {
-                assert.equal(group.name, 'Test Group');
-                assert.equal(group.creator.email, 'userA@mit.edu');
-                assert.equal(group.members.length, 1);
-                done();
-            });
-        });
+	describe("Group", function() {
 
-        it("should err when try to create a group", function(done) {
-                done();
-        });
+	    describe("Create group", function() {
+	        it("should create a group successfully", function(done) {
+	            var content = {
+	                name: 'Test Group',
+	                creator: 'userA@mit.edu'
+	            };
+	            Group.createGroup(content, function(err, group) {
+	            	assert.equal(err, null);
+	                assert.equal(group.name, 'Test Group');
+	                assert.equal(group.creator.email, 'userA@mit.edu');
+	                assert.equal(group.members.length, 1);
+	                done();
+	            });
+	        });
+
+	        it("should err when try to create a group", function(done) {
+				var content = {
+	                name: 'Test Group',
+	                creator: 'ekohrs@mit.edu'
+	            };
+	            Group.createGroup(content, function(err, group) {
+	            	assert.notEqual(err, null);
+	                done();
+	            });
+	        });
+    	});
+		
+		describe("Get groups by creator", function() {
+	        it("should get group by creator", function(done) {
+	            var content = {
+	                name: 'Test Group',
+	                creator: 'userA@mit.edu'
+	            };
+	            Group.createGroup(content, function(err, group) {
+	            	assert.equal(err, null);
+	            	var content2 = {
+		                name: 'Test Group 2',
+		                creator: 'userB@mit.edu'
+		            };
+	            	Group.createGroup(content2, function(err, group) {
+	            		assert.equal(err, null);
+		            	Group.getGroupsByCreator('userA@mit.edu', function(err, groups) {
+		            		assert.equal(err, null);
+		            		assert.equal(groups.length, 1);
+		            		done();
+		            	});
+		            });
+	            });
+	        });
+
+	        it("should get no groups by creator", function(done) {
+				var content = {
+	                name: 'Test Group',
+	                creator: 'userA@mit.edu'
+	            };
+	            Group.createGroup(content, function(err, group) {
+	            	assert.equal(err, null);
+	            	Group.getGroupsByCreator('userB@mit.edu', function(err, groups) {
+	            		assert.equal(err, null);
+	            		assert.equal(groups.length, 0);
+	            		done();
+	            	});
+	            });
+	        });
+    	});
+
+		describe("Find group and add member", function() {
+	        it("should find group and add new member", function(done) {
+	            var content = {
+	                name: 'Test Group',
+	                creator: 'userA@mit.edu'
+	            };
+	            Group.createGroup(content, function(err, group) {
+	            	assert.equal(err, null);
+	            	var groupId = group._id;
+		            assert.equal(group.members.length, 1);
+	            	Group.findGroupAndAddMember(groupId, 'userB@mit.edu', function(err, group) {
+	            		assert.equal(err, null);
+		            	assert.equal(group.members.length, 2);
+		            	done();
+		            });
+	            });
+	        });
+
+	        it("should find group and err if try to add existing member", function(done) {
+	            var content = {
+	                name: 'Test Group',
+	                creator: 'userA@mit.edu'
+	            };
+	            Group.createGroup(content, function(err, group) {
+	            	assert.equal(err, null);
+	            	var groupId = group._id;
+		            assert.equal(group.members.length, 1);
+	            	Group.findGroupAndAddMember(groupId, 'userB@mit.edu', function(err, group) {
+	            		assert.equal(err, null);
+	            		assert.equal(group.members.length, 2);
+	            		Group.findGroupAndAddMember(groupId, 'userB@mit.edu', function(err, group) {
+			            	assert.notEqual(err, null);
+			            	done();
+			            });
+		            });
+	            });
+	        });
+    	});
+
+		describe("Find group and remove member", function() {
+	        it("should find group and remove member of group", function(done) {
+	            var content = {
+	                name: 'Test Group',
+	                creator: 'userA@mit.edu'
+	            };
+	            Group.createGroup(content, function(err, group) {
+	            	assert.equal(err, null);
+	            	var groupId = group._id;
+		            assert.equal(group.members.length, 1);
+	            	Group.findGroupAndAddMember(groupId, 'userB@mit.edu', function(err, group) {
+	            		assert.equal(err, null);
+		            	assert.equal(group.members.length, 2);
+		            	Group.findGroupAndRemoveMember(groupId, 'userB@mit.edu', function(err, group) {
+		            		assert.equal(err, null);
+			            	assert.equal(group.members.length, 1);
+			            	done();
+			            });
+		            });
+	            });
+	        });
+
+	        it("should find group and err if try to remove a member not in group", function(done) {
+	            var content = {
+	                name: 'Test Group',
+	                creator: 'userA@mit.edu'
+	            };
+	            Group.createGroup(content, function(err, group) {
+	            	assert.equal(err, null);
+	            	var groupId = group._id;
+		            assert.equal(group.members.length, 1);
+	            	Group.findGroupAndRemoveMember(groupId, 'userB@mit.edu', function(err, group) {
+	            		assert.equal(err, null);
+		            	assert.equal(group.members.length, 1);
+		            	done();
+		            });
+	            });
+	        });
+    	});
     });
 });
