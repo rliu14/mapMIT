@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import { withRouter, browserHistory } from 'react-router';
 import groupServices from '../../services/groupServices';
-import NavBar from '../Elements/Navbar.jsx';
+import NavBar from '../Elements/NavBar.jsx';
 import { Accordion, Panel } from 'react-bootstrap';
 
 class MyGroups extends Component {

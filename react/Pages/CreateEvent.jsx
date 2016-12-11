@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import { withRouter, browserHistory } from 'react-router';
-import NavBar from '../Elements/Navbar.jsx';
+import NavBar from '../Elements/NavBar.jsx';
 import EventEditor from '../Elements/EventEditor.jsx';
 import eventServices from '../../services/eventServices';
 

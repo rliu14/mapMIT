@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import { withRouter, browserHistory } from 'react-router';
 import eventServices from '../../services/eventServices';
-import NavBar from '../Elements/Navbar.jsx';
+import NavBar from '../Elements/NavBar.jsx';
 import { Accordion, Panel } from 'react-bootstrap';
 import moment from 'moment';
 
