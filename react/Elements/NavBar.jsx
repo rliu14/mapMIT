@@ -58,7 +58,7 @@ class NavBar extends Component {
 				<div id="navbar-center">
 					<div className="navbar-item">
 						<IndexLink to = '/' className = 'homepage'>
-							<img className="navbar-logo-img" src={require('../../public/img/logo_white.png')}/>
+							<img className="navbar-logo-img" src='https://s3.amazonaws.com/mapmit/logo_white.png'/>
 						</IndexLink>
 					</div>
 				</div>

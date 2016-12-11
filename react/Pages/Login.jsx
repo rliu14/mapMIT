@@ -41,7 +41,7 @@ class Login extends Component {
             <div className = 'container login-signup-container'>
 	            <div className="panel panel-default login-register-panel">
 		            <div className="panel-body">
-		            	<img className="logo-img" src={require('../../public/img/logo.png')}/>
+		            	<img className="logo-img" src='https://s3.amazonaws.com/mapmit/logo.png'/>
 
 		                <div className = 'username-password-container form-group'>
 		                    <input className = 'form-control username-password-input'
