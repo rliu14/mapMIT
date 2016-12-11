@@ -75,7 +75,7 @@ class MapMIT extends Component {
                             </div>
                             {event.locationDescription.length > 0 &&
                                 <div>
-                                    <span className="italic">Location description:</span> event.locationDescription}
+                                    <span className="italic">Location description:</span> {event.locationDescription}
                                 </div>
                             }
                         </div>
