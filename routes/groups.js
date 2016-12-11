@@ -30,7 +30,6 @@ router.post('/', function(req, res) {
     - err: on error, an error message
 */
 router.get('/creator/:creator', function(req, res) {
-	console.log('route for get by creator');
 	Group.getGroupsByCreator(req.params.creator, function(err, foundGroups) {
 		if (err) {
 			utils.sendErrorResponse(res, 404, 'No such groups.'); // TODO is this right
@@ -41,7 +40,6 @@ router.get('/creator/:creator', function(req, res) {
 });
 
 router.get('/memberonly/:member', function(req, res) {
-	console.log('route for get by member');
 	Group.getGroupsWithMemberNotCreator(req.params.member, function(err, foundGroups) {
 		if (err) {
 			utils.sendErrorResponse(res, 404, 'No such groups.'); // TODO is this right
@@ -52,7 +50,6 @@ router.get('/memberonly/:member', function(req, res) {
 });
 
 router.get('/member/:member', function(req, res) {
-	console.log('route for get by member');
 	Group.getGroupsWithMember(req.params.member, function(err, foundGroups) {
 		if (err) {
 			utils.sendErrorResponse(res, 404, 'No such groups.'); // TODO is this right

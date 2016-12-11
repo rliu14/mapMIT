@@ -1,15 +1,13 @@
 /* Lead author: Elysa */
 
-// const BASE_URL = 'http://localhost:3000/groups';
-// const BASE_URL = 'https://mapmit.herokuapp.com/groups'
-const BASE_URL = process.env.NODE_ENV == 'production' ? 'https://mapmit.herokuapp.com/groups' : 'http://localhost:3000/groups';
-
 var request = require('request-promise-native');
+var constants = require('../utils/constants');
+const BASE_URL_GROUPS = constants.BASE_URL + '/groups'; 
 
 export default {
     createGroup : (content) => {
         return request({
-            uri : BASE_URL,
+            uri : BASE_URL_GROUPS,
             method : 'POST',
             body : {
                 content: content
@@ -20,7 +18,7 @@ export default {
 
     addMemberToGroup : (groupId, username) => {
         return request({
-            uri : BASE_URL + `/add/${groupId}`,
+            uri : BASE_URL_GROUPS + `/add/${groupId}`,
             method : 'PUT',
             body : {
                 username : username
@@ -31,7 +29,7 @@ export default {
 
     removeMemberFromGroup : (groupId, username) => {
         return request({
-            uri : BASE_URL + `/remove/${groupId}`,
+            uri : BASE_URL_GROUPS + `/remove/${groupId}`,
             method : 'PUT',
             body : {
                 username : username
@@ -42,7 +40,7 @@ export default {
 
     getGroupsByCreator : (creator) => {
         return request({
-            uri : BASE_URL + `/creator/${creator}`,
+            uri : BASE_URL_GROUPS + `/creator/${creator}`,
             method: 'GET',
             json : true
         });
@@ -50,7 +48,7 @@ export default {
 
     getGroupsWithMemberNotCreator : (member) => {
         return request({
-            uri : BASE_URL + `/memberonly/${member}`,
+            uri : BASE_URL_GROUPS + `/memberonly/${member}`,
             method : 'GET',
             json : true
         });
@@ -58,7 +56,7 @@ export default {
 
     getGroupsWithMember : (member) => {
         return request({
-            uri : BASE_URL + `/member/${member}`,
+            uri : BASE_URL_GROUPS + `/member/${member}`,
             method : 'GET',
             json : true
         });

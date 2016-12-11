@@ -6,9 +6,18 @@ import groupServices from '../../services/groupServices';
 import NavBar from '../Elements/Navbar.jsx';
 import { Accordion, Panel } from 'react-bootstrap';
 
+// Component for the My Groups page
 class MyGroups extends Component {
 	constructor(props) {
 		super(props);
+		this.state = {
+			creatorGroups: [],
+			memberGroups: [],
+			groupName: '',
+			newMemberInputs: {},
+			addMemberErrorMsg: '',
+			newMemberErrorMsgs: {}
+		}		
 		this.createGroup = this.createGroup.bind(this);
 		this.updateGroupName = this.updateGroupName.bind(this);
 		this.getCreatorGroups = this.getCreatorGroups.bind(this);
@@ -17,14 +26,6 @@ class MyGroups extends Component {
 		this.setBlankNewMemberInputs = this.setBlankNewMemberInputs.bind(this);
 		this.updateNewMemberInput = this.updateNewMemberInput.bind(this);
 		this.removeSelfFromGroup = this.removeSelfFromGroup.bind(this);
-		this.state = {
-			creatorGroups: [],
-			memberGroups: [],
-			groupName: '',
-			newMemberInputs: {},
-			addMemberErrorMsg: '',
-			newMemberErrorMsgs: {}
-		}
 	}
 
 	componentWillMount() {

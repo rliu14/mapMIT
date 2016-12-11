@@ -7,7 +7,6 @@ import NavBar from '../Elements/Navbar.jsx';
 import { Accordion, Panel } from 'react-bootstrap';
 var timeUtils = require('../../utils/timeUtils');
 
-
 class MyEvents extends Component {
 	constructor(props) {
 		super(props);

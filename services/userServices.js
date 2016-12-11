@@ -1,14 +1,13 @@
 /* Lead author: Casey */
 
-// const BASE_URL = 'http://localhost:3000/users';
-const BASE_URL = process.env.NODE_ENV == 'production' ? 'https://mapmit.herokuapp.com/users' : 'http://localhost:3000/users';
-
 var request = require('request-promise-native');
+var constants = require('../utils/constants');
+const BASE_URL_USERS = constants.BASE_URL + '/users'; 
 
 export default {
 	register : (fullname, email, password) => {
 		return request({
-			uri : BASE_URL,
+			uri : BASE_URL_USERS,
 			method : 'POST',
 			json : true,
 			body : {
@@ -21,7 +20,7 @@ export default {
 
 	verifyAccount : (URL) => {
 		return request({
-			uri : BASE_URL + '/email-verification' + `/${URL}`,
+			uri : BASE_URL_USERS + '/email-verification' + `/${URL}`,
 			method : 'GET',
 			json : true
 		})
@@ -30,7 +29,7 @@ export default {
 	login : (email, password) => {
 		console.log('user service login...');
 		return request({
-			uri : BASE_URL + '/login',
+			uri : BASE_URL_USERS + '/login',
 			method : 'POST',
 			body : {
 				email : email,
@@ -42,7 +41,7 @@ export default {
 
 	logout : () => {
 		return request({
-			uri : BASE_URL + '/logout',
+			uri : BASE_URL_USERS + '/logout',
 			method: 'PUT',
 			json : true
 		});
@@ -51,7 +50,7 @@ export default {
 	// TODO does this even get used?
 	getCurrentUser: () => {
 		return request({
-			uri : BASE_URL + '/current',
+			uri : BASE_URL_USERS + '/current',
 			method : 'GET',
 			json : true
 		});
