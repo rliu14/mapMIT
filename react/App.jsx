@@ -18,7 +18,6 @@ class App extends Component {
         this.logout = this.logout.bind(this);
         this.registerUser = this.registerUser.bind(this);
         this.verifyAccount = this.verifyAccount.bind(this);
-
     }
 
     componentWillMount() {
