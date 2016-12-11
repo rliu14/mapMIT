@@ -35,15 +35,28 @@ class EventTable extends Component {
                                         <span className="bold">{event.name}</span>
                                     </div>
                                     <div className="panel-body">
-                                        <span className="italic">Host:</span> {event.host}<br/>
+                                        <div>
+                                            <span className="italic">Host:</span> {event.host}
+                                        </div>
                                         {event.description.length > 0 &&
-                                            <span><span className="italic">Description:</span><span> {event.description}<br/></span></span>
+                                            <div>
+                                                <span className="italic">Description:</span> {event.description}
+                                            </div>
                                         }
-                                        <span className="italic">Time:</span> {this.getTimeString(event.startTime, event.endTime)}<br/>
-                                        <span className="italic">Location:</span> {event.location}
-                                        {event.room.length > 0 &&
-                                            <span>, Room {event.room}</span>
-                                        }<br/>
+                                        <div>
+                                            <span className="italic">Time:</span> {this.getTimeString(event.startTime, event.endTime)}
+                                        </div>
+                                        <div>
+                                            <span className="italic">Location:</span> {event.location.name}
+                                            {event.room.length > 0 &&
+                                                <span>, Room {event.room}</span>
+                                            }
+                                        </div>
+                                        {event.locationDescription.length > 0 &&
+                                            <div>
+                                                <span className="italic">Location description:</span> event.locationDescription}
+                                            </div>
+                                        }
                                     </div>
                                 </div>
                             </div>

@@ -22,6 +22,20 @@ body {
 	padding-left: 10px;
 }
 
+.my-groups-column {
+	display: inline-block;
+	width: 50%;
+	vertical-align: top;
+}
+
+#my-groups-column-left {
+	padding-right: 10px;
+}
+
+#my-groups-column-right {
+	padding-left: 10px;
+}
+
 .table {
 	margin-bottom: 0;
 }
@@ -40,7 +54,6 @@ body {
 	width: 50%;
     display: inline-block;
     vertical-align: top;
-    padding: 20px;
 }
 
 .group-i-own, .group-im-in {
@@ -92,7 +105,7 @@ body {
 	width: 78%;
 }
 
-#homepage-container {
+#homepage-container, #my-groups-column-container {
 	margin-left: 30px;
 	margin-right: 30px;
 }
@@ -321,4 +334,24 @@ input.checkbox-btn {
 
 .italic {
 	font-style: italic;
+}
+
+.edit-cancel-event-btn-container {
+	display: inline-block;
+	float: right;
+	margin-top: -6px;
+}
+
+.edit-event-btn {
+	margin-right: 10px;
+}
+
+.bigger-text {
+	font-size: 16px;
+}
+
+.panel-group .my-event-panel {
+	width: 80%;
+	margin-left: auto;
+	margin-right: auto;
 }
