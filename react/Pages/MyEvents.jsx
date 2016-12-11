@@ -108,7 +108,7 @@ class MyEvents extends Component {
 		                                        <div>
 		                                            <span className="italic">Location:</span> {event.location.name}
 		                                            {event.room.length > 0 &&
-		                                                <span>Room {event.room}</span>
+		                                                <span>, Room {event.room}</span>
 		                                            }
 		                                        </div>
 		                                        {event.locationDescription.length > 0 &&

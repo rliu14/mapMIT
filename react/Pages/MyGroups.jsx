@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import { withRouter, browserHistory } from 'react-router';
 import groupServices from '../../services/groupServices';
-import update from 'react-addons-update';
+import update from 'immutability-helper';
 import NavBar from '../Elements/Navbar.jsx';
 import { Accordion, Panel } from 'react-bootstrap';
 
@@ -22,7 +22,8 @@ class MyGroups extends Component {
 			creatorGroups: [],
 			memberGroups: [],
 			groupName: '',
-			newMemberInputs: {}
+			newMemberInputs: {},
+			addMemberErrorMsg: ''
 		}
 	}
 
@@ -88,16 +89,26 @@ class MyGroups extends Component {
 		this.setState({
 			newMemberInputs: newDict
 		});
+		console.log(this.state.newMemberInputs);
 	}
 
 	addMemberToGroup(groupId, event) {
 		var username = this.state.newMemberInputs[groupId];
 		groupServices.addMemberToGroup(groupId, username)
 			.then((resp) => {
+				console.log('resp');
+				console.log(resp);
 				this.getCreatorGroups();
 				var newDict = update(this.state.newMemberInputs, {$merge: {[groupId]: ''}});
 				this.setState({
-					newMemberInputs: newDict
+					newMemberInputs: newDict,
+					addMemberErrorMsg: ''
+				});
+			}, (err) => {
+				console.log('err.error: ');
+				console.log(err.error.err);
+				this.setState({
+					addMemberErrorMsg: err.error.err
 				});
 			});
 	}
@@ -144,6 +155,7 @@ class MyGroups extends Component {
 								                    <button type='button' className='btn btn-blue add-member-btn vertical-align-top' onClick={this.addMemberToGroup.bind(this, groupId)}>
 								                        Add
 								                    </button>
+								                    <span className="group-add-member-error-msg">{this.state.addMemberErrorMsg}</span>
 								                </div>								    
 				  							</Panel>
 						  				)
@@ -172,7 +184,9 @@ class MyGroups extends Component {
 					  				{this.state.memberGroups.map(function(group) {
 				  						return (
 				  							<div key={group._id} className="group-im-in">
-				  								<h4 className="group-im-in-name">{group.name}</h4>
+				  								<div className="group-im-in-container">
+				  									<h4 className="group-im-in-name">{group.name}</h4>
+				  								</div>
 				  								<button type='button' className='btn btn-default remove-from-group-btn' onClick={this.removeSelfFromGroup.bind(this, group._id)}>
 								                    Remove Myself
 								                </button>

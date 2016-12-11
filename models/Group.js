@@ -11,10 +11,21 @@ var groupSchema = mongoose.Schema({
     members: [{ type: ObjectId, ref: 'User' }]
 });
 
+/**
+ * Creates a group in the groups collection.
+ * 
+ * @param {Object} content The information needed to create a group,
+ *      content is in the format - {
+ *          name: {String}
+ *          creator: {User} // TODO fix this it's wrong
+ *      }
+ * @param {Function} cb The callback function to execute, of the
+ *      format cb(err, group).
+ */
 groupSchema.statics.createGroup = function(content, cb) {
-    var username = content.creator;
+    var email = content.creator;
     var Group = this;
-    User.findUser(username, function(err, creator) {
+    User.findUser(email, function(err, creator) {
         if (err) {
             cb({ msg: err });
         } else {
@@ -25,6 +36,14 @@ groupSchema.statics.createGroup = function(content, cb) {
     });    
 };
 
+/**
+ * Gets groups created by a certain user.
+ * 
+ * @param {String} groupCreator The email address of the desired
+ *      creator of the group
+ * @param {Function} cb The callback function to execute, of the
+ *      format cb(err, groups).
+ */
 groupSchema.statics.getGroupsByCreator = function(groupCreator, cb) {
     var Group = this;
     User.findUser(groupCreator, function(err, user) {
@@ -42,6 +61,15 @@ groupSchema.statics.getGroupsByCreator = function(groupCreator, cb) {
     });
 }
 
+/**
+ * Gets groups created that contain a certain member. Includes groups 
+ * where the given user is the creator of the group.
+ * 
+ * @param {String} groupCreator The email address of the desired
+ *      creator of the group.
+ * @param {Function} cb The callback function to execute, of the
+ *      format cb(err, groups).
+ */
 groupSchema.statics.getGroupsWithMember = function(groupMember, cb) {
     var Group = this;
     User.findUser(groupMember, function(err, user) {
@@ -59,6 +87,15 @@ groupSchema.statics.getGroupsWithMember = function(groupMember, cb) {
     });
 }
 
+/**
+ * Gets groups created that contain a certain member. Includes groups 
+ * where the given user is the creator of the group.
+ * 
+ * @param {String} groupCreator The email address of the desired
+ *      creator of the group.
+ * @param {Function} cb The callback function to execute, of the
+ *      format cb(err, groups).
+ */
 groupSchema.statics.getGroupsWithMemberNotCreator = function(groupMember, cb) {
     var Group = this;
     User.findUser(groupMember, function(err, user) {
@@ -77,16 +114,24 @@ groupSchema.statics.getGroupsWithMemberNotCreator = function(groupMember, cb) {
 }
 
 groupSchema.statics.findGroupAndAddMember = function(groupId, newMember, cb) {
-    this.findById(groupId, function(err, group) {
+    this.findById(groupId).exec(function(err, group) {
         if (err) {
-            cb({ msg: err });
+            cb(err);
         } else {
             User.findUser(newMember, function(err, user) {
                 if (err) {
-                    cb({ msg: err });
+                    cb(err);
                 } else {
-                    group.members.push(user);
-                    group.save(cb);
+                    var added = group.members.addToSet(user);
+                    group.save(function(err, group) {
+                        if (err) {
+                            cb(err);
+                        } else if (added.length === 0) {
+                            cb({ msg: 'User already in group!' });
+                        } else {
+                            group.populate('members', cb);
+                        }
+                    });
                 };
             });
         };
@@ -102,8 +147,15 @@ groupSchema.statics.findGroupAndRemoveMember = function(groupId, member, cb) {
                 if (err) {
                     cb({ msg: err });
                 } else {
-                    group.members.pull(user);
-                    group.save(cb);
+                    if (group.creator._id === user._id) {
+                        cb({ msg: 'Cannot remove creator!' });
+                    }
+                    else if (group.members.indexOf(user._id) === -1) {
+                        cb({ msg: 'User not in group!' });
+                    } else {
+                        group.members.pull(user);
+                        group.save(cb);
+                    }
                 };
             });
         };
