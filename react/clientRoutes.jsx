@@ -1,4 +1,6 @@
-/* Lead author: Elysa */
+/* Lead author: Elysa
+ * Modeled on App.jsx in fritter-react by 6.170 TAs 
+ */
 
 import App from './App.jsx';
 import CreateEvent from './Pages/CreateEvent.jsx';
@@ -44,15 +46,15 @@ import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 //     callback();
 // });
 const authCheck = (nextState, replace, callback) => {
-  services.user.getCurrentUser().then((response) => {
+    services.user.getCurrentUser().then((response) => {
     if (!response.content.loggedIn) {
-      replace('/login');
+        replace('/login');
     }
     callback();
-  }).catch((err) => {
-    console.log('Err on getCurrentUser() : ', err);
-    callback();
-  });
+    }).catch((err) => {
+        console.log('Err on getCurrentUser() : ', err);
+        callback();
+    });
 };
 
 export default (

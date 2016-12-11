@@ -5,7 +5,7 @@ import { withRouter, browserHistory } from 'react-router';
 import eventServices from '../../services/eventServices';
 import NavBar from '../Elements/Navbar.jsx';
 import { Accordion, Panel } from 'react-bootstrap';
-import moment from 'moment';
+var timeUtils = require('../../utils/timeUtils');
 
 
 class MyEvents extends Component {
@@ -16,7 +16,7 @@ class MyEvents extends Component {
 		this.toCreateNewEvent = this.toCreateNewEvent.bind(this);
 		this.toEditEvent = this.toEditEvent.bind(this);
 		this.deleteEvent = this.deleteEvent.bind(this);
-        this.getTimeString = this.getTimeString.bind(this);
+        this.getTimeString = timeUtils.getTimeString.bind(this);
 		this.state = {
 			events: []
 		}
@@ -54,19 +54,7 @@ class MyEvents extends Component {
   				};
   			});
   	}
-
-    getTimeString(start, end) {
-        var startMoment = moment(start);
-        // var startMomentString = startMoment.format("ddd, MMM Do ") + '\u2022' + startMoment.format(" h:mm a");
-        var startMomentString = startMoment.format("ddd, MMM Do \u2022 h:mm a");
-        var endMoment = moment(end);
-        var endMomentString = endMoment.format("h:mm a");
-        if (startMoment.get('date') !== endMoment.get('date')) {
-            endMomentString = endMoment.format("ddd, MMM Do \u2022 h:mm a");
-        }
-        return startMomentString + " - " + endMomentString;
-    }
-
+  	
 	render() {
 	  	return ( 
 	  		<div>
