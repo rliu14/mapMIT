@@ -39,7 +39,7 @@ class LocationPicker extends Component {
 	    return (
             <form>
                 <label>
-                    <select className="form-control" value={this.props.location} onChange={this.updateLocation}>
+                    <select className="form-control normal-weight" value={this.props.location} onChange={this.updateLocation}>
                         {this.getLocations(this.props.optional).map(function(location, index, array){
                             return (<option key={index} value={location}>{location}</option>)
                         })}

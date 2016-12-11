@@ -148,7 +148,6 @@ class Filtering extends Component {
                                 {this.props.groups.map(function(group) {
                                     return (
                                             <div key={group._id}>
-                                                <label>
                                                     {this.state.typeOfEvent != 'group' && 
                                                         <div>
                                                             <input type="checkbox" value={group._id} onChange={this.onGroupEventChange} className="checkbox-btn" disabled/>
@@ -162,8 +161,6 @@ class Filtering extends Component {
                                                                 {group.name}
                                                         </div>
                                                     }
-
-                                                </label>
                                             </div>
                                         )
                                     }, this)
@@ -191,7 +188,7 @@ class Filtering extends Component {
                             <input type="radio" value="at" checked={this.state.timeOption === 'at'} onChange={this.handleOptionChange} />
                                 Happening At
                         </label> <br/>
-                        <DateTimePicker defaultTime={this.state.datePickerTime} onChange={this.updateTime}/>
+                        <DateTimePicker defaultTime={this.state.datePickerTime} onChange={this.updateTime} classname='filtering-datetimepicker'/>
                     </div>
 
                 <h4>Location</h4>

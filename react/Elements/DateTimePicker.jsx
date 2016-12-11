@@ -22,7 +22,6 @@ class DateTimePicker extends Component {
         var timezoneOffset = new Date().getTimezoneOffset() * 1000 * 60;
         var dateWithTimezone = new Date(event.target.value);
         dateWithTimezone.setTime(dateWithTimezone.getTime() + timezoneOffset);
-
         this.props.onChange(dateWithTimezone);
     }
 

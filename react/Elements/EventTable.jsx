@@ -26,40 +26,41 @@ class EventTable extends Component {
     render () {
         return (
             <div className="container-fluid event-card-container">
-                <div className="row">
-                    {this.props.events.map(function(event) {
+                                <div className="row event-card-row">
+
+                    {this.props.events.map(function(event, index) {
                         return ( 
-                            <div key={event._id} className="col-md-6 ">
-                                <div className="panel panel-default"> 
-                                    <div className="panel-heading">
-                                        <span className="bold">{event.name}</span>
-                                    </div>
-                                    <div className="panel-body">
-                                        <div>
-                                            <span className="italic">Host:</span> {event.host}
+                                <div key={event._id} className="col-md-6 ">
+                                    <div className="panel panel-default"> 
+                                        <div className="panel-heading">
+                                            <span className="bold">{event.name}</span>
                                         </div>
-                                        {event.description.length > 0 &&
+                                        <div className="panel-body">
                                             <div>
-                                                <span className="italic">Description:</span> {event.description}
+                                                <span className="italic">Host:</span> {event.host}
                                             </div>
-                                        }
-                                        <div>
-                                            <span className="italic">Time:</span> {this.getTimeString(event.startTime, event.endTime)}
-                                        </div>
-                                        <div>
-                                            <span className="italic">Location:</span> {event.location.name}
-                                            {event.room.length > 0 &&
-                                                <span>, Room {event.room}</span>
+                                            {event.description.length > 0 &&
+                                                <div>
+                                                    <span className="italic">Description:</span> {event.description}
+                                                </div>
+                                            }
+                                            <div>
+                                                <span className="italic">Time:</span> {this.getTimeString(event.startTime, event.endTime)}
+                                            </div>
+                                            <div>
+                                                <span className="italic">Location:</span> {event.location.name}
+                                                {event.room.length > 0 &&
+                                                    <span>, Room {event.room}</span>
+                                                }
+                                            </div>
+                                            {event.locationDescription.length > 0 &&
+                                                <div>
+                                                    <span className="italic">Location description:</span> event.locationDescription}
+                                                </div>
                                             }
                                         </div>
-                                        {event.locationDescription.length > 0 &&
-                                            <div>
-                                                <span className="italic">Location description:</span> event.locationDescription}
-                                            </div>
-                                        }
                                     </div>
                                 </div>
-                            </div>
                         )
                     }, this)}
                 </div>

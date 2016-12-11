@@ -320,10 +320,6 @@ input.checkbox-btn {
 	padding-right: 5px;
 }
 
-.event-card-container {
-	padding-top: 10px;
-}
-
 .bold {
 	font-weight: bold;
 }
@@ -354,4 +350,29 @@ input.checkbox-btn {
 	width: 80%;
 	margin-left: auto;
 	margin-right: auto;
+}
+
+.normal-weight {
+	font-weight: normal;
+}
+
+.filtering-datetimepicker {
+	margin-left: 20px;
+}
+
+#homepage-left .panel .panel-body {
+	min-height: 430px;
+}
+
+#filter-header {
+	margin-bottom: 13px;
+}
+
+.event-card-row .panel {
+	margin-top: 10px;
+	margin-bottom: 0;
+}
+
+.col-md-6:nth-child(2n+1) {
+    clear: both;
 }
