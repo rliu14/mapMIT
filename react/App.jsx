@@ -1,7 +1,6 @@
-/* 
-Lead author: Elysa, Casey
-Modeled on fritter-react by 6.170 TAs
-*/
+/* Lead author: Elysa, Casey
+ * Modeled on fritter-react by 6.170 TAs 
+ */
 
 import Services from '../services';
 import React from 'react';

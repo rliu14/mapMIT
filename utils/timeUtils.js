@@ -1,3 +1,5 @@
+/* Lead author: Elysa */
+
 import moment from 'moment';
 
 // Utils for functionality related to dates and times
@@ -29,7 +31,7 @@ var timeUtils = (function() {
 
     Object.freeze(_utils);
     return _utils;
-
+    
 })();
 
 module.exports = timeUtils;

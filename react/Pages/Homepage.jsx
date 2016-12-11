@@ -1,3 +1,5 @@
+/* Lead author: Elysa */
+
 import React, { Component } from 'react';
 import MapMIT from '../Elements/Map.jsx';
 import Filtering from '../Elements/Filtering.jsx';

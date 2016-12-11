@@ -11,15 +11,13 @@ var timeUtils = require('../../utils/timeUtils');
 class MyEvents extends Component {
 	constructor(props) {
 		super(props);
-		this.defaultProps = {
-		}
+		this.state = {
+			events: []
+		}		
 		this.toCreateNewEvent = this.toCreateNewEvent.bind(this);
 		this.toEditEvent = this.toEditEvent.bind(this);
 		this.deleteEvent = this.deleteEvent.bind(this);
         this.getTimeString = timeUtils.getTimeString.bind(this);
-		this.state = {
-			events: []
-		}
 	}
 
 	// will get and display all events created by current user
@@ -54,19 +52,17 @@ class MyEvents extends Component {
   				};
   			});
   	}
-  	
+
 	render() {
 	  	return ( 
 	  		<div>
-	  			<NavBar
-	                currentUser = {this.props.user}
-	                logout = {this.props.logout}
-	            />
+	  			<NavBar currentUser = {this.props.user}
+	                    logout = {this.props.logout} />
 	            <div className="events-container">
 					<div className="events-panel panel panel-default">
 	            		<div className="panel-body events-panel-body">
 				  			<div className="events-header-row">
-				  				<h2 className="my-events-header">My Upcoming Events</h2>
+				  				<h2 className="my-events-header">My Events</h2>
 				  				<button type='button' className='btn btn-blue create-event-btn' onClick={this.toCreateNewEvent}>Create New Event</button>
 				  			</div>
 				  			<div>
