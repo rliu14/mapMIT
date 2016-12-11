@@ -384,3 +384,7 @@ input.checkbox-btn {
 	min-width: 150px;
 }
 
+.group-add-member-error-msg {
+	color: red;
+	padding-left: 10px;
+}

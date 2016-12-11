@@ -79,16 +79,16 @@ groupSchema.statics.getGroupsWithMemberNotCreator = function(groupMember, cb) {
 groupSchema.statics.findGroupAndAddMember = function(groupId, newMember, cb) {
     this.findById(groupId).exec(function(err, group) {
         if (err) {
-            cb({ msg: err });
+            cb(err);
         } else {
             User.findUser(newMember, function(err, user) {
                 if (err) {
-                    cb({ msg: err });
+                    cb(err);
                 } else {
                     var added = group.members.addToSet(user);
                     group.save(function(err, group) {
                         if (err) {
-                            cb({ msg: err });
+                            cb(err);
                         } else if (added.length === 0) {
                             cb({ msg: 'User already in group!' });
                         } else {
@@ -111,7 +111,7 @@ groupSchema.statics.findGroupAndRemoveMember = function(groupId, member, cb) {
                     cb({ msg: err });
                 } else {
                     if (group.creator._id === user._id) {
-                        cb({ msg: 'User not in group!' });
+                        cb({ msg: 'Cannot remove creator!' });
                     }
                     else if (group.members.indexOf(user._id) === -1) {
                         cb({ msg: 'User not in group!' });

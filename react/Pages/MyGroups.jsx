@@ -22,7 +22,8 @@ class MyGroups extends Component {
 			creatorGroups: [],
 			memberGroups: [],
 			groupName: '',
-			newMemberInputs: {}
+			newMemberInputs: {},
+			addMemberErrorMsg: ''
 		}
 	}
 
@@ -94,10 +95,19 @@ class MyGroups extends Component {
 		var username = this.state.newMemberInputs[groupId];
 		groupServices.addMemberToGroup(groupId, username)
 			.then((resp) => {
+				console.log('resp');
+				console.log(resp);
 				this.getCreatorGroups();
 				var newDict = update(this.state.newMemberInputs, {$merge: {[groupId]: ''}});
 				this.setState({
-					newMemberInputs: newDict
+					newMemberInputs: newDict,
+					addMemberErrorMsg: ''
+				});
+			}, (err) => {
+				console.log('err.error: ');
+				console.log(err.error.err);
+				this.setState({
+					addMemberErrorMsg: err.error.err
 				});
 			});
 	}
@@ -144,6 +154,7 @@ class MyGroups extends Component {
 								                    <button type='button' className='btn btn-blue add-member-btn vertical-align-top' onClick={this.addMemberToGroup.bind(this, groupId)}>
 								                        Add
 								                    </button>
+								                    <span className="group-add-member-error-msg">{this.state.addMemberErrorMsg}</span>
 								                </div>								    
 				  							</Panel>
 						  				)
