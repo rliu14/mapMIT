@@ -18,7 +18,7 @@ var Event = require('../models/Event');
           location: {String}, 
           locationDescription: {String},
           host: {String},
-          creator: {String}      
+          creator: {String} email of the user    
     }
   Response:
     - success: true if event creation succeeded; false otherwise
@@ -75,7 +75,7 @@ router.put('/filter', function(req, res) {
           location: {String}, 
           locationDescription: {String},
           host: {String},
-          creator: {String}      
+          creator: {String} email of the user  
     }
   Response:
     - success: true if event update succeeded; false otherwise

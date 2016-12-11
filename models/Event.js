@@ -32,7 +32,7 @@ var eventSchema = mongoose.Schema({
  *          location: {String}, 
  *          locationDescription: {String},
  *          host: {String},
- *          creator: {String}
+ *          creator: {String} email of the user
  *      }
  * @param {Function} cb The callback function to execute, of the
  *      format cb(err, event).
@@ -217,7 +217,7 @@ eventSchema.statics.filterEvents = function(content, cb) {
  *          location: {String}, 
  *          locationDescription: {String},
  *          host: {String},
- *          creator: {String}
+ *          creator: {String} email of the user
  *      }
  * @param {Function} cb The callback function to execute, of the
  *      format cb(err, updatedEvent), where updatedEvent is the
