@@ -2,7 +2,6 @@
 
 import React, { Component } from 'react';
 import { render } from 'react-dom';
-import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import moment from 'moment';
 
 class EventTable extends Component {
