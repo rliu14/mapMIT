@@ -1,6 +1,7 @@
 /* Lead author: Casey */
 
-const BASE_URL = 'http://localhost:3000/users';
+// const BASE_URL = 'http://localhost:3000/users';
+const BASE_URL = process.env.NODE_ENV == 'production' ? 'https://mapmit.herokuapp.com/users' : 'http://localhost:3000/users';
 
 var request = require('request-promise-native');
 
