@@ -1,4 +1,6 @@
-/* Lead author: Elysa */
+/* Lead author: Elysa
+ * Modeled on App.jsx in fritter-react by 6.170 TAs 
+ */
 
 import App from './App.jsx';
 import CreateEvent from './Pages/CreateEvent.jsx';
@@ -19,34 +21,22 @@ import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 // if there's no current user.  Example implementation online:
 // https://github.com/ReactTraining/react-router/blob/master/examples/auth-flow/auth.js
 
-// const authCheck = (nextState, replace, callback) => {
-//     services.user.getCurrentUser().then((response) => {
-//         if (!response.content.loggedIn){
-//             replace('/login');
-//         }
-//         callback();
-//     }).catch((err) => {
-//         console.log("Err on getCurrentUser() : ", err);
-//         callback();
-//     });
-// };
-// const authCheck = (nextState, replaceState, callback) => {
-//   services.user.getCurrentUser().then((response) => {
-//     if (!response.content.loggedIn) {
-//       // console.log('next state pathname : ', nextState.location.pathname);
-//       // this.replaceState({ nextPathname: nextState.location.pathname }, '/login');
-//       replace('/login');
-//       // callback();
-//     }
-//     callback();
-//   }).catch(err) => {
-//     console.log('Err on getCurrentUser() : ', err);
-//     callback();
-// });
 const authCheck = (nextState, replace, callback) => {
-  services.user.getCurrentUser().then((response) => {
+    services.user.getCurrentUser().then((response) => {
     if (!response.content.loggedIn) {
-      replace('/login');
+        replace('/login');
+    }
+    callback();
+    }).catch((err) => {
+        console.log('Err on getCurrentUser() : ', err);
+        callback();
+    });
+};
+
+const loginRedirect = (nextState, replace, callback) => {
+  services.user.getCurrentUser().then((response) => {
+    if (response.content.loggedIn) {
+      replace('/');
     }
     callback();
   }).catch((err) => {
@@ -60,19 +50,19 @@ export default (
         <Route path='/' component={App}  >
             <IndexRoute component={Homepage} onEnter={authCheck} />
             <Route path="/signup"
-                   component={SignUp} />
+                   component={SignUp} onEnter={loginRedirect} />
             <Route path="/login"
-                   component={Login} />
+                   component={Login} onEnter={loginRedirect} />
             <Route path="/email-verification/:URL"
-                   component={VerifyAccount} />
+                   component={VerifyAccount} onEnter={authCheck} />
             <Route path="/myEvents"
-                   component={MyEvents} />
+                   component={MyEvents} onEnter={authCheck} />
             <Route path="/myEvents/edit/:eventId"
-                   component={EditEvent} />
+                   component={EditEvent} onEnter={authCheck} />
             <Route path="/myEvents/create"
-                   component={CreateEvent} />
+                   component={CreateEvent} onEnter={authCheck} />
             <Route path="/myGroups"
-                   component={MyGroups} />
+                   component={MyGroups} onEnter={authCheck} />
             <Route path="*"
                    component={NotFound} />
         </Route>

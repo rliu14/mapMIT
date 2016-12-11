@@ -4,6 +4,10 @@ import { Component } from 'react';
 import React from 'react';
 import { IndexLink, Link, withRouter } from 'react-router';
 
+/**
+* This component allows users to navigate between the homepage, my events page, and my groups page.
+* It allows allows users to logout.
+*/
 class NavBar extends Component {
 	constructor(props) {
 		super(props);

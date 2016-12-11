@@ -5,21 +5,22 @@ import { withRouter, browserHistory } from 'react-router';
 import eventServices from '../../services/eventServices';
 import NavBar from '../Elements/NavBar.jsx';
 import { Accordion, Panel } from 'react-bootstrap';
-import moment from 'moment';
+import timeUtils from '../../utils/timeUtils';
 
-
+/**
+* This page allows the user to view all their events.
+* The user can edit, cancel, or create an event.
+*/
 class MyEvents extends Component {
 	constructor(props) {
 		super(props);
-		this.defaultProps = {
-		}
+		this.state = {
+			events: []
+		}		
 		this.toCreateNewEvent = this.toCreateNewEvent.bind(this);
 		this.toEditEvent = this.toEditEvent.bind(this);
 		this.deleteEvent = this.deleteEvent.bind(this);
-        this.getTimeString = this.getTimeString.bind(this);
-		this.state = {
-			events: []
-		}
+        this.getTimeString = timeUtils.getTimeString.bind(this);
 	}
 
 	// will get and display all events created by current user
@@ -55,30 +56,16 @@ class MyEvents extends Component {
   			});
   	}
 
-    getTimeString(start, end) {
-        var startMoment = moment(start);
-        // var startMomentString = startMoment.format("ddd, MMM Do ") + '\u2022' + startMoment.format(" h:mm a");
-        var startMomentString = startMoment.format("ddd, MMM Do \u2022 h:mm a");
-        var endMoment = moment(end);
-        var endMomentString = endMoment.format("h:mm a");
-        if (startMoment.get('date') !== endMoment.get('date')) {
-            endMomentString = endMoment.format("ddd, MMM Do \u2022 h:mm a");
-        }
-        return startMomentString + " - " + endMomentString;
-    }
-
 	render() {
 	  	return ( 
 	  		<div>
-	  			<NavBar
-	                currentUser = {this.props.user}
-	                logout = {this.props.logout}
-	            />
+	  			<NavBar currentUser = {this.props.fullname}
+	                    logout = {this.props.logout} />
 	            <div className="events-container">
 					<div className="events-panel panel panel-default">
 	            		<div className="panel-body events-panel-body">
 				  			<div className="events-header-row">
-				  				<h2 className="my-events-header">My Upcoming Events</h2>
+				  				<h2 className="my-events-header">My Events</h2>
 				  				<button type='button' className='btn btn-blue create-event-btn' onClick={this.toCreateNewEvent}>Create New Event</button>
 				  			</div>
 				  			<div>

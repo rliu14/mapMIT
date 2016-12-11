@@ -13,8 +13,10 @@ var ObjectId = mongoose.Schema.Types.ObjectId;
  });
 
  /** 
-  * Finds a location given the locationName. Callback on the location
-  * matching the locationName, or null if an error occurred.
+  * Finds a location given the locationName. 
+  * @param {String} locationName The name of the location.
+  * @param {Function} callback The callback function to execute, of the
+  *      format cb(err, foundLocation).
   */
  location.statics.findLocation = function(locationName, callback) {
  	this.findOne({'name': locationName}, function (err, foundLocation) {

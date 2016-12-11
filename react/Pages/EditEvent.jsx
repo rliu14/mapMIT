@@ -6,6 +6,9 @@ import EventEditor from '../Elements/EventEditor.jsx';
 import { withRouter, browserHistory } from 'react-router';
 import eventServices from '../../services/eventServices';
 
+/**
+* This page allows users to edit an event.
+*/
 class EditEvent extends Component {
 	constructor(props) {
 		super(props);
@@ -40,10 +43,10 @@ class EditEvent extends Component {
 	  	return ( 
 	  		<div>
                 <NavBar
-                    currentUser = {this.props.user}
+                    currentUser = {this.props.fullname}
                     logout = {this.props.logout}
                 />
-                <EventEditor onSubmit={this.updateEvent} user={this.props.user} buttonName={"Edit"} eventId={this.props.params.eventId}/>
+                <EventEditor onSubmit={this.updateEvent} user={this.props.user} fullname={this.props.fullname} buttonName={"Edit"} eventId={this.props.params.eventId}/>
 		  	</div>
 	  	)
 	}

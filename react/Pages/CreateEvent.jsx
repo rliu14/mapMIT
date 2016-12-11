@@ -6,6 +6,9 @@ import NavBar from '../Elements/NavBar.jsx';
 import EventEditor from '../Elements/EventEditor.jsx';
 import eventServices from '../../services/eventServices';
 
+/**
+* This page allows users to create a new event.
+*/
 class CreateEvent extends Component {
 	constructor(props) {
 		super(props);
@@ -40,10 +43,10 @@ class CreateEvent extends Component {
 		return (
 			<div>
 				<NavBar
-					currentUser = {this.props.user}
+					currentUser = {this.props.fullname}
 					logout = {this.props.logout}
 				/>
-				<EventEditor onSubmit={this.submitEvent} user={this.props.user} buttonName={"Create"}/>
+				<EventEditor onSubmit={this.submitEvent} user={this.props.user} fullname={this.props.fullname} buttonName={"Create"}/>
 		    </div>
 		)
 	}

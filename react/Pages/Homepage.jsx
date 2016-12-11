@@ -1,3 +1,5 @@
+/* Lead author: Elysa */
+
 import React, { Component } from 'react';
 import MapMIT from '../Elements/Map.jsx';
 import Filtering from '../Elements/Filtering.jsx';
@@ -5,10 +7,13 @@ import EventTable from '../Elements/EventTable.jsx';
 import NavBar from '../Elements/NavBar.jsx';
 import eventServices from '../../services/eventServices';
 import groupServices from '../../services/groupServices';
-
 import { withRouter } from 'react-router';
 
+/**
+* This page is the user's homepage, which displays the map, event table, and filtering options.
+*/
 class Homepage extends Component {
+    
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -67,7 +72,7 @@ class Homepage extends Component {
       	return (
             <div>
                 <div>
-                    <NavBar currentUser = {this.props.user}
+                    <NavBar currentUser = {this.props.fullname}
                             logout = {this.props.logout}/>
                     <div id="homepage-container">
                         <div id="homepage-left">

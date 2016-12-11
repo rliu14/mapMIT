@@ -6,6 +6,9 @@ import DateTimePicker from '../Elements/DateTimePicker.jsx';
 import eventServices from '../../services/eventServices';
 import groupServices from '../../services/groupServices';
 
+/**
+* This component is a form that allows users to create/edit events.
+*/
 class EventEditor extends Component {
     constructor(props){ 
 		super(props);
@@ -32,7 +35,7 @@ class EventEditor extends Component {
 			eventDescription: '',
 			location: 'Building 1',
 			locationDescription: '',
-			host: this.props.user,
+			host: this.props.fullname,
 			creator: '',
 			isPublic: true,
 			memberGroups: [],
@@ -218,7 +221,7 @@ class EventEditor extends Component {
 					  			<div className="create-event-input">
 						  			<span className="create-event-input-label">Host* </span> 
 			                        <select className="create-event-input-option host-dropdown form-control" value={this.state.host} onChange={this.updateHost}>
-			                        	<option value={this.props.user}>{this.props.user}</option>
+			                        	<option value={this.props.fullname}>{this.props.fullname}</option>
 			                            {this.state.memberGroups.map(function(group){
 			                                return (<option key={group.name} value={group.name}>{group.name}</option>)
 			                            })}

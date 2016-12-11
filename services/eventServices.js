@@ -1,15 +1,17 @@
 /* Lead author: Dora */
 
-// const BASE_URL = 'http://localhost:3000/events';
-// const BASE_URL = 'https://mapmit.herokuapp.com/events'
-const BASE_URL = process.env.NODE_ENV === 'production' ? 'https://mapmit.herokuapp.com/events' : 'http://localhost:3000/events';
-
 var request = require('request-promise-native');
+var constants = require('../utils/constants');
+const BASE_URL_EVENTS = constants.BASE_URL + '/events';
 
 export default {
     createEvent : (content) => {
+        console.log('BASE URL');
+        console.log(constants.BASE_URL);
+        console.log('BASE URL EVENTS');
+        console.log(BASE_URL_EVENTS);
         return request({
-            uri : BASE_URL,
+            uri : BASE_URL_EVENTS,
             method : 'POST',
             body : {
                 content: content
@@ -20,7 +22,7 @@ export default {
 
     updateEvent : (eventID, content) => {
         return request({
-            uri : BASE_URL + `/${eventID}`,
+            uri : BASE_URL_EVENTS + `/${eventID}`,
             method : 'PUT',
             body : {
                 content : content
@@ -31,7 +33,7 @@ export default {
 
     deleteEvent : (eventID, currentUser) => {
         return request({
-            uri : BASE_URL + `/${eventID}`,
+            uri : BASE_URL_EVENTS + `/${eventID}`,
             method : 'DELETE',
             body : {
                 currentUser : currentUser
@@ -42,7 +44,7 @@ export default {
 
     getEvent : (eventID) => {
         return request({
-            uri : BASE_URL + `/?eventID=${eventID}`,
+            uri : BASE_URL_EVENTS + `/?eventID=${eventID}`,
             method : 'GET',
             json : true
         });
@@ -50,7 +52,7 @@ export default {
 
     getEventsByCreator : (creator) => {
         return request({
-            uri : BASE_URL + `?creator=${creator}`,
+            uri : BASE_URL_EVENTS + `?creator=${creator}`,
             method: 'GET',
             json : true
         });
@@ -58,7 +60,7 @@ export default {
 
     getEventsByLocation : (loc) => {
         return request({
-            uri : BASE_URL + `?loc=${loc}`,
+            uri : BASE_URL_EVENTS + `?loc=${loc}`,
             method: 'GET',
             json : true
         });
@@ -66,7 +68,7 @@ export default {
 
     getEventsByTime : (time) => {
         return request({
-            uri : BASE_URL + `?time=${time}`,
+            uri : BASE_URL_EVENTS + `?time=${time}`,
             method: 'GET',
             json : true
         });
@@ -74,7 +76,7 @@ export default {
 
     getFilteredEvents : (content) => {
         return request({
-            uri : BASE_URL + `/filter`,
+            uri : BASE_URL_EVENTS + `/filter`,
             method : 'PUT',
             body : {
                 content : content

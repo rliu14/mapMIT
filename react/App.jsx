@@ -1,4 +1,6 @@
-/* Lead author: Elysa */
+/* Lead author: Elysa, Casey
+ * Modeled on fritter-react by 6.170 TAs 
+ */
 
 import Services from '../services';
 import React from 'react';
@@ -12,12 +14,12 @@ class App extends Component {
         super(props);
         this.state = {
             user : undefined,
+            fullname: undefined
         };
         this.loginUser = this.loginUser.bind(this);
         this.logout = this.logout.bind(this);
         this.registerUser = this.registerUser.bind(this);
         this.verifyAccount = this.verifyAccount.bind(this);
-
     }
 
     componentWillMount() {
@@ -36,7 +38,10 @@ class App extends Component {
         Services.user.login(email, password)
             .then((res) => {
                 if (res.success){
-                    this.setState({user: res.content.email});
+                    this.setState({
+                        user: res.content.email,
+                        fullname: res.content.fullname
+                    });
                     this.props.router.push('/');
                 }
             }).catch((err) => {
@@ -83,6 +88,7 @@ class App extends Component {
                     {React.cloneElement(this.props.children, {
                         services : Services,
                         user : this.state.user,
+                        fullname : this.state.fullname,
                         events : this.state.tweets,
                         loginUser : this.loginUser,
                         registerUser : this.registerUser,

@@ -12,7 +12,7 @@ var userSchema = new mongoose.Schema({
 
 /**
  * Finds a user in the database.
- * @param {String} email
+ * @param {String} email The email of the user.
  * @param {Function} callback The callback function to execute, of the
  *      format callback(err, result).
  */
@@ -30,9 +30,9 @@ userSchema.statics.findUser = function(email, callback) {
 /**
  * Creates a user model. It is important to note that this user is not immediately persisted to the database,
  *		as the user must go through the email verification process before being added to the database.
- * @param {String} fullname
- * @param {String} email
- * @param {String} password
+ * @param {String} fullname The full name of the user.
+ * @param {String} email The email of the user.
+ * @param {String} password The password of the user.
  * @param {Function} callback The callback function to execute, of the
  *      format callback(err, user).
  */
@@ -63,8 +63,8 @@ userSchema.statics.createUser = function(fullname, email, password, callback) {
 
 /**
  * Authenticates a user.
- * @param {String} email
- * @param {String} password
+ * @param {String} email The email of the user.
+ * @param {String} password The password of the user.
  * @param {Function} callback The callback function to execute, of the
  *      format callback(err, email).
  */
@@ -77,7 +77,8 @@ userSchema.statics.authUser = function(email, password, callback) {
 				callback({ msg : 'You must have an MIT email account to proceed.' });
 			}
 			if (bcrypt.compareSync(password, result[0].password)) {
-				callback(null, { email : email });
+				callback(null, { email : email,
+								 fullname : result[0].fullname });
 			} else {
 				callback({ msg : 'Login failed.' });
 			}

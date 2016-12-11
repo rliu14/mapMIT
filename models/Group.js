@@ -16,8 +16,8 @@ var groupSchema = mongoose.Schema({
  * 
  * @param {Object} content The information needed to create a group,
  *      content is in the format - {
- *          name: {String}
- *          creator: {User} // TODO fix this it's wrong
+ *          name: {String},
+ *          creator: {String} email address of user
  *      }
  * @param {Function} cb The callback function to execute, of the
  *      format cb(err, group).
@@ -62,11 +62,11 @@ groupSchema.statics.getGroupsByCreator = function(groupCreator, cb) {
 }
 
 /**
- * Gets groups created that contain a certain member. Includes groups 
+ * Gets groups that contain a certain member. Includes groups 
  * where the given user is the creator of the group.
  * 
  * @param {String} groupCreator The email address of the desired
- *      creator of the group.
+ *      member of the group.
  * @param {Function} cb The callback function to execute, of the
  *      format cb(err, groups).
  */
@@ -88,7 +88,7 @@ groupSchema.statics.getGroupsWithMember = function(groupMember, cb) {
 }
 
 /**
- * Gets groups created that contain a certain member. Includes groups 
+ * Gets groups that contain a certain member. Excludes groups 
  * where the given user is the creator of the group.
  * 
  * @param {String} groupCreator The email address of the desired
@@ -113,6 +113,15 @@ groupSchema.statics.getGroupsWithMemberNotCreator = function(groupMember, cb) {
     });
 }
 
+/**
+ * Finds a group and adds a member to that group.
+ * 
+ * @param {String} groupId The ObjectId of the group.
+ * @param {String} newMember The email address of the user to
+ *      add to the group.
+ * @param {Function} cb The callback function to execute, of the
+ *      format cb(err, groups).
+ */
 groupSchema.statics.findGroupAndAddMember = function(groupId, newMember, cb) {
     this.findById(groupId).exec(function(err, group) {
         if (err) {
@@ -138,6 +147,15 @@ groupSchema.statics.findGroupAndAddMember = function(groupId, newMember, cb) {
     });
 }
 
+/**
+ * Finds a group and removes a member from that group.
+ * 
+ * @param {String} groupId The ObjectId of the group.
+ * @param {String} newMember The email address of the user to
+ *      remove from that group.
+ * @param {Function} cb The callback function to execute, of the
+ *      format cb(err, groups).
+ */
 groupSchema.statics.findGroupAndRemoveMember = function(groupId, member, cb) {
     this.findById(groupId, function(err, group) {
         if (err) {
@@ -148,6 +166,7 @@ groupSchema.statics.findGroupAndRemoveMember = function(groupId, member, cb) {
                     cb({ msg: err });
                 } else {
                     if (group.creator._id === user._id) {
+                        // Throw error if try to remove creator of group
                         cb({ msg: 'Cannot remove creator!' });
                     }
                     else if (group.members.indexOf(user._id) === -1) {

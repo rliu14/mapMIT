@@ -6,9 +6,22 @@ import groupServices from '../../services/groupServices';
 import NavBar from '../Elements/NavBar.jsx';
 import { Accordion, Panel } from 'react-bootstrap';
 
+/**
+* This page allows users to view their groups. 
+* Users can also create a new group, view members of a group they own,
+* add users to a group they own, or remove themselves from a group they are a part of.
+*/
 class MyGroups extends Component {
 	constructor(props) {
 		super(props);
+		this.state = {
+			creatorGroups: [],
+			memberGroups: [],
+			groupName: '',
+			newMemberInputs: {},
+			addMemberErrorMsg: '',
+			newMemberErrorMsgs: {}
+		}		
 		this.createGroup = this.createGroup.bind(this);
 		this.updateGroupName = this.updateGroupName.bind(this);
 		this.getCreatorGroups = this.getCreatorGroups.bind(this);
@@ -17,14 +30,6 @@ class MyGroups extends Component {
 		this.setBlankNewMemberInputs = this.setBlankNewMemberInputs.bind(this);
 		this.updateNewMemberInput = this.updateNewMemberInput.bind(this);
 		this.removeSelfFromGroup = this.removeSelfFromGroup.bind(this);
-		this.state = {
-			creatorGroups: [],
-			memberGroups: [],
-			groupName: '',
-			newMemberInputs: {},
-			addMemberErrorMsg: '',
-			newMemberErrorMsgs: {}
-		}
 	}
 
 	componentWillMount() {
@@ -128,7 +133,7 @@ class MyGroups extends Component {
 	render() {
 	  	return ( 
 	  		<div>
-	  			<NavBar currentUser = {this.props.user}
+	  			<NavBar currentUser = {this.props.fullname}
 	                    logout = {this.props.logout} />
 		  		<div id="my-groups-column-container">
 			  		<div className="my-groups-column" id="my-groups-column-left">

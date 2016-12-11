@@ -3,8 +3,11 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
-import moment from 'moment';
+import timeUtils from '../../utils/timeUtils';
 
+/**
+* This component displays a map of MIT's campus with popups that correspond to events.
+*/
 class MapMIT extends Component {
     constructor(props){ 
         super(props);
@@ -15,7 +18,7 @@ class MapMIT extends Component {
         };
         this.sortByLocation = this.sortByLocation.bind(this);
         this.getTextForEvents = this.getTextForEvents.bind(this);
-        this.getTimeString = this.getTimeString.bind(this);
+        this.getTimeString = timeUtils.getTimeString.bind(this);
     }
 
     sortByLocation() {
@@ -32,18 +35,6 @@ class MapMIT extends Component {
             return current;
         }, {});
         return eventsByLocation;
-    }
-
-    getTimeString(start, end) {
-        var startMoment = moment(start);
-        // var startMomentString = startMoment.format("ddd, MMM Do ") + '\u2022' + startMoment.format(" h:mm a");
-        var startMomentString = startMoment.format("ddd, MMM Do \u2022 h:mm a");
-        var endMoment = moment(end);
-        var endMomentString = endMoment.format("h:mm a");
-        if (startMoment.get('date') !== endMoment.get('date')) {
-            endMomentString = endMoment.format("ddd, MMM Do \u2022 h:mm a");
-        }
-        return startMomentString + " - " + endMomentString;
     }
 
     getTextForEvents(eventList) {
@@ -68,10 +59,13 @@ class MapMIT extends Component {
                                 <span className="italic">Time:</span> {this.getTimeString(event.startTime, event.endTime)}
                             </div>
                             <div>
-                                <span className="italic">Location:</span> {event.location.name}
                                 {event.room.length > 0 &&
+                                <span>
+                                    <span className="italic">Location:</span> {event.location.name}
                                     <span>, Room {event.room}</span>
+                                </span>
                                 }
+
                             </div>
                             {event.locationDescription.length > 0 &&
                                 <div>
