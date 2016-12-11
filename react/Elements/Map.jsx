@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
+import moment from 'moment';
 
 class MapMIT extends Component {
     constructor(props){ 
@@ -14,13 +15,7 @@ class MapMIT extends Component {
         };
         this.sortByLocation = this.sortByLocation.bind(this);
         this.getTextForEvents = this.getTextForEvents.bind(this);
-    }
-    
-    componentWillMount() {
-    }
-
-    componentDidUpdate() {
-
+        this.getTimeString = this.getTimeString.bind(this);
     }
 
     sortByLocation() {
@@ -39,6 +34,18 @@ class MapMIT extends Component {
         return eventsByLocation;
     }
 
+    getTimeString(start, end) {
+        var startMoment = moment(start);
+        // var startMomentString = startMoment.format("ddd, MMM Do ") + '\u2022' + startMoment.format(" h:mm a");
+        var startMomentString = startMoment.format("ddd, MMM Do \u2022 h:mm a");
+        var endMoment = moment(end);
+        var endMomentString = endMoment.format("h:mm a");
+        if (startMoment.get('date') !== endMoment.get('date')) {
+            endMomentString = endMoment.format("ddd, MMM Do \u2022 h:mm a");
+        }
+        return startMomentString + " - " + endMomentString;
+    }
+
     getTextForEvents(eventList) {
         var eventDescriptions = eventList.map(function(current) {
             return current.name;
@@ -49,18 +56,31 @@ class MapMIT extends Component {
                 {eventList.map(function(event, index, array){
                     return (
                         <div key={index.toString()}>
-                            <span className="popup-event-name" key={index}>
-                                {event.name} 
+                            <span key={index}>
+                                <span className="bold">{event.name}</span> <span className="italic">({event.host})</span>
                             </span>
-                            <span> ({event.host})</span>
-                            <br/>
-                            <span className="popup-event-body" key={event}>
-                                {event.description} <br/>
-                            </span>
+                            {event.description.length > 0 &&
+                                <div>
+                                    <span className="italic">Description:</span> {event.description}
+                                </div>
+                            }
+                            <div>
+                                <span className="italic">Time:</span> {this.getTimeString(event.startTime, event.endTime)}
+                            </div>
+                            <div>
+                                <span className="italic">Location:</span> {event.location.name}
+                                {event.room.length > 0 &&
+                                    <span>, Room {event.room}</span>
+                                }
+                            </div>
+                            {event.locationDescription.length > 0 &&
+                                <div>
+                                    <span className="italic">Location description:</span> {event.locationDescription}
+                                </div>
+                            }
                         </div>
                     )
-                })}
-             
+                }, this)}
             </div>
         )
     }

@@ -35,7 +35,7 @@ var eventSchema = mongoose.Schema({
  *          creator: {String}
  *      }
  * @param {Function} cb The callback function to execute, of the
- *      format cb(err).
+ *      format cb(err, event).
  */
 eventSchema.statics.createEvent = function(content, cb) {
     var email = content.creator;
@@ -97,7 +97,7 @@ eventSchema.statics.findEventsByCreator = function(eventCreator, cb) {
                 } else {
                     cb(err, events);
                 };
-            });
+            }).populate('location');
         };
     });
 };

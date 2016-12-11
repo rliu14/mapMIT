@@ -5,6 +5,7 @@ import { withRouter, browserHistory } from 'react-router';
 import eventServices from '../../services/eventServices';
 import NavBar from '../Elements/Navbar.jsx';
 import { Accordion, Panel } from 'react-bootstrap';
+import moment from 'moment';
 
 
 class MyEvents extends Component {
@@ -15,6 +16,7 @@ class MyEvents extends Component {
 		this.toCreateNewEvent = this.toCreateNewEvent.bind(this);
 		this.toEditEvent = this.toEditEvent.bind(this);
 		this.deleteEvent = this.deleteEvent.bind(this);
+        this.getTimeString = this.getTimeString.bind(this);
 		this.state = {
 			events: []
 		}
@@ -53,6 +55,18 @@ class MyEvents extends Component {
   			});
   	}
 
+    getTimeString(start, end) {
+        var startMoment = moment(start);
+        // var startMomentString = startMoment.format("ddd, MMM Do ") + '\u2022' + startMoment.format(" h:mm a");
+        var startMomentString = startMoment.format("ddd, MMM Do \u2022 h:mm a");
+        var endMoment = moment(end);
+        var endMomentString = endMoment.format("h:mm a");
+        if (startMoment.get('date') !== endMoment.get('date')) {
+            endMomentString = endMoment.format("ddd, MMM Do \u2022 h:mm a");
+        }
+        return startMomentString + " - " + endMomentString;
+    }
+
 	render() {
 	  	return ( 
 	  		<div>
@@ -69,17 +83,41 @@ class MyEvents extends Component {
 				  			</div>
 				  			<div>
 				  				<Accordion>
-				  				{this.state.events.map(function(mEvent) {
+				  				{this.state.events.map(function(event) {
 			  						return (
-									    <Panel header={mEvent.name} eventKey={mEvent._id}>
-									    	<div className="group-members-section">
-			  									
-				  							</div>
-				  							<div className="add-group-member-section">
-				  								<button type='button' className='btn btn-default' onClick={this.toEditEvent.bind(this, mEvent._id)}>Edit</button>
-	  											<button type='button' className='btn btn-default' onClick={this.deleteEvent.bind(this, mEvent._id)}>Cancel Event</button>
-							                </div>								    
-			  							</Panel>
+			  							<div className="panel panel-default my-event-panel"> 
+		                                    <div className="panel-heading">
+		                                        <span className="bold bigger-text">{event.name}</span>
+		                                        <div className="edit-cancel-event-btn-container">
+					  								<button type='button' className='btn btn-default edit-event-btn' onClick={this.toEditEvent.bind(this, event._id)}>Edit Event</button>
+		  											<button type='button' className='btn btn-default cancel-event-btn' onClick={this.deleteEvent.bind(this, event._id)}>Cancel Event</button>
+								                </div>	
+		                                    </div>
+		                                    <div className="panel-body">
+		                                        <div>
+		                                            <span className="italic">Host:</span> {event.host}
+		                                        </div>
+		                                        {event.description.length > 0 &&
+		                                            <div>
+		                                                <span className="italic">Description:</span> {event.description}
+		                                            </div>
+		                                        }
+		                                        <div>
+		                                            <span className="italic">Time:</span> {this.getTimeString(event.startTime, event.endTime)}
+		                                        </div>
+		                                        <div>
+		                                            <span className="italic">Location:</span> {event.location.name}
+		                                            {event.room.length > 0 &&
+		                                                <span>, Room {event.room}</span>
+		                                            }
+		                                        </div>
+		                                        {event.locationDescription.length > 0 &&
+		                                            <div>
+		                                                <span className="italic">Location description:</span> {event.locationDescription}
+		                                            </div>
+		                                        }
+		                                    </div>
+		                                </div>
 					  				)
 					  			}, this)}
 								</Accordion>

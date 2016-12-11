@@ -142,6 +142,7 @@ router.post('/', function(req, res) {
  * }
  */
 router.post('/login', function(req, res) {
+	console.log(req);
 	if (isValid(req, res)) {
 		User.authUser(req.body.email, req.body.password, function(err, result) {
 			if (err) {

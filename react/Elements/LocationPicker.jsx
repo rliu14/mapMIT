@@ -1,17 +1,14 @@
 /* Lead author: Rena */
 
-// List of locati xsons for location pickers
+// List of locations for location pickers
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import eventServices from '../../services/eventServices';
-import { DateField, TransitionView, Calendar } from 'react-date-picker';
 import { DropdownButton, MenuItem } from 'react-bootstrap';
 
 class LocationPicker extends Component {
     constructor(props){ 
         super(props);
-        console.log('this props location');
-        console.log(this.props.location);
 
         this.updateLocation = this.updateLocation.bind(this);
         this.getLocations = this.getLocations.bind(this);
@@ -39,7 +36,7 @@ class LocationPicker extends Component {
 	    return (
             <form>
                 <label>
-                    <select className="form-control" value={this.props.location} onChange={this.updateLocation}>
+                    <select className="form-control normal-weight" value={this.props.location} onChange={this.updateLocation}>
                         {this.getLocations(this.props.optional).map(function(location, index, array){
                             return (<option key={index} value={location}>{location}</option>)
                         })}
