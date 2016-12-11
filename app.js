@@ -15,7 +15,7 @@ var User = require('./models/User');
 
 var mongoose = require('mongoose');
 
-mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/mapmit');
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/mapmit');
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 

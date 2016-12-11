@@ -47,7 +47,6 @@ var requireAuthentication = function(req, res, next) {
 router.post('/logout', requireAuthentication);
 
 var isValid = function(req, res) {
-	console.log('req current user : ', req.currentUser);
 	if (req.currentUser) {
 		utils.sendErrorResponse(res, 403, 'There is already a user logged in.');
 		return false;
@@ -83,8 +82,6 @@ var isValid = function(req, res) {
  * }
  */
 router.post('/', function(req, res) {
-	console.log("REQ BODY: ", req.body);
-
 	User.createUser(req.body.fullname, req.body.email, req.body.password, function(err, user) {
 		if (err) {
 			if (err.taken) {
@@ -142,7 +139,6 @@ router.post('/', function(req, res) {
  * }
  */
 router.post('/login', function(req, res) {
-	console.log(req);
 	if (isValid(req, res)) {
 		User.authUser(req.body.email, req.body.password, function(err, result) {
 			if (err) {

@@ -30,11 +30,35 @@ import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 //         callback();
 //     });
 // };
+// const authCheck = (nextState, replaceState, callback) => {
+//   services.user.getCurrentUser().then((response) => {
+//     if (!response.content.loggedIn) {
+//       // console.log('next state pathname : ', nextState.location.pathname);
+//       // this.replaceState({ nextPathname: nextState.location.pathname }, '/login');
+//       replace('/login');
+//       // callback();
+//     }
+//     callback();
+//   }).catch(err) => {
+//     console.log('Err on getCurrentUser() : ', err);
+//     callback();
+// });
+const authCheck = (nextState, replace, callback) => {
+  services.user.getCurrentUser().then((response) => {
+    if (!response.content.loggedIn) {
+      replace('/login');
+    }
+    callback();
+  }).catch((err) => {
+    console.log('Err on getCurrentUser() : ', err);
+    callback();
+  });
+};
 
 export default (
     <Router history={browserHistory} >
         <Route path='/' component={App}  >
-            <IndexRoute component={Homepage} />
+            <IndexRoute component={Homepage} onEnter={authCheck} />
             <Route path="/signup"
                    component={SignUp} />
             <Route path="/login"
