@@ -151,14 +151,14 @@ class Filtering extends Component {
                                                 <label>
                                                     {this.state.typeOfEvent != 'group' && 
                                                         <div>
-                                                            <input type="checkbox" value={group._id} onChange={this.onGroupEventChange} disabled/>
+                                                            <input type="checkbox" value={group._id} onChange={this.onGroupEventChange} className="checkbox-btn" disabled/>
                                                                 {group.name}
                                                         </div>
                                                     }
 
                                                     {this.state.typeOfEvent == 'group' &&
                                                         <div> 
-                                                            <input type="checkbox" value={group._id} onChange={this.onGroupEventChange} />
+                                                            <input type="checkbox" value={group._id} onChange={this.onGroupEventChange} className="checkbox-btn" />
                                                                 {group.name}
                                                         </div>
                                                     }
@@ -198,7 +198,7 @@ class Filtering extends Component {
                 <div>
                     <LocationPicker onUpdate={this.updateLocation} optional={true}/>
                 </div>
-                <button type='button' className='btn btn-default' onClick={this.onApplyFilter}>Apply</button>
+                <button type='button' className='btn btn-blue float-right' onClick={this.onApplyFilter}>Apply</button>
             </div>
         </div>
     )

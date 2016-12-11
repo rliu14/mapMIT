@@ -37,38 +37,11 @@ class EventEditor extends Component {
 			isPublic: true,
 			memberGroups: [],
             checkedGroupIds: new Set(),
-            isLoaded: false
+            isLoaded: false,
+            message: '',
 		}
-	};
-
-	findEvent(eventId, callback) {
-		console.log(eventId);
-		
-		eventServices.getEvent(eventId)
-			.then((resp) => {
-				if(resp.success) {
-					var foundEvent = resp.content.foundEvent;
-					console.log("FOUND EVENT", resp.content.foundEvent);
-					var new_state = {
-						eventName: foundEvent.name,
-						startTime: new Date(foundEvent.startTime),
-						endTime: new Date(foundEvent.endTime),
-						room: foundEvent.room,
-						eventDescription: foundEvent.description,
-						location: foundEvent.location.name,
-						locationDescription: foundEvent.locationDescription,
-						host: foundEvent.host,
-						isPublic: foundEvent.isPublic,
-						isLoaded: true,
-						checkedGroupIds: new Set(foundEvent.groupsVisibleTo)
-					}
-
-					callback(new_state); 
-				} else {
-					console.log("Something went wrong trying to find event");
-				}
-			});	
 	}
+
 	componentDidMount() {
 		var new_state = {};
 		var that = this;
@@ -98,6 +71,36 @@ class EventEditor extends Component {
 				});
 		}
 	
+	}
+	
+
+	findEvent(eventId, callback) {
+		console.log(eventId);
+		
+		eventServices.getEvent(eventId)
+			.then((resp) => {
+				if(resp.success) {
+					var foundEvent = resp.content.foundEvent;
+					console.log("FOUND EVENT", resp.content.foundEvent);
+					var new_state = {
+						eventName: foundEvent.name,
+						startTime: new Date(foundEvent.startTime),
+						endTime: new Date(foundEvent.endTime),
+						room: foundEvent.room,
+						eventDescription: foundEvent.description,
+						location: foundEvent.location.name,
+						locationDescription: foundEvent.locationDescription,
+						host: foundEvent.host,
+						isPublic: foundEvent.isPublic,
+						isLoaded: true,
+						checkedGroupIds: new Set(foundEvent.groupsVisibleTo)
+					}
+
+					callback(new_state); 
+				} else {
+					console.log("Something went wrong trying to find event");
+				}
+			});	
 	}
 
 	onGroupEventChange(event) {
@@ -170,8 +173,27 @@ class EventEditor extends Component {
 		this.setState({isPublic: targetVal});
 	}
 
+	checkValidEvent() {
+		var result = []
+		if (this.state.eventName == '') {
+			result.push('Event Name is required. ');
+		};
+		if (this.state.startTime > this.state.endTime) {
+			result.push('The times are invalid. ');
+		};
+		if (!this.state.isPublic && this.state.checkedGroupIds.size==0) {
+			result.push('Please select at least 1 group.');
+		};
+		return result;
+	}
+
 	submitEvent() {
-		this.props.onSubmit(this.state);
+		var message = this.checkValidEvent();
+		if (message.length == 0) {
+			this.props.onSubmit(this.state);
+		} else {
+			this.setState({message: message});
+		}
 	}
 
 	backToMyEvents() {
@@ -181,6 +203,8 @@ class EventEditor extends Component {
     render() {
     	return (
 				<div className="events-container">
+  					<span className="validation-message">{this.state.message}</span>
+
 				   {this.state.isLoaded && 
 					<div className="events-panel panel panel-default">
 	            		<div className="panel-body events-panel-body">

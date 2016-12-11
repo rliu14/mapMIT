@@ -97,7 +97,7 @@ eventSchema.statics.findEventsByCreator = function(eventCreator, cb) {
                 } else {
                     cb(err, events);
                 };
-            });
+            }).populate('location');
         };
     });
 };

@@ -3,47 +3,68 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
-
-
-function showLocationName(cell, row){
-    return cell.name;
-}
+import moment from 'moment';
 
 class EventTable extends Component {
     constructor(props){ 
         super(props);
+        this.getTimeString = this.getTimeString.bind(this);
     }
-    
+
+    getTimeString(start, end) {
+        var startMoment = moment(start);
+        // var startMomentString = startMoment.format("ddd, MMM Do ") + '\u2022' + startMoment.format(" h:mm a");
+        var startMomentString = startMoment.format("ddd, MMM Do \u2022 h:mm a");
+        var endMoment = moment(end);
+        var endMomentString = endMoment.format("h:mm a");
+        if (startMoment.get('date') !== endMoment.get('date')) {
+            endMomentString = endMoment.format("ddd, MMM Do \u2022 h:mm a");
+        }
+        return startMomentString + " - " + endMomentString;
+    }
+
     render () {
         return (
-            <div className="container-fluid">
+            <div className="container-fluid event-card-container">
                 <div className="row">
                     {this.props.events.map(function(event) {
                         return ( 
-                            <div key={event._id} className="col-md-4 panel panel-default">
-                                <div className="panel-heading">{event.name}</div>
-                                <div className="panel-body">
-                                    Host: {event.host} <br/>
-                                    Description: {event.description}
-                                    {/*Time: {event.startTime} - {event.endTime}
-                                    Location: {event.location}*/}
+                            <div key={event._id} className="col-md-6 ">
+                                <div className="panel panel-default"> 
+                                    <div className="panel-heading">
+                                        <span className="bold">{event.name}</span>
+                                    </div>
+                                    <div className="panel-body">
+                                        <div>
+                                            <span className="italic">Host:</span> {event.host}
+                                        </div>
+                                        {event.description.length > 0 &&
+                                            <div>
+                                                <span className="italic">Description:</span> {event.description}
+                                            </div>
+                                        }
+                                        <div>
+                                            <span className="italic">Time:</span> {this.getTimeString(event.startTime, event.endTime)}
+                                        </div>
+                                        <div>
+                                            <span className="italic">Location:</span> {event.location.name}
+                                            {event.room.length > 0 &&
+                                                <span>, Room {event.room}</span>
+                                            }
+                                        </div>
+                                        {event.locationDescription.length > 0 &&
+                                            <div>
+                                                <span className="italic">Location description:</span> event.locationDescription}
+                                            </div>
+                                        }
+                                    </div>
                                 </div>
                             </div>
                         )
-                    })}
+                    }, this)}
                 </div>
             </div>
-
-            )
-            {/*<BootstrapTable data={ this.props.events }>
-                <TableHeaderColumn dataField='name' isKey>Event Name</TableHeaderColumn>
-                <TableHeaderColumn dataField='host'>Host</TableHeaderColumn>
-                <TableHeaderColumn dataField='description'>Description</TableHeaderColumn>
-                <TableHeaderColumn dataField='startTime'>Start Time</TableHeaderColumn>
-                <TableHeaderColumn dataField='endTime'>End Time</TableHeaderColumn>
-                <TableHeaderColumn dataField='location' dataFormat={showLocationName}>Location</TableHeaderColumn>
-            </BootstrapTable>
-        )*/}
+        )
     }
 }
 

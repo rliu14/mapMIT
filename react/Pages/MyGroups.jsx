@@ -115,8 +115,8 @@ class MyGroups extends Component {
 	  		<div>
 	  			<NavBar currentUser = {this.props.user}
 	                    logout = {this.props.logout} />
-		  		<div>
-			  		<div className="my-groups-column">
+		  		<div id="my-groups-column-container">
+			  		<div className="my-groups-column" id="my-groups-column-left">
 			  			<div className="panel panel-default">
 		            		<div className="panel-body groups-panel-body">
 					  			<h2>Groups I Own</h2>
@@ -164,7 +164,7 @@ class MyGroups extends Component {
 					  		</div>
 					  	</div>
 				  	</div>
-				  	<div className="my-groups-column">
+				  	<div className="my-groups-column" id="my-groups-column-right">
 				  		<div className="panel panel-default">
 		            		<div className="panel-body groups-panel-body">
 					  			<h2>Groups I'm In</h2>
