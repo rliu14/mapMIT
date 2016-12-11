@@ -2,7 +2,7 @@
 
 // const BASE_URL = 'http://localhost:3000/groups';
 // const BASE_URL = 'https://mapmit.herokuapp.com/groups'
-const BASE_URL = process.env.NODE_ENV == 'production' ? 'https://mapmit.herokuapp.com/groups' : 'http://localhost:3000/groups';
+const BASE_URL = process.env.NODE_ENV === 'production' ? 'https://mapmit.herokuapp.com/groups' : 'http://localhost:3000/groups';
 
 var request = require('request-promise-native');
 

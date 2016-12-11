@@ -2,7 +2,7 @@
 
 // const BASE_URL = 'http://localhost:3000/events';
 // const BASE_URL = 'https://mapmit.herokuapp.com/events'
-const BASE_URL = process.env.NODE_ENV == 'production' ? 'https://mapmit.herokuapp.com/events' : 'http://localhost:3000/events';
+const BASE_URL = process.env.NODE_ENV === 'production' ? 'https://mapmit.herokuapp.com/events' : 'http://localhost:3000/events';
 
 var request = require('request-promise-native');
 
