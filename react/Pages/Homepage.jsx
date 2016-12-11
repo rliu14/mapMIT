@@ -7,9 +7,11 @@ import EventTable from '../Elements/EventTable.jsx';
 import NavBar from '../Elements/Navbar.jsx';
 import eventServices from '../../services/eventServices';
 import groupServices from '../../services/groupServices';
-
 import { withRouter } from 'react-router';
 
+/**
+* This page is the user's homepage, which displays the map, event table, and filtering options.
+*/
 class Homepage extends Component {
     
 	constructor(props) {

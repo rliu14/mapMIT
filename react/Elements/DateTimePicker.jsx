@@ -1,9 +1,11 @@
 /* Lead author: Rena */
 
-// List of locati xsons for location pickers
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 
+/**
+* This component allows users to select a date and time.
+*/
 class DateTimePicker extends Component {
     constructor(props){ 
         super(props);

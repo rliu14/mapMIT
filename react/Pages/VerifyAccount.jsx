@@ -3,6 +3,9 @@
 import React, { Component } from 'react';
 import { IndexLink, Link, withRouter } from 'react-router';
 
+/**
+* This page notifies the user when they have verified their account.
+*/
 class VerifyAccount extends Component {
 	constructor(props) {
 		super(props);

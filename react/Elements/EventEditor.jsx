@@ -6,6 +6,9 @@ import DateTimePicker from '../Elements/DateTimePicker.jsx';
 import eventServices from '../../services/eventServices';
 import groupServices from '../../services/groupServices';
 
+/**
+* This component is a form that allows users to create/edit events.
+*/
 class EventEditor extends Component {
     constructor(props){ 
 		super(props);

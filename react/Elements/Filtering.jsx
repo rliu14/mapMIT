@@ -7,6 +7,9 @@ import groupServices from '../../services/groupServices';
 import LocationPicker from './LocationPicker.jsx';
 import DateTimePicker from './DateTimePicker.jsx';
 
+/**
+* This component allows users to filter for specific events by event type, time, and location.
+*/
 class Filtering extends Component {
     constructor(props){ 
         super(props);

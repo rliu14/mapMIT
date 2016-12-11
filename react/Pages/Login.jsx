@@ -3,6 +3,9 @@
 import React, { Component } from 'react';
 import { IndexLink, Link, withRouter } from 'react-router';
 
+/**
+* This page allows the user to login.
+*/
 class Login extends Component {
 	constructor(props) {
 		super(props);
