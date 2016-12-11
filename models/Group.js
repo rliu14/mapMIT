@@ -110,8 +110,15 @@ groupSchema.statics.findGroupAndRemoveMember = function(groupId, member, cb) {
                 if (err) {
                     cb({ msg: err });
                 } else {
-                    group.members.pull(user);
-                    group.save(cb);
+                    if (group.creator._id === user._id) {
+                        cb({ msg: 'User not in group!' });
+                    }
+                    else if (group.members.indexOf(user._id) === -1) {
+                        cb({ msg: 'User not in group!' });
+                    } else {
+                        group.members.pull(user);
+                        group.save(cb);
+                    }
                 };
             });
         };

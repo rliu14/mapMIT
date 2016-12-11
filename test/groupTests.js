@@ -39,7 +39,6 @@ describe("App", function() {
     });
 
 	describe("Group", function() {
-
 	    describe("Create group", function() {
 	        it("should create a group successfully", function(done) {
 	            var content = {
@@ -177,10 +176,148 @@ describe("App", function() {
 	            	var groupId = group._id;
 		            assert.equal(group.members.length, 1);
 	            	Group.findGroupAndRemoveMember(groupId, 'userB@mit.edu', function(err, group) {
-	            		assert.equal(err, null);
-		            	assert.equal(group.members.length, 1);
+	            		assert.notEqual(err, null);
 		            	done();
 		            });
+	            });
+	        });
+    	});
+
+		describe("Get groups by creator", function() {
+	        it("should find groups by creator", function(done) {
+	            var content = {
+	                name: 'Test Group',
+	                creator: 'userA@mit.edu'
+	            };
+	            Group.createGroup(content, function(err, group) {
+	            	assert.equal(err, null);
+	            	var content2 = {
+		                name: 'Test Group 2',
+		                creator: 'userB@mit.edu'
+		            };
+		            Group.createGroup(content2, function(err, group) {
+	            		assert.equal(err, null);
+	            		Group.getGroupsByCreator('userB@mit.edu', function(err, groups) {
+	            			assert.equal(err, null);
+	            			assert.equal(groups.length, 1);
+	            			done();
+	            		});
+		            });
+	            });
+	        });
+
+	        it("should find no groups by creator", function(done) {
+	            var content = {
+	                name: 'Test Group',
+	                creator: 'userA@mit.edu'
+	            };
+	            Group.createGroup(content, function(err, group) {
+	            	assert.equal(err, null);
+            		Group.getGroupsByCreator('userB@mit.edu', function(err, groups) {
+            			assert.equal(err, null);
+            			assert.equal(groups.length, 0);
+            			done();
+            		});
+	            });
+	        });
+    	});
+
+		describe("Get groups with member", function() {
+	        it("should get groups with member where member is not creator", function(done) {
+	            var content = {
+	                name: 'Test Group',
+	                creator: 'userA@mit.edu'
+	            };
+	            Group.createGroup(content, function(err, group) {
+	            	assert.equal(err, null);
+	            	Group.findGroupAndAddMember(group._id, 'userB@mit.edu', function(err, group) {
+	            		assert.equal(err, null);
+	            		Group.getGroupsWithMember('userB@mit.edu', function(err, groups) {
+	            			assert.equal(err, null);
+	            			assert.equal(groups.length, 1);
+	            			done();
+	            		});
+	            	});
+	            });
+	        });
+
+	        it("should get groups with member where member is creator", function(done) {
+	            var content = {
+	                name: 'Test Group',
+	                creator: 'userA@mit.edu'
+	            };
+	            Group.createGroup(content, function(err, group) {
+	            	assert.equal(err, null);
+            		Group.getGroupsWithMember('userA@mit.edu', function(err, groups) {
+            			assert.equal(err, null);
+            			assert.equal(groups.length, 1);
+            			done();
+            		});
+	            });
+	        });
+
+	        it("should get no groups with member", function(done) {
+	            var content = {
+	                name: 'Test Group',
+	                creator: 'userA@mit.edu'
+	            };
+	            Group.createGroup(content, function(err, group) {
+	            	assert.equal(err, null);
+            		Group.getGroupsWithMember('userB@mit.edu', function(err, groups) {
+            			assert.equal(err, null);
+            			assert.equal(groups.length, 0);
+            			done();
+            		});
+	            });
+	        });
+    	});
+
+		describe("Get groups with member not creator", function() {
+	        it("should get groups with member not creator where member is not creator", function(done) {
+	            var content = {
+	                name: 'Test Group',
+	                creator: 'userA@mit.edu'
+	            };
+	            Group.createGroup(content, function(err, group) {
+	            	assert.equal(err, null);
+	            	Group.findGroupAndAddMember(group._id, 'userB@mit.edu', function(err, group) {
+	            		assert.equal(err, null);
+	            		Group.getGroupsWithMemberNotCreator('userB@mit.edu', function(err, groups) {
+	            			assert.equal(err, null);
+	            			assert.equal(groups.length, 1);
+	            			done();
+	            		});
+	            	});
+	            });
+	        });
+
+	        it("should get groups with member where member is creator", function(done) {
+	            var content = {
+	                name: 'Test Group',
+	                creator: 'userA@mit.edu'
+	            };
+	            Group.createGroup(content, function(err, group) {
+	            	assert.equal(err, null);
+            		Group.getGroupsWithMemberNotCreator('userA@mit.edu', function(err, groups) {
+            			assert.equal(err, null);
+            			assert.equal(groups.length, 0);
+            			done();
+            		});
+	            });
+	        });
+
+	        it("should get no groups with member", function(done) {
+	            var content = {
+	                name: 'Test Group',
+	                creator: 'userA@mit.edu'
+	            };
+	            Group.createGroup(content, function(err, group) {
+	            	assert.equal(err, null);
+            		Group.getGroupsWithMemberNotCreator('userB@mit.edu', function(err, groups) {
+            			assert.equal(err, null);
+            			assert.equal(groups.length, 0);
+            			done();
+            		});
 	            });
 	        });
     	});
