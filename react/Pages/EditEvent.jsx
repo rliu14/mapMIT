@@ -11,10 +11,9 @@ class EditEvent extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			message: '';
+			message: '',
 		}
 		this.updateEvent = this.updateEvent.bind(this);
-		this.checkValidEvent = this.checkValidEvent.bind(this);
 	}
 
 	updateEvent(form) {
