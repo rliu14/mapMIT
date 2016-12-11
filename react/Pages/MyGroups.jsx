@@ -85,15 +85,11 @@ class MyGroups extends Component {
 	}
 
 	updateNewMemberInput(groupId, event) {
-		// var newDict = update(this.state.newMemberInputs, {$merge: {[groupId]: event.target.value}});
-		// this.setState({
-		// 	newMemberInputs: newDict
-		// });
+		var input = event.target.value;
 		this.setState((prevState) => {
-            prevState.newMemberInputs[groupId] = event.target.value;
+            prevState.newMemberInputs[groupId] = input;
             return prevState;
         });
-		// console.log(this.state.newMemberInputs);
 	}
 
 	addMemberToGroup(groupId, event) {
@@ -103,11 +99,6 @@ class MyGroups extends Component {
 				console.log('resp');
 				console.log(resp);
 				this.getCreatorGroups();
-				// var newDict = update(this.state.newMemberInputs, {$merge: {[groupId]: ''}});
-				// this.setState({
-				// 	newMemberInputs: newDict,
-				// 	addMemberErrorMsg: ''
-				// });
 				this.setState((prevState) => {
                     prevState.newMemberInputs[groupId] = '';
                     prevState.addMemberErrorMsg = '';
