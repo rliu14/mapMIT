@@ -83,6 +83,8 @@ router.get('/', function(req, res) {
 				utils.sendSuccessResponse(res, { foundGroups: foundGroups });
 			};
 		});
+	} else {
+		utils.sendErrorResponse(res, 404, 'No such groups.'); 
 	}
 })
 
