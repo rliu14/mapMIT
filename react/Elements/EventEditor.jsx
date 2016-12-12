@@ -198,12 +198,13 @@ class EventEditor extends Component {
     render() {
     	return (
 				<div className="events-container">
-  					<span className="validation-message">{this.state.message}</span>
 
 				   {this.state.isLoaded && 
 					<div className="events-panel panel panel-default">
 	            		<div className="panel-body events-panel-body">
 				  			<h2 className="create-event-header">{this.props.buttonName} an Event!</h2>
+				  			<span className="validation-message">{this.state.message}</span>
+
 				  			<div>
 				  				<div className="create-event-input">
 					  				<span className="create-event-input-label">Event Name* </span> 
