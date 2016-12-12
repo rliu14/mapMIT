@@ -6,7 +6,6 @@ const BASE_URL_GROUPS = constants.BASE_URL + '/groups';
 
 export default {
     createGroup : (content) => {
-        console.log("this is the content", content);
         return request({
             uri : BASE_URL_GROUPS,
             method : 'POST',

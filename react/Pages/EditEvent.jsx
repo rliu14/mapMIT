@@ -25,7 +25,7 @@ class EditEvent extends Component {
 			endTime: form.endTime,
 			room: form.room,
 			description: form.eventDescription,
-			location: form.location, //TODO bring this back somehow
+			location: form.location, 
 			locationDescription: form.locationDescription,
 			host: form.host,
 			creator: form.user,
@@ -34,7 +34,6 @@ class EditEvent extends Component {
 		}
 		eventServices.updateEvent(this.props.params.eventId, content)
 			.then((resp) => {
-				console.log(resp);
 				browserHistory.push('/myEvents');
 			})
 	}

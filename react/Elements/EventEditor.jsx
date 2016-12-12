@@ -14,8 +14,8 @@ class EventEditor extends Component {
 		super(props);
 
 		this.updateEventName = this.updateEventName.bind(this);
-		this.updateStartTime = this.updateStartTime.bind(this); // TODO fix these
-		this.updateEndTime = this.updateEndTime.bind(this); // TODO fix these
+		this.updateStartTime = this.updateStartTime.bind(this); 
+		this.updateEndTime = this.updateEndTime.bind(this); 
 		this.updateRoom = this.updateRoom.bind(this);
 		this.updateEventDescription = this.updateEventDescription.bind(this);
 		this.updateLocation = this.updateLocation.bind(this);
@@ -72,19 +72,14 @@ class EventEditor extends Component {
 						console.log("Something went wrong getting groups");
 					}
 				});
-		}
-	
+		};
 	}
 	
-
-	findEvent(eventId, callback) {
-		console.log(eventId);
-		
+	findEvent(eventId, callback) {		
 		eventServices.getEvent(eventId)
 			.then((resp) => {
 				if(resp.success) {
 					var foundEvent = resp.content.foundEvent;
-					console.log("FOUND EVENT", resp.content.foundEvent);
 					var new_state = {
 						eventName: foundEvent.name,
 						startTime: new Date(foundEvent.startTime),
@@ -97,17 +92,15 @@ class EventEditor extends Component {
 						isPublic: foundEvent.isPublic,
 						isLoaded: true,
 						checkedGroupIds: new Set(foundEvent.groupsVisibleTo)
-					}
-
+					};
 					callback(new_state); 
 				} else {
 					console.log("Something went wrong trying to find event");
-				}
+				};
 			});	
 	}
 
 	onGroupEventChange(event) {
-		console.log(this.state.checkedGroupIds);
         var newGroup = event.target.value;
         if (event.target.checked) {
             this.setState((prevState) => {
@@ -119,7 +112,7 @@ class EventEditor extends Component {
                 prevState.checkedGroupIds.delete(newGroup);
                 return prevState;
             });
-        }
+        };
     }
 
 	updateEventName(event) {
@@ -153,7 +146,6 @@ class EventEditor extends Component {
 	}
 
 	updateLocation(location) {
-		console.log(this.state.location);
 		this.setState({
 			location: location
 		});

@@ -48,7 +48,7 @@ router.get('/', function(req, res) {
 	if (req.query.creator != undefined) {
 		Group.getGroupsByCreator(req.query.creator, function(err, foundGroups) {
 			if (err) {
-				utils.sendErrorResponse(res, 404, 'No such groups.'); // TODO is this right
+				utils.sendErrorResponse(res, 404, 'No such groups.'); 
 			} else {
 				utils.sendSuccessResponse(res, { foundGroups: foundGroups });
 			};
@@ -57,7 +57,7 @@ router.get('/', function(req, res) {
 	} else if (req.query.memberOnly != undefined) {
 		Group.getGroupsWithMemberNotCreator(req.query.memberOnly, function(err, foundGroups) {
 			if (err) {
-				utils.sendErrorResponse(res, 404, 'No such groups.'); // TODO is this right
+				utils.sendErrorResponse(res, 404, 'No such groups.'); 
 			} else {
 				utils.sendSuccessResponse(res, { foundGroups: foundGroups });
 			};
@@ -66,7 +66,7 @@ router.get('/', function(req, res) {
 	} else if (req.query.member != undefined) {
 		Group.getGroupsWithMember(req.query.member, function(err, foundGroups) {
 			if (err) {
-				utils.sendErrorResponse(res, 404, 'No such groups.'); // TODO is this right
+				utils.sendErrorResponse(res, 404, 'No such groups.'); 
 			} else {
 				utils.sendSuccessResponse(res, { foundGroups: foundGroups });
 			};

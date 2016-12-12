@@ -14,8 +14,6 @@ class CreateEvent extends Component {
 		super(props);
 
 		this.submitEvent = this.submitEvent.bind(this);
-
-		// this.updateGroupSpecificVisibility = this.updateGroupSpecificVisibility.bind(this);
 	};
 
 	// creates event in the event database
