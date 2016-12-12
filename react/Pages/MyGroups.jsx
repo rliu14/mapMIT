@@ -93,13 +93,17 @@ class MyGroups extends Component {
 		var input = event.target.value;
 		this.setState((prevState) => {
             prevState.newMemberInputs[groupId] = input;
+            console.log(prevState);
             return prevState;
         });
+        console.log(this.state.newMemberInputs);
 	}
 
 	addMemberToGroup(groupId, event) {
-		var username = this.state.newMemberInputs[groupId];
-		groupServices.addMemberToGroup(groupId, username)
+		var email = this.state.newMemberInputs[groupId];
+		console.log('email');
+		console.log(email);
+		groupServices.addMemberToGroup(groupId, email)
 			.then((resp) => {
 				console.log('resp');
 				console.log(resp);
