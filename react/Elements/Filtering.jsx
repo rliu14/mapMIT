@@ -108,7 +108,6 @@ class Filtering extends Component {
         } else {
             content['$or'] = [{groupsVisibleTo: { $in: this.props.groups}}, {isPublic: true}];
         }
-        console.log("Here are the conditions: ", content);
         eventServices.getFilteredEvents(content)
             .then((resp) => {
                 this.props.onUpdate(resp.content.filteredEvents);

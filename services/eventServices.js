@@ -6,10 +6,6 @@ const BASE_URL_EVENTS = constants.BASE_URL + '/events';
 
 export default {
     createEvent : (content) => {
-        console.log('BASE URL');
-        console.log(constants.BASE_URL);
-        console.log('BASE URL EVENTS');
-        console.log(BASE_URL_EVENTS);
         return request({
             uri : BASE_URL_EVENTS,
             method : 'POST',

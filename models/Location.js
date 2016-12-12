@@ -28,8 +28,4 @@ var ObjectId = mongoose.Schema.Types.ObjectId;
  	});
  }
 
- // location.statics.createLocations = function(callback) {
- 	
- // }
-
 module.exports = mongoose.model("Location", location);
