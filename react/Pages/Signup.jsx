@@ -13,14 +13,16 @@ class Signup extends Component {
 			registerName : '',
 			registerEmail : '',
 			registerPass : '',
-            message : ''
+            inputErrorMsg : '',
+            registerErrorMsg : '',
+            registerStatusMsg : ''
 		};
 		this.updateFormVal = this.updateFormVal.bind(this);
 		this.registerUser = this.registerUser.bind(this);
 	}
 
     componentWillMount() {
-        this.props.resetErrorMessage();
+        // this.props.resetErrorMessage();
         document.body.classList.add('blue-background');
     }
 
@@ -36,10 +38,10 @@ class Signup extends Component {
     checkValidInput() {
         var result = []
         if (this.state.registerName == '') {
-            result.push('Please enter your full name.');
+            result.push('Please enter your full name. ');
         };
         if (!(this.state.registerEmail.match('@mit.edu'))) {
-            result.push('Please enter your MIT email.')
+            result.push('Please enter your MIT email. ')
         };
         if (!(this.state.registerPass.match('^[a-zA-z0-9]{5,16}$'))) {
             result.push('Your password must consist of 5-16 alphanumeric characters.');
@@ -50,9 +52,22 @@ class Signup extends Component {
 	registerUser() {
         var result = this.checkValidInput();
         if (result.length == 0) {
-            this.props.registerUser(this.state.registerName, this.state.registerEmail, this.state.registerPass);
+            var that = this;
+            this.props.registerUser(this.state.registerName, this.state.registerEmail, this.state.registerPass, function(errMsg, statusMsg) {
+                console.log('that');
+                console.log(that);
+                that.setState({ 
+                    registerErrorMsg : errMsg,
+                    registerStatusMsg : statusMsg,
+                    inputErrorMsg : '' 
+                });
+            });
         } else {
-            this.setState({ message : result });
+            this.setState({ 
+                inputErrorMsg : result,
+                registerErrorMsg : '',
+                registerStatusMsg : ''
+            });
         }
 	}
 
@@ -62,23 +77,19 @@ class Signup extends Component {
                 <div className="panel panel-default login-register-panel">
                     <div className="panel-body">
                         <img className="logo-img" src='https://s3.amazonaws.com/mapmit/logo.png'/>
-
-                        <span className="validation-message">{this.state.message}</span>
                         <div className = 'username-password-container form-group'>
                             <input className = 'form-control username-password-input'
                                 name = 'registerName'
                                 placeholder = 'Your Full Name'
                                 value = {this.state.registerName}
-                                onChange = {this.updateFormVal}
-                            />
+                                onChange = {this.updateFormVal} />
                         </div>
                         <div className = 'username-password-container form-group'>
                             <input className = 'form-control username-password-input'
                                 name = 'registerEmail'
                                 placeholder = 'MIT Email Address'
                                 value = {this.state.registerEmail}
-                                onChange = {this.updateFormVal}
-                            />
+                                onChange = {this.updateFormVal} />
                         </div>
                         <div className = 'username-password-container form-group'>
                             <input className = 'form-control username-password-input'
@@ -86,10 +97,23 @@ class Signup extends Component {
                                 name = 'registerPass'
                                 placeholder = 'Password'
                                 value = {this.state.registerPass}
-                                onChange = {this.updateFormVal}
-                            />
+                                onChange = {this.updateFormVal} />
                         </div>
-
+                        {this.state.inputErrorMsg.length > 0 &&
+                            <div>
+                                <span className="red">{this.state.inputErrorMsg}</span>
+                            </div>
+                        }
+                        {this.state.registerErrorMsg.length > 0 &&
+                            <div>
+                                <span className="red">{this.state.registerErrorMsg}</span>
+                            </div>
+                        }
+                        {this.state.registerStatusMsg.length > 0 &&
+                            <div>
+                                <span>{this.state.registerStatusMsg}</span>
+                            </div>
+                        }
                         <button className = 'btn login-signup-btn' onClick = {this.registerUser}> Sign Up </button>
                         <div>
                             <span className='switch-login-register'>Already have an account? Login <IndexLink to = '/login' className = 'login-link'>here</IndexLink>.</span>

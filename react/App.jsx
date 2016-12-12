@@ -15,13 +15,13 @@ class App extends Component {
         this.state = {
             user : undefined,
             fullname: undefined,
-            loginRegisterErrorMsg: ''
+            loginRegisterErrorMsg: '',
+            registerMsg: ''
         };
         this.loginUser = this.loginUser.bind(this);
         this.logout = this.logout.bind(this);
         this.registerUser = this.registerUser.bind(this);
         this.verifyAccount = this.verifyAccount.bind(this);
-        this.resetErrorMessage = this.resetErrorMessage.bind(this);
     }
 
     componentWillMount() {
@@ -35,7 +35,7 @@ class App extends Component {
         });
     }
 
-    loginUser(email, password){
+    loginUser(email, password, cb){
         console.log('Logging in...');
         Services.user.login(email, password)
             .then((res) => {
@@ -43,17 +43,16 @@ class App extends Component {
                     this.setState({
                         user: res.content.email,
                         fullname: res.content.fullname,
-                        loginRegisterErrorMsg: ''
                     });
                     this.props.router.push('/');
                 }
             }, (err) => {
                 console.log('err');
-                console.log(err);
-                this.setState({
-                    loginRegisterErrorMsg: err.error.err.msg
-                });
-                console.log("Login err: ", err.error.err);
+                console.log(err.error.err.msg);
+                // this.setState({
+                //     loginRegisterErrorMsg: err.error.err.msg
+                // });         
+                cb(err.error.err.msg);
             });
     }
 
@@ -69,14 +68,25 @@ class App extends Component {
         });
     }
 
-    registerUser(fullname, email, password){
+    registerUser(fullname, email, password, cb){
         Services.user.register(fullname, email, password).then((res) => {
-            if (res.success){
-                this.loginUser(email, password);
-            } else {
-                console.log("Error on register user: ", res.err);
-            }
-        });
+            console.log('register user');
+            console.log(res);
+            cb('', res.msg);
+            // this.setState({
+            //     loginRegisterErrorMsg: '',
+            //     registerMsg: res.msg
+            // });
+            // if (res.success){
+            //     this.loginUser(email, password);
+            // }
+        }, (err) => {
+            cb(err.error.err, '')
+            // this.setState({
+            //     loginRegisterErrorMsg: err.error.err,
+            //     registerMsg: ''
+            // });
+        });            
     }
 
     verifyAccount(URL){
@@ -89,11 +99,6 @@ class App extends Component {
         });
     }
 
-    resetErrorMessage() {
-        this.setState({
-            loginRegisterErrorMsg: ''
-        });    
-    }
 
     render(){
         return (
@@ -108,8 +113,6 @@ class App extends Component {
                         registerUser : this.registerUser,
                         logout : this.logout,
                         verifyAccount : this.verifyAccount,
-                        loginRegisterErrorMsg : this.state.loginRegisterErrorMsg,
-                        resetErrorMessage : this.resetErrorMessage
                     })}
                 </div>
             </div>

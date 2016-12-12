@@ -19,7 +19,6 @@ class Login extends Component {
 	}
 
 	componentWillMount() {
-		this.props.resetErrorMessage();
 		document.body.classList.add('blue-background');
 	}
 
@@ -33,7 +32,12 @@ class Login extends Component {
 	}
 
 	loginUser() {
-		this.props.loginUser(this.state.loginEmail, this.state.loginPass);
+		var that = this;
+		this.props.loginUser(this.state.loginEmail, this.state.loginPass, function(errMsg) {
+			that.setState({
+				errorMsg: errMsg
+			});
+		});
 	}
 
 	render() {
@@ -57,9 +61,9 @@ class Login extends Component {
 		                        value = {this.state.loginPass}
 		                        onChange = {this.updateFormVal} />
 		                </div>
-		                {this.props.loginRegisterErrorMsg.length > 0 &&
+		                {this.state.errorMsg.length > 0 &&
 			                <div>
-			                	<span className="red">{this.props.loginRegisterErrorMsg}</span>
+			                	<span className="red">{this.state.errorMsg}</span>
 			                </div>
 			            }
 		                <button className = 'btn btn-default login-signup-btn' onClick = {this.loginUser}> Login </button>
