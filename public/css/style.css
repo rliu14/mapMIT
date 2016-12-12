@@ -124,7 +124,7 @@ body {
 }
 
 .login-signup-btn, .login-signup-btn:hover {
-	background-color: #1fbcd2;
+	background-color: #1FB8CC;
     color: white;
     border-color: white;
     width: 80%;
@@ -133,7 +133,7 @@ body {
 }
 
 .btn-blue, .btn-blue:hover {
-	background-color: #1fbcd2;
+	background-color: #1FB8CC;
     color: white;
     border-color: white;
 }
@@ -159,7 +159,7 @@ body {
 }
 
 .blue-background {
-	background-color: #1fbcd2;
+	background-color: #1FB8CC;
 }
 
 .login-register-panel {
@@ -192,7 +192,7 @@ body {
 }
 
 .navbar {
-	background-color: #1fbcd2;
+	background-color: #1FB8CC;
     border-bottom: 3px solid #06A3B9;
     padding-top: 6px;
     min-height: 55px;
