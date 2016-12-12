@@ -22,6 +22,7 @@ var Event = require('../models/Event');
     }
   Response:
     - success: true if event creation succeeded; false otherwise
+    - createdEvent: on success, the event that was created
     - err: on error, an error message
 */
 router.post('/', function(req, res) {
@@ -49,6 +50,7 @@ router.post('/', function(req, res) {
     }
   Response:
     - success: true if event filtering succeeded; false otherwise
+    - content: on success, an object with a single field 'filteredEvents', the events that were filtered for
     - err: on error, an error message
 */
 router.put('/filter', function(req, res) {
@@ -79,6 +81,7 @@ router.put('/filter', function(req, res) {
     }
   Response:
     - success: true if event update succeeded; false otherwise
+    - updatedEvent: on success, the event that was updated
     - err: on error, an error message
 */
 router.put('/:eventId', function(req, res) {

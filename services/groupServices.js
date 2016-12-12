@@ -6,6 +6,7 @@ const BASE_URL_GROUPS = constants.BASE_URL + '/groups';
 
 export default {
     createGroup : (content) => {
+        console.log("this is the content", content);
         return request({
             uri : BASE_URL_GROUPS,
             method : 'POST',
@@ -18,7 +19,7 @@ export default {
 
     addMemberToGroup : (groupId, username) => {
         return request({
-            uri : BASE_URL_GROUPS + `/add/${groupId}`,
+            uri : BASE_URL_GROUPS + `/${groupId}`,
             method : 'PUT',
             body : {
                 username : username
@@ -29,8 +30,8 @@ export default {
 
     removeMemberFromGroup : (groupId, username) => {
         return request({
-            uri : BASE_URL_GROUPS + `/remove/${groupId}`,
-            method : 'PUT',
+            uri : BASE_URL_GROUPS + `/${groupId}`,
+            method : 'DELETE',
             body : {
                 username : username
             },
@@ -40,15 +41,15 @@ export default {
 
     getGroupsByCreator : (creator) => {
         return request({
-            uri : BASE_URL_GROUPS + `/creator/${creator}`,
+            uri : BASE_URL_GROUPS + `?creator=${creator}`,
             method: 'GET',
             json : true
         });
     },
 
-    getGroupsWithMemberNotCreator : (member) => {
+    getGroupsWithMemberNotCreator : (memberOnly) => {
         return request({
-            uri : BASE_URL_GROUPS + `/memberonly/${member}`,
+            uri : BASE_URL_GROUPS + `?memberOnly=${memberOnly}`,
             method : 'GET',
             json : true
         });
@@ -56,7 +57,7 @@ export default {
 
     getGroupsWithMember : (member) => {
         return request({
-            uri : BASE_URL_GROUPS + `/member/${member}`,
+            uri : BASE_URL_GROUPS + `?member=${member}`,
             method : 'GET',
             json : true
         });
