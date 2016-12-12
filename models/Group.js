@@ -157,14 +157,25 @@ groupSchema.statics.findGroupAndAddMember = function(groupId, newMember, cb) {
  *      format cb(err, groups).
  */
 groupSchema.statics.findGroupAndRemoveMember = function(groupId, member, cb) {
+    console.log('findGroupAndRemoveMember');
+    console.log(groupId);
+    console.log(member);
     this.findById(groupId, function(err, group) {
+        console.log('group');
+        console.log(group);
         if (err) {
             cb({ msg: err });
         } else {
             User.findUser(member, function(err, user) {
+                console.log('err');
+                console.log(err);
                 if (err) {
                     cb({ msg: err });
                 } else {
+                    console.log('user');
+                    console.log(user);
+                    console.log('group.members');
+                    console.log(group.members);
                     if (group.creator._id === user._id) {
                         // Throw error if try to remove creator of group
                         cb({ msg: 'Cannot remove creator!' });

@@ -115,8 +115,8 @@ class MyGroups extends Component {
 	}
 
 	removeSelfFromGroup(groupId, event) {
-		var username = this.props.user;
-		groupServices.removeMemberFromGroup(groupId, username)
+		var email = this.props.user;
+		groupServices.removeMemberFromGroup(groupId, email)
 			.then((resp) => {
 				this.getMemberGroups();
 			});

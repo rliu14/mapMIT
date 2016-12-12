@@ -28,6 +28,8 @@ export default {
     },
 
     removeMemberFromGroup : (groupId, username) => {
+        console.log('removeMemberFromGroup');
+        console.log(username);
         return request({
             uri : BASE_URL_GROUPS + `/${groupId}`,
             method : 'DELETE',

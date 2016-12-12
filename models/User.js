@@ -17,6 +17,8 @@ var userSchema = new mongoose.Schema({
  *      format callback(err, result).
  */
 userSchema.statics.findUser = function(email, callback) {
+	console.log('email');
+	console.log(email);
 	this.findOne({ email : email }, function(err, result) {
 		if (err) callback({ msg : err });
 		if (result !== null) {
