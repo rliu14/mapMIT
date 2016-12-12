@@ -27,10 +27,10 @@ class App extends Component {
     componentWillMount() {
         Services.user.getCurrentUser().then((res) => {
             if (res.content.loggedIn) {
-                this.setState((prevState) => {
-                    prevState.user = res.content.user;
-                    return prevState;
-                })
+                this.setState({
+                    user: res.content.user,
+                    fullname: res.content.fullname
+                });
             }
         });
     }

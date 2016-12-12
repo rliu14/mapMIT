@@ -16,6 +16,7 @@ class Login extends Component {
 		};
 		this.updateFormVal = this.updateFormVal.bind(this);
 		this.loginUser = this.loginUser.bind(this);
+		this.checkValidInput = this.checkValidInput.bind(this);
 	}
 
 	componentWillMount() {

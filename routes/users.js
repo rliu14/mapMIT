@@ -218,7 +218,7 @@ router.put('/logout', function(req, res) {
  */
 router.get('/current', function(req, res) {
 	if (req.currentUser) {
-		utils.sendSuccessResponse(res, { loggedIn : true, user : req.currentUser.email });
+		utils.sendSuccessResponse(res, { loggedIn : true, user : req.currentUser.email, fullname : req.currentUser.fullname });
 	} else {
 		utils.sendSuccessResponse(res, { loggedIn : false });
 	}
