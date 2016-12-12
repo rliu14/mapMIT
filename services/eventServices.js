@@ -29,11 +29,8 @@ export default {
 
     deleteEvent : (eventID, currentUser) => {
         return request({
-            uri : BASE_URL_EVENTS + `/${eventID}`,
+            uri : BASE_URL_EVENTS + `/${eventID}/${currentUser}`,
             method : 'DELETE',
-            body : {
-                currentUser : currentUser
-            },
             json : true
         });
     },

@@ -152,16 +152,14 @@ router.get('/', function(req, res) {
 
 /*
   DELETE /events/:eventID
-  Request body:
-    - eventID
   Response:
     - success: true if get events succeeded; false otherwise
     - content: on success, an object with a single field 'deletedEvent', the event that was deleted
     - err: on error, an error message
 */
-router.delete('/:eventID', function(req, res) {
+router.delete('/:eventID/:currentUser', function(req, res) {
   Event.findEventByID(req.params.eventID, function(err, mEvent) {
-    if (mEvent.creator.email == req.body.currentUser) {
+    if (mEvent.creator.email == req.params.currentUser) {
       Event.deleteEvent(req.params.eventID, function(err, deletedEvent) {
         if(err) {
           utils.sendErrorResponse(res, 400, err.msg); 
