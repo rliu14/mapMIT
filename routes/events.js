@@ -147,6 +147,8 @@ router.get('/', function(req, res) {
         utils.sendSuccessResponse(res, { foundEvent: foundEvent });
       };
     });
+  } else {
+      utils.sendErrorResponse(res, 404, 'No such event.');
   };
 });
 
