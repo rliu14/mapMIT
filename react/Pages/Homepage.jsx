@@ -56,6 +56,8 @@ class Homepage extends Component {
     };
 
     componentWillMount(){
+        console.log('componentWillMount');
+        console.log(this.props.user);
         var x = this;
         this.getAllGroups(function() {
             var now = new Date();

@@ -16,7 +16,8 @@ class App extends Component {
             user : undefined,
             fullname: undefined,
             loginRegisterErrorMsg: '',
-            registerMsg: ''
+            registerMsg: '',
+            isLoaded: false
         };
         this.loginUser = this.loginUser.bind(this);
         this.logout = this.logout.bind(this);
@@ -24,12 +25,17 @@ class App extends Component {
         this.verifyAccount = this.verifyAccount.bind(this);
     }
 
-    componentWillMount() {
+    componentDidMount() {
         Services.user.getCurrentUser().then((res) => {
             if (res.content.loggedIn) {
                 this.setState({
                     user: res.content.user,
-                    fullname: res.content.fullname
+                    fullname: res.content.fullname,
+                    isLoaded: true
+                });
+            } else {
+                this.setState({
+                    isLoaded: true
                 });
             }
         });
@@ -82,20 +88,24 @@ class App extends Component {
 
     render(){
         return (
-            <div id="reactRoot">
-                <div id='page-content'>
-                    {React.cloneElement(this.props.children, {
-                        services : Services,
-                        user : this.state.user,
-                        fullname : this.state.fullname,
-                        events : this.state.tweets,
-                        loginUser : this.loginUser,
-                        registerUser : this.registerUser,
-                        logout : this.logout,
-                        verifyAccount : this.verifyAccount,
-                    })}
+                <div id="reactRoot">            
+                {this.state.isLoaded && 
+
+                    <div id='page-content'>
+                        {React.cloneElement(this.props.children, {
+                            services : Services,
+                            user : this.state.user,
+                            fullname : this.state.fullname,
+                            events : this.state.tweets,
+                            loginUser : this.loginUser,
+                            registerUser : this.registerUser,
+                            logout : this.logout,
+                            verifyAccount : this.verifyAccount,
+                        })}
+                    </div>
+                    }
                 </div>
-            </div>
+            
         );
     }
 }

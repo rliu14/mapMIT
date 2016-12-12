@@ -21,6 +21,7 @@ import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 // if there's no current user.  Example implementation online:
 // https://github.com/ReactTraining/react-router/blob/master/examples/auth-flow/auth.js
 
+
 const authCheck = (nextState, replace, callback) => {
     services.user.getCurrentUser().then((response) => {
     if (!response.content.loggedIn) {
@@ -34,15 +35,15 @@ const authCheck = (nextState, replace, callback) => {
 };
 
 const loginRedirect = (nextState, replace, callback) => {
-  services.user.getCurrentUser().then((response) => {
+    services.user.getCurrentUser().then((response) => {
     if (response.content.loggedIn) {
-      replace('/');
+        replace('/');
     }
     callback();
-  }).catch((err) => {
-    console.log('Err on getCurrentUser() : ', err);
-    callback();
-  });
+    }).catch((err) => {
+        console.log('Err on getCurrentUser() : ', err);
+        callback();
+    });
 };
 
 export default (
@@ -53,19 +54,25 @@ export default (
             <Route path="/signup"
                    component={SignUp} />
             <Route path="/login"
-                   component={Login} />
+                   component={Login} 
+                   onEnter={loginRedirect}/>
             <Route path="/email-verification/:URL"
                    component={VerifyAccount} />
             <Route path="/myEvents"
-                   component={MyEvents} />
+                   component={MyEvents} 
+                   onEnter={authCheck}/>
             <Route path="/myEvents/edit/:eventId"
-                   component={EditEvent} />
+                   component={EditEvent} 
+                   onEnter={authCheck} />
             <Route path="/myEvents/create"
-                   component={CreateEvent} />
+                   component={CreateEvent} 
+                   onEnter={authCheck} />
             <Route path="/myGroups"
-                   component={MyGroups} />
+                   component={MyGroups} 
+                   onEnter={authCheck}/>
             <Route path="*"
-                   component={NotFound} />
+                   component={NotFound} 
+                   onEnter={authCheck}/>
         </Route>
     </Router>
 ); 

@@ -86,7 +86,7 @@ class Login extends Component {
 		                        value = {this.state.loginPass}
 		                        onChange = {this.updateFormVal} />
 		                </div>
-		                {this.state.errorMsg.length > 0 &&
+		                {this.state.errorMsg && this.state.errorMsg.length > 0 &&
 			                <div>
 			                	<span className="red">{this.state.errorMsg}</span>
 			                </div>
