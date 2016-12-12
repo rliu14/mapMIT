@@ -31,13 +31,32 @@ class Login extends Component {
 		})
 	}
 
+    checkValidInput() {
+        var result = []
+        if (this.state.loginEmail === '') {
+            result.push('Please enter a login email. ');
+        } else if (!(this.state.loginEmail.match('@mit.edu'))) {
+            result.push('Please enter your MIT email. ')
+        } else if (this.state.loginPass === '') {
+            result.push('Please enter your password.');
+        };
+        return result;
+    }
+
 	loginUser() {
-		var that = this;
-		this.props.loginUser(this.state.loginEmail, this.state.loginPass, function(errMsg) {
-			that.setState({
-				errorMsg: errMsg
+        var result = this.checkValidInput();
+        if (result.length === 0) {
+            var that = this;
+			this.props.loginUser(this.state.loginEmail, this.state.loginPass, function(errMsg) {
+				that.setState({
+					errorMsg: errMsg
+				});
 			});
-		});
+        } else {
+            this.setState({ 
+                errorMsg : result
+            });
+        }
 	}
 
 	render() {

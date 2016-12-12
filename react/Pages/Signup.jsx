@@ -13,8 +13,7 @@ class Signup extends Component {
 			registerName : '',
 			registerEmail : '',
 			registerPass : '',
-            inputErrorMsg : '',
-            registerErrorMsg : '',
+            errorMsg : '',
             registerStatusMsg : ''
 		};
 		this.updateFormVal = this.updateFormVal.bind(this);
@@ -22,7 +21,6 @@ class Signup extends Component {
 	}
 
     componentWillMount() {
-        // this.props.resetErrorMessage();
         document.body.classList.add('blue-background');
     }
 
@@ -35,6 +33,8 @@ class Signup extends Component {
 		})
 	}
 
+    // check the inputs for Full Name, Email, and Password to determine if they
+    // are valid
     checkValidInput() {
         var result = []
         if (this.state.registerName == '') {
@@ -53,19 +53,18 @@ class Signup extends Component {
         var result = this.checkValidInput();
         if (result.length == 0) {
             var that = this;
+            // call the service to register user and display the resulting
+            // error or status message
             this.props.registerUser(this.state.registerName, this.state.registerEmail, this.state.registerPass, function(errMsg, statusMsg) {
-                console.log('that');
-                console.log(that);
                 that.setState({ 
-                    registerErrorMsg : errMsg,
+                    errorMsg : errMsg,
                     registerStatusMsg : statusMsg,
-                    inputErrorMsg : '' 
                 });
             });
         } else {
+            // input not valid, show errors
             this.setState({ 
-                inputErrorMsg : result,
-                registerErrorMsg : '',
+                errorMsg : result,
                 registerStatusMsg : ''
             });
         }
@@ -99,14 +98,9 @@ class Signup extends Component {
                                 value = {this.state.registerPass}
                                 onChange = {this.updateFormVal} />
                         </div>
-                        {this.state.inputErrorMsg.length > 0 &&
+                        {this.state.errorMsg.length > 0 &&
                             <div>
-                                <span className="red">{this.state.inputErrorMsg}</span>
-                            </div>
-                        }
-                        {this.state.registerErrorMsg.length > 0 &&
-                            <div>
-                                <span className="red">{this.state.registerErrorMsg}</span>
+                                <span className="red">{this.state.errorMsg}</span>
                             </div>
                         }
                         {this.state.registerStatusMsg.length > 0 &&

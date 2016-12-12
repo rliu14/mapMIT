@@ -36,7 +36,6 @@ class App extends Component {
     }
 
     loginUser(email, password, cb){
-        console.log('Logging in...');
         Services.user.login(email, password)
             .then((res) => {
                 if (res.success){
@@ -46,12 +45,7 @@ class App extends Component {
                     });
                     this.props.router.push('/');
                 }
-            }, (err) => {
-                console.log('err');
-                console.log(err.error.err.msg);
-                // this.setState({
-                //     loginRegisterErrorMsg: err.error.err.msg
-                // });         
+            }, (err) => {       
                 cb(err.error.err.msg);
             });
     }
@@ -70,22 +64,9 @@ class App extends Component {
 
     registerUser(fullname, email, password, cb){
         Services.user.register(fullname, email, password).then((res) => {
-            console.log('register user');
-            console.log(res);
             cb('', res.msg);
-            // this.setState({
-            //     loginRegisterErrorMsg: '',
-            //     registerMsg: res.msg
-            // });
-            // if (res.success){
-            //     this.loginUser(email, password);
-            // }
         }, (err) => {
             cb(err.error.err, '')
-            // this.setState({
-            //     loginRegisterErrorMsg: err.error.err,
-            //     registerMsg: ''
-            // });
         });            
     }
 
@@ -98,7 +79,6 @@ class App extends Component {
             }
         });
     }
-
 
     render(){
         return (
