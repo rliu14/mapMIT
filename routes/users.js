@@ -10,7 +10,7 @@ var mongoose = require('mongoose');
 /** Configures nev, the email verification module */
 var nev = require('email-verification')(mongoose);
 nev.configure({
-	verificationURL : 'http://mapmit.herokuapp.com/email-verification/${URL}',
+	verificationURL : 'http://mapmit.herokuapp.com/users/email-verification/${URL}',
 	persistentUserModel : User,
 	expirationTime : 6000, 
 	transportOptions : {
