@@ -19,8 +19,6 @@ var User = require('./models/User');
 
 // Connect to database
 var mongoose = require('mongoose');
-console.log('process env MONGODB_URI');
-console.log(process.env.MONGODB_URI);
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/mapmit');
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -28,8 +26,6 @@ db.on('error', console.error.bind(console, 'connection error:'));
 var app = express();
 
 // Set up webpack-hot-middleware for development, express-static for production
-console.log('process.env.NODE_ENV');
-console.log(process.env.NODE_ENV);
 if (process.env.NODE_ENV !== 'production'){
 	console.log("DEVELOPMENT: Turning on WebPack middleware...");
 	app = webpackDevHelper.useWebpackMiddleware(app);
