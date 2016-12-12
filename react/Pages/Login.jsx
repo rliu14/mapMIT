@@ -9,17 +9,17 @@ import { IndexLink, Link, withRouter } from 'react-router';
 class Login extends Component {
 	constructor(props) {
 		super(props);
-		// this.defaultProps = {
-		// }
 		this.state = {
 			loginEmail : '',
-			loginPass : ''
+			loginPass : '',
+			errorMsg : ''
 		};
 		this.updateFormVal = this.updateFormVal.bind(this);
 		this.loginUser = this.loginUser.bind(this);
 	}
 
 	componentWillMount() {
+		this.props.resetErrorMessage();
 		document.body.classList.add('blue-background');
 	}
 
@@ -42,14 +42,12 @@ class Login extends Component {
 	            <div className="panel panel-default login-register-panel">
 		            <div className="panel-body">
 		            	<img className="logo-img" src='https://s3.amazonaws.com/mapmit/logo.png'/>
-
 		                <div className = 'username-password-container form-group'>
 		                    <input className = 'form-control username-password-input'
 		                        name = 'loginEmail'
 		                        placeholder = 'Email'
 		                        value = {this.state.loginEmail}
-		                        onChange = {this.updateFormVal}
-		                    />
+		                        onChange = {this.updateFormVal} />
 		                </div>
 		                <div className = 'username-password-container form-group'>
 		                    <input className = 'form-control username-password-input'
@@ -57,10 +55,13 @@ class Login extends Component {
 		                        name = 'loginPass'
 		                        placeholder = 'Password'
 		                        value = {this.state.loginPass}
-		                        onChange = {this.updateFormVal}
-		                    />
+		                        onChange = {this.updateFormVal} />
 		                </div>
-
+		                {this.props.loginRegisterErrorMsg.length > 0 &&
+			                <div>
+			                	<span className="red">{this.props.loginRegisterErrorMsg}</span>
+			                </div>
+			            }
 		                <button className = 'btn btn-default login-signup-btn' onClick = {this.loginUser}> Login </button>
 		                <div>
 		                	<span className='switch-login-register'>Don't have an account yet? Sign up <IndexLink to = '/signup' className = 'signup-link'>here</IndexLink>.</span>

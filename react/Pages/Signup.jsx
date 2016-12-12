@@ -20,6 +20,7 @@ class Signup extends Component {
 	}
 
     componentWillMount() {
+        this.props.resetErrorMessage();
         document.body.classList.add('blue-background');
     }
 

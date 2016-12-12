@@ -14,12 +14,14 @@ class App extends Component {
         super(props);
         this.state = {
             user : undefined,
-            fullname: undefined
+            fullname: undefined,
+            loginRegisterErrorMsg: ''
         };
         this.loginUser = this.loginUser.bind(this);
         this.logout = this.logout.bind(this);
         this.registerUser = this.registerUser.bind(this);
         this.verifyAccount = this.verifyAccount.bind(this);
+        this.resetErrorMessage = this.resetErrorMessage.bind(this);
     }
 
     componentWillMount() {
@@ -40,11 +42,17 @@ class App extends Component {
                 if (res.success){
                     this.setState({
                         user: res.content.email,
-                        fullname: res.content.fullname
+                        fullname: res.content.fullname,
+                        loginRegisterErrorMsg: ''
                     });
                     this.props.router.push('/');
                 }
-            }).catch((err) => {
+            }, (err) => {
+                console.log('err');
+                console.log(err);
+                this.setState({
+                    loginRegisterErrorMsg: err.error.err.msg
+                });
                 console.log("Login err: ", err.error.err);
             });
     }
@@ -56,7 +64,7 @@ class App extends Component {
                     prevState.user = 'Not Logged In';
                     return prevState;
                 });
-                this.props.router.push('/login'); // what about /logout??
+                this.props.router.push('/login');
             }
         });
     }
@@ -66,7 +74,7 @@ class App extends Component {
             if (res.success){
                 this.loginUser(email, password);
             } else {
-                console.log("Error on register user: ",res.err);
+                console.log("Error on register user: ", res.err);
             }
         });
     }
@@ -81,6 +89,12 @@ class App extends Component {
         });
     }
 
+    resetErrorMessage() {
+        this.setState({
+            loginRegisterErrorMsg: ''
+        });    
+    }
+
     render(){
         return (
             <div id="reactRoot">
@@ -93,7 +107,9 @@ class App extends Component {
                         loginUser : this.loginUser,
                         registerUser : this.registerUser,
                         logout : this.logout,
-                        verifyAccount : this.verifyAccount
+                        verifyAccount : this.verifyAccount,
+                        loginRegisterErrorMsg : this.state.loginRegisterErrorMsg,
+                        resetErrorMessage : this.resetErrorMessage
                     })}
                 </div>
             </div>

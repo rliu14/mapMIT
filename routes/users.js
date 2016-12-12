@@ -143,6 +143,8 @@ router.post('/login', function(req, res) {
 	if (isValid(req, res)) {
 		User.authUser(req.body.email, req.body.password, function(err, result) {
 			if (err) {
+				console.log('err in login');
+				console.log(err);
 				utils.sendErrorResponse(res, 403, err);
 			} else {
 				req.session.email = req.body.email;
