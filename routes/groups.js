@@ -108,6 +108,7 @@ router.put('/:groupId', function(req, res) {
 */
 router.delete('/:groupId', function(req, res) {
 	console.log('delete groupId')
+	console.log(req.body);
 	console.log(req.body.username);
 	Group.findGroupAndRemoveMember(req.params.groupId, req.body.username, function(err, updatedGroup) {
 		if(err) {
