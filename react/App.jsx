@@ -90,7 +90,6 @@ class App extends Component {
         return (
                 <div id="reactRoot">            
                 {this.state.isLoaded && 
-
                     <div id='page-content'>
                         {React.cloneElement(this.props.children, {
                             services : Services,
@@ -103,9 +102,8 @@ class App extends Component {
                             verifyAccount : this.verifyAccount,
                         })}
                     </div>
-                    }
-                </div>
-            
+                }
+            </div>
         );
     }
 }
