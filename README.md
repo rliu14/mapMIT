@@ -1,6 +1,22 @@
 Using MapMIT
 ==========
 
+MapMIT Instructions
+--------------
+* To sign up, you must enter your full name, email, and password. 
+* Your email must be an @mit.edu email in order to be valid, and you will be sent an email with a link to validate your account on signup.
+* Your password must consist of 5-16 alphanumeric characters.
+* Your homepage will show all events happening now by default.
+* You may wish to filter events by an combination of event type, time, and location. 
+* By clicking on the map popups, you can see the details of events that are happening at that location.
+* Navigate to "My Events" in order to view/edit events you have created, or create a new event.
+* In order to create a new event, you must provide the following: name, start time, end time, location.
+* Navigate to "My Groups" in order to view groups you have created, add new members, and view groups you are a part of. You can only
+add members to groups you have created, and remove yourself from groups that you have been added to.
+
+Running MapMIT Locally
+==========
+
 NPM Install
 --------------
 Use 
@@ -23,19 +39,6 @@ Testing
 --------------
 Install the Mocha command line tool globally.
 Run `mocha` to run all the tests.
-
-MapMIT Instructions
---------------
-* To sign up, you must enter your full name, email, and password. 
-* Your email must be an @mit.edu email in order to be valid, and you will be sent an email with a link to validate your account on signup.
-* Your password must consist of 5-16 alphanumeric characters.
-* Your homepage will show all events happening now by default.
-* You may wish to filter events by an combination of event type, time, and location. 
-* By clicking on the map popups, you can see the details of events that are happening at that location.
-* Navigate to "My Events" in order to view/edit events you have created, or create a new event.
-* In order to create a new event, you must provide the following: name, start time, end time, location.
-* Navigate to "My Groups" in order to view groups you have created, add new members, and view groups you are a part of. You can only
-add members to groups you have created, and remove yourself from groups that you have been added to.
 
 File Authorship
 --------------
