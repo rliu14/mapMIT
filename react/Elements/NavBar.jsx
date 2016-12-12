@@ -24,7 +24,7 @@ class NavBar extends Component {
 		console.log("props currentUser", this.props.currentUser);
 		console.log("props", this.props);
 		var currentUserItem = (this.props.currentUser === undefined || this.props.currentUser === 'Not Logged In') ? null : (
-			<p>Logged in as: {this.props.currentUser}</p>
+			<span>Logged in as: {this.props.currentUser}</span>
 		);
 
 		var myEventsItem = this.props.currentUser === undefined ? null : (
@@ -37,7 +37,7 @@ class NavBar extends Component {
 
 
 		var logoutItem = this.props.currentUser === undefined ? null : (
-				<a onClick={this.props.logout}>Log Out</a>
+				<a className="logout-link" onClick={this.props.logout}>Log Out</a>
 		);
 
 		return (
@@ -55,13 +55,7 @@ class NavBar extends Component {
 					</div>	
 				</div>	
 
-				<div id="navbar-center">
-					<div className="navbar-item">
-						<IndexLink to = '/' className = 'homepage'>
-							<img className="navbar-logo-img" src='https://s3.amazonaws.com/mapmit/logo_white.png'/>
-						</IndexLink>
-					</div>
-				</div>
+
 
 				<div id="navbar-right">
 					<div id="welcome-user" className="navbar-item">
@@ -69,6 +63,13 @@ class NavBar extends Component {
 					</div>
 					<div id="logout" className="navbar-item">
 						{ logoutItem }
+					</div>
+				</div>
+				<div id="navbar-center">
+					<div className="navbar-item">
+						<IndexLink to = '/' className = 'homepage'>
+							<img className="navbar-logo-img" src='https://s3.amazonaws.com/mapmit/logo_white.png'/>
+						</IndexLink>
 					</div>
 				</div>
 			</nav>
