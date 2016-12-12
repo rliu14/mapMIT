@@ -62,7 +62,9 @@ class MapMIT extends Component {
                                 {event.room.length > 0 &&
                                 <span>
                                     <span className="italic">Location:</span> {event.location.name}
-                                    <span>, Room {event.room}</span>
+                                    <span>
+                                        <span>, </span><span className="italic">Room: {event.room}</span>
+                                    </span>
                                 </span>
                                 }
 

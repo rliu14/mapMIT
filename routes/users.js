@@ -24,7 +24,6 @@ nev.configure({
 		console.log(err);
 		return;
 	}
-	console.log('configured: ' + (typeof options === 'object'));
 });
 
 nev.generateTempUserModel(User, function(err, tempUserModel) {
@@ -32,8 +31,6 @@ nev.generateTempUserModel(User, function(err, tempUserModel) {
 		console.log(err);
 		return;
 	}
-
-	console.log('generated temp user model: ' + (typeof tempUserModel === 'function'));
 });
 
 var requireAuthentication = function(req, res, next) {

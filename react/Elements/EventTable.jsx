@@ -39,7 +39,9 @@ class EventTable extends Component {
                                         <div>
                                             <span className="italic">Location:</span> {event.location.name}
                                             {event.room.length > 0 &&
-                                                <span>, Room {event.room}</span>
+                                                <span>
+                                                    <span>, </span><span className="italic">Room {event.room}</span>
+                                                </span>
                                             }
                                         </div>
                                         {event.locationDescription.length > 0 &&
