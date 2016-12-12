@@ -106,11 +106,9 @@ router.put('/:groupId', function(req, res) {
     - updatedGroup: on success, the group that was deleted
     - err: on error, an error message
 */
-router.delete('/:groupId', function(req, res) {
+router.delete('/:groupId/:email', function(req, res) {
 	console.log('delete groupId')
-	console.log(req.body);
-	console.log(req.body.username);
-	Group.findGroupAndRemoveMember(req.params.groupId, req.body.username, function(err, updatedGroup) {
+	Group.findGroupAndRemoveMember(req.params.groupId, req.params.email, function(err, updatedGroup) {
 		if(err) {
 			if(err.msg) {
 				utils.sendErrorResponse(res, 400, err.msg);

@@ -27,15 +27,12 @@ export default {
         });
     },
 
-    removeMemberFromGroup : (groupId, username) => {
+    removeMemberFromGroup : (groupId, email) => {
         console.log('removeMemberFromGroup');
-        console.log(username);
+        console.log(email);
         return request({
-            uri : BASE_URL_GROUPS + `/${groupId}`,
+            uri : BASE_URL_GROUPS + `/${groupId}/${email}`,
             method : 'DELETE',
-            body : {
-                username : username
-            },
             json : true
         });
     },
