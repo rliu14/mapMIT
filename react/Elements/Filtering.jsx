@@ -45,7 +45,6 @@ class Filtering extends Component {
     }
 
     handleOptionChange(event) {
-        console.log('handle option change')
         var timeType = event.target.value;
         this.setState(prevState => {
             prevState.timeOption = timeType;
@@ -112,9 +111,6 @@ class Filtering extends Component {
         console.log("Here are the conditions: ", content);
         eventServices.getFilteredEvents(content)
             .then((resp) => {
-                console.log(resp.content.filteredEvents);
-                this.setState({
-                });
                 this.props.onUpdate(resp.content.filteredEvents);
             });
     }

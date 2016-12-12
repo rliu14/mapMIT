@@ -33,7 +33,7 @@ class Signup extends Component {
 		})
 	}
 
-    // check the inputs for Full Name, Email, and Password to determine if they
+    // Check the inputs for Full Name, Email, and Password to determine if they
     // are valid
     checkValidInput() {
         var result = []
@@ -53,7 +53,7 @@ class Signup extends Component {
         var result = this.checkValidInput();
         if (result.length == 0) {
             var that = this;
-            // call the service to register user and display the resulting
+            // Call the service to register user and display the resulting
             // error or status message
             this.props.registerUser(this.state.registerName, this.state.registerEmail, this.state.registerPass, function(errMsg, statusMsg) {
                 that.setState({ 
@@ -62,7 +62,7 @@ class Signup extends Component {
                 });
             });
         } else {
-            // input not valid, show errors
+            // Inputs not valid, display errors
             this.setState({ 
                 errorMsg : result,
                 registerStatusMsg : ''

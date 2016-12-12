@@ -5,7 +5,6 @@ var router = express.Router();
 var utils = require('../utils/utils');
 var User = require('../models/User');
 var mongoose = require('mongoose');
-// var constants = require('../utils/constants');
 
 /** Configures nev, the email verification module */
 var nev = require('email-verification')(mongoose);

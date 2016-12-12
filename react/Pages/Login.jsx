@@ -31,28 +31,33 @@ class Login extends Component {
 		})
 	}
 
+	// Check that the email and password fields are not empty and
+	// that the email is an @mit.edu address
     checkValidInput() {
-        var result = []
         if (this.state.loginEmail === '') {
-            result.push('Please enter a login email. ');
+            return 'Please enter a login email.'
         } else if (!(this.state.loginEmail.match('@mit.edu'))) {
-            result.push('Please enter your MIT email. ')
+            return 'Please enter your MIT email.';
         } else if (this.state.loginPass === '') {
-            result.push('Please enter your password.');
-        };
-        return result;
+            return 'Please enter your password.';
+        } else {
+        	return '';
+        }
     }
 
 	loginUser() {
         var result = this.checkValidInput();
         if (result.length === 0) {
             var that = this;
-			this.props.loginUser(this.state.loginEmail, this.state.loginPass, function(errMsg) {
+			// Call the service to login user and display the resulting
+            // error if an error occurs		
+            this.props.loginUser(this.state.loginEmail, this.state.loginPass, function(errMsg) {
 				that.setState({
 					errorMsg: errMsg
 				});
 			});
         } else {
+        	// Inputs not valid, display error
             this.setState({ 
                 errorMsg : result
             });

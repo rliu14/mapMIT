@@ -30,7 +30,7 @@ class Homepage extends Component {
         if (this.props.user == undefined) {
             return;
         }
-        this.props.services.group.getGroupsWithMember(this.props.user)
+        groupServices.getGroupsWithMember(this.props.user)
             .then((resp) => {
                 this.setState({ groups: resp.content.foundGroups }, function() {
                     callback();
