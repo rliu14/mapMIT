@@ -5,6 +5,10 @@ var router = express.Router();
 var utils = require('../utils/utils');
 var Group = require('../models/Group');
 
+const checkForSessionEmail = function(req) {
+	return req.session.email !== undefined;
+}
+
 /*
   POST /groups
   Request body:
@@ -19,6 +23,10 @@ var Group = require('../models/Group');
     - err: on error, an error message
 */
 router.post('/', function(req, res) {
+	if (!checkForSessionEmail(req)) {
+		utils.sendErrorResponse(res, 403, 'not logged in');
+		return;
+	}
 	Group.createGroup(req.body.content, function(err, createdGroup) {
 		if(err) {
 			if(err.msg) {
@@ -44,6 +52,10 @@ router.post('/', function(req, res) {
     - err: on error, an error message
 */
 router.get('/', function(req, res) {
+	if (!checkForSessionEmail(req)) {
+		utils.sendErrorResponse(res, 403, 'not logged in');
+		return;
+	}
 	// Find all groups by creator query
 	if (req.query.creator != undefined) {
 		Group.getGroupsByCreator(req.query.creator, function(err, foundGroups) {
@@ -86,6 +98,10 @@ router.get('/', function(req, res) {
     - err: on error, an error message
 */
 router.put('/:groupId', function(req, res) {
+	if (!checkForSessionEmail(req)) {
+		utils.sendErrorResponse(res, 403, 'not logged in');
+		return;
+	}
 	Group.findGroupAndAddMember(req.params.groupId, req.body.username, function(err, updatedGroup) {
 		if(err) {
 			if(err.msg) {
@@ -109,6 +125,10 @@ router.put('/:groupId', function(req, res) {
     - err: on error, an error message
 */
 router.delete('/:groupId/:email', function(req, res) {
+	if (!checkForSessionEmail(req)) {
+		utils.sendErrorResponse(res, 403, 'not logged in');
+		return;
+	}
 	Group.findGroupAndRemoveMember(req.params.groupId, req.params.email, function(err, updatedGroup) {
 		if(err) {
 			if(err.msg) {
