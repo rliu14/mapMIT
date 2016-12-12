@@ -48,21 +48,21 @@ const loginRedirect = (nextState, replace, callback) => {
 export default (
     <Router history={browserHistory} >
         <Route path='/' component={App}  >
-            <IndexRoute component={Homepage} onEnter={authCheck} />
+            <IndexRoute component={Homepage} />
             <Route path="/signup"
-                   component={SignUp} onEnter={loginRedirect} />
+                   component={SignUp} />
             <Route path="/login"
-                   component={Login} onEnter={loginRedirect} />
+                   component={Login} />
             <Route path="/email-verification/:URL"
                    component={VerifyAccount} />
             <Route path="/myEvents"
-                   component={MyEvents} onEnter={authCheck} />
+                   component={MyEvents} />
             <Route path="/myEvents/edit/:eventId"
-                   component={EditEvent} onEnter={authCheck} />
+                   component={EditEvent} />
             <Route path="/myEvents/create"
-                   component={CreateEvent} onEnter={authCheck} />
+                   component={CreateEvent} />
             <Route path="/myGroups"
-                   component={MyGroups} onEnter={authCheck} />
+                   component={MyGroups} />
             <Route path="*"
                    component={NotFound} />
         </Route>
