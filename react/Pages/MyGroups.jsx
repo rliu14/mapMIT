@@ -19,7 +19,6 @@ class MyGroups extends Component {
 			memberGroups: [],
 			groupName: '',
 			newMemberInputs: {},
-			addMemberErrorMsg: '',
 			newMemberErrorMsgs: {}
 		}		
 		this.createGroup = this.createGroup.bind(this);
@@ -98,27 +97,20 @@ class MyGroups extends Component {
 	}
 
 	addMemberToGroup(groupId, event) {
-		var username = this.state.newMemberInputs[groupId];
-		groupServices.addMemberToGroup(groupId, username)
+		var email = this.state.newMemberInputs[groupId];
+		groupServices.addMemberToGroup(groupId, email)
 			.then((resp) => {
-				console.log('resp');
-				console.log(resp);
 				this.getCreatorGroups();
 				this.setState((prevState) => {
                     prevState.newMemberInputs[groupId] = '';
-                    prevState.addMemberErrorMsg[groupId] = '';
+                    prevState.newMemberErrorMsgs[groupId] = '';
                     return prevState;
                 });
 			}, (err) => {
-				// console.log('err.error: ');
-				// console.log(err.error.err);
 				this.setState((prevState) => {
                     prevState.newMemberErrorMsgs[groupId] = err.error.err;
                     return prevState;
                 });
-				// this.setState({
-				// 	addMemberErrorMsg: err.error.err
-				// });
 			});
 	}
 

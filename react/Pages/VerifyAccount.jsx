@@ -25,7 +25,7 @@ class VerifyAccount extends Component {
 	render() {
 	  	return ( 
 	  		<div className = 'container'>               
-                <p>Congrats! You've verified your account. Login <IndexLink to = '/login' className = 'login-link'>here</IndexLink> to enter MapMIT!</p>
+                <p>Congrats! You've verified your account. You will now be able to login to mapMIT!</p>
             </div>
 	  	)
 	}
