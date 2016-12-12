@@ -295,7 +295,7 @@ class EventEditor extends Component {
 				                        Cancel
 				                    </button>
 				                    <button type='button' className='btn btn-default btn-blue event-submit-btn' onClick={this.submitEvent}>
-				                        {this.props.buttonName} Event
+				                        Save Event
 				                    </button>
 			                    </div>
 			                </div>

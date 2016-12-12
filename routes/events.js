@@ -5,6 +5,10 @@ var router = express.Router();
 var utils = require('../utils/utils');
 var Event = require('../models/Event');
 
+const checkForSessionEmail = function(req) {
+  return req.session.email !== undefined;
+}
+
 /*
   POST /events
   Request body:
@@ -26,6 +30,10 @@ var Event = require('../models/Event');
     - err: on error, an error message
 */
 router.post('/', function(req, res) {
+  if (!checkForSessionEmail(req)) {
+    utils.sendErrorResponse(res, 403, 'not logged in');
+    return;
+  }
 	Event.createEvent(req.body.content, function(err, createdEvent) {
 		if(err) {
 			if(err.msg) {
@@ -54,6 +62,10 @@ router.post('/', function(req, res) {
     - err: on error, an error message
 */
 router.put('/filter', function(req, res) {
+  if (!checkForSessionEmail(req)) {
+    utils.sendErrorResponse(res, 403, 'not logged in');
+    return;
+  }
   Event.filterEvents(req.body.content, function(err, filteredEvents) {
     if (err) {
       utils.sendErrorResponse(res, 400, err.msg); 
@@ -85,6 +97,10 @@ router.put('/filter', function(req, res) {
     - err: on error, an error message
 */
 router.put('/:eventId', function(req, res) {
+  if (!checkForSessionEmail(req)) {
+    utils.sendErrorResponse(res, 403, 'not logged in');
+    return;
+  }
 	Event.findAndUpdateEvent(req.params.eventId, req.body.content, function(err, updatedEvent) {
 		if(err) {
 			if(err.msg) {
@@ -111,6 +127,10 @@ router.put('/:eventId', function(req, res) {
     - err: on error, an error message
 */
 router.get('/', function(req, res) {
+  if (!checkForSessionEmail(req)) {
+    utils.sendErrorResponse(res, 403, 'not logged in');
+    return;
+  }
   // Find all events by location query
   if (req.query.loc != undefined) {
     Event.findEventsByLocation(req.query.loc, function(err, foundEvents) {
@@ -158,6 +178,10 @@ router.get('/', function(req, res) {
     - err: on error, an error message
 */
 router.delete('/:eventID/:currentUser', function(req, res) {
+  if (!checkForSessionEmail(req)) {
+    utils.sendErrorResponse(res, 403, 'not logged in');
+    return;
+  }
   Event.findEventByID(req.params.eventID, function(err, mEvent) {
     if (mEvent.creator.email == req.params.currentUser) {
       Event.deleteEvent(req.params.eventID, function(err, deletedEvent) {
