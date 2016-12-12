@@ -28,8 +28,6 @@ export default {
     },
 
     removeMemberFromGroup : (groupId, email) => {
-        console.log('removeMemberFromGroup');
-        console.log(email);
         return request({
             uri : BASE_URL_GROUPS + `/${groupId}/${email}`,
             method : 'DELETE',

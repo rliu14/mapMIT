@@ -107,7 +107,6 @@ router.put('/:groupId', function(req, res) {
     - err: on error, an error message
 */
 router.delete('/:groupId/:email', function(req, res) {
-	console.log('delete groupId')
 	Group.findGroupAndRemoveMember(req.params.groupId, req.params.email, function(err, updatedGroup) {
 		if(err) {
 			if(err.msg) {
