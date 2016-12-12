@@ -54,7 +54,7 @@ export default (
             <Route path="/login"
                    component={Login} onEnter={loginRedirect} />
             <Route path="/email-verification/:URL"
-                   component={VerifyAccount} onEnter={authCheck} />
+                   component={VerifyAccount} />
             <Route path="/myEvents"
                    component={MyEvents} onEnter={authCheck} />
             <Route path="/myEvents/edit/:eventId"
